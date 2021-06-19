@@ -50,7 +50,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     static final ObjectSet<Building> tmpTiles = new ObjectSet<>();
     static final Seq<Building> tempBuilds = new Seq<>();
     static int sleepingEntities = 0;
-    
+
     @Import float x, y, health, maxHealth;
     @Import Team team;
 
@@ -825,7 +825,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
         }
         power.links.clear();
     }
-    
+
     public boolean conductsTo(Building other){
         return !block.insulated;
     }
@@ -993,7 +993,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
         if(value instanceof Item) type = Item.class;
         if(value instanceof Block) type = Block.class;
         if(value instanceof Liquid) type = Liquid.class;
-        
+
         if(builder != null && builder.isPlayer()){
             lastAccessed = builder.getPlayer().name;
         }
@@ -1087,7 +1087,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
         table.row();
 
         //only display everything else if the team is the same
-        if(team == player.team()){
+//        if(team == player.team()){
             table.table(bars -> {
                 bars.defaults().growX().height(18f).pad(4);
 
@@ -1159,7 +1159,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
             }
 
             table.marginBottom(-5);
-        }
+//        }
     }
 
     public void displayConsumption(Table table){
@@ -1286,7 +1286,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     public void updateProximity(){
         tmpTiles.clear();
         proximity.clear();
-        
+
         Point2[] nearby = Edges.getEdges(block.size);
         for(Point2 point : nearby){
             Building other = world.build(tile.x + point.x, tile.y + point.y);

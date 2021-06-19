@@ -407,7 +407,10 @@ public class Block extends UnlockableContent{
     }
 
     public void setBars(){
-        bars.add("health", entity -> new Bar("stat.health", Pal.health, entity::healthf).blink(Color.white));
+        bars.add("health", entity -> new Bar(
+                () -> String.format("%s/%s", UI.formatFloat(entity.health), UI.formatFloat(entity.maxHealth)),
+                () -> Pal.health,
+                entity::healthf).blink(Color.white));
 
         if(hasLiquids){
             Func<Building, Liquid> current;
@@ -417,8 +420,11 @@ public class Block extends UnlockableContent{
             }else{
                 current = entity -> entity.liquids == null ? Liquids.water : entity.liquids.current();
             }
-            bars.add("liquid", entity -> new Bar(() -> entity.liquids.get(current.get(entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : current.get(entity).localizedName,
-            () -> current.get(entity).barColor(), () -> entity == null || entity.liquids == null ? 0f : entity.liquids.get(current.get(entity)) / liquidCapacity));
+            bars.add("liquid", entity -> new Bar(
+                    () -> entity.liquids.get(current.get(entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : String.format("%s/%s", UI.formatFloat(entity.liquids.get(current.get(entity))), UI.formatAmount((long)liquidCapacity)),
+                    () -> current.get(entity).barColor(),
+                    () -> entity == null || entity.liquids == null ? 0f : entity.liquids.get(current.get(entity)) / liquidCapacity)
+            );
         }
 
         if(hasPower && consumes.hasPower()){
@@ -426,14 +432,25 @@ public class Block extends UnlockableContent{
             boolean buffered = cons.buffered;
             float capacity = cons.capacity;
 
-            bars.add("power", entity -> new Bar(() -> buffered ? Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : (int)(entity.power.status * capacity)) :
-                Core.bundle.get("bar.power"), () -> Pal.powerBar, () -> Mathf.zero(cons.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status));
+            bars.add("power", entity -> new Bar(
+                    () -> buffered ?
+                            Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : (int)(entity.power.status * capacity))
+                            :
+                            entity.power.status > 0 ?
+                                    Core.bundle.format("bar.powerconsume", UI.formatFloat(entity.power.status * cons.usage * 60))
+                                    :
+                                    Core.bundle.get("bar.power"),
+                    () -> Pal.powerBar,
+                    () -> Mathf.zero(cons.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status));
         }
 
         if(hasItems && configurable){
-            bars.add("items", entity -> new Bar(() -> Core.bundle.format("bar.items", entity.items.total()), () -> Pal.items, () -> (float)entity.items.total() / itemCapacity));
+            bars.add("items", entity -> new Bar(
+                    () -> Core.bundle.format("bar.items", entity.items.total()),
+                    () -> Pal.items,
+                    () -> (float)entity.items.total() / itemCapacity));
         }
-        
+
         if(unitCapModifier != 0){
             stats.add(Stat.maxUnits, (unitCapModifier < 0 ? "-" : "+") + Math.abs(unitCapModifier));
         }
