@@ -433,7 +433,13 @@ public class Block extends UnlockableContent{
             float capacity = cons.capacity;
 
             bars.add("power", entity -> new Bar(
-                    () -> buffered ? Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : (int)(entity.power.status * capacity)) : Core.bundle.get("bar.power"),
+                    () -> buffered ?
+                            Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : (int)(entity.power.status * capacity))
+                            :
+                            entity.power.status > 0 ?
+                                    Core.bundle.format("bar.powerconsume", UI.formatFloat(entity.power.status * cons.usage * 60))
+                                    :
+                                    Core.bundle.get("bar.power"),
                     () -> Pal.powerBar,
                     () -> Mathf.zero(cons.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status));
         }

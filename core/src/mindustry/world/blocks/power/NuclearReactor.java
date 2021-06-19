@@ -10,6 +10,7 @@ import arc.util.*;
 import arc.util.io.*;
 import mindustry.annotations.Annotations.*;
 import mindustry.content.*;
+import mindustry.core.UI;
 import mindustry.entities.*;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
@@ -70,7 +71,10 @@ public class NuclearReactor extends PowerGenerator{
     @Override
     public void setBars(){
         super.setBars();
-        bars.add("heat", (NuclearReactorBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
+        bars.add("heat", (NuclearReactorBuild entity) -> new Bar(
+                () -> Core.bundle.format("bar.heat", UI.formatFloat(entity.heat)),
+                () -> Pal.lightOrange,
+                () -> entity.heat));
     }
 
     public class NuclearReactorBuild extends GeneratorBuild{

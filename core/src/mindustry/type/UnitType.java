@@ -190,7 +190,7 @@ public class UnitType extends UnlockableContent{
             bars.defaults().growX().height(20f).pad(4);
 
             bars.add(new Bar(
-                    () -> String.format("%s/%s", UI.formatFloat(unit.health), UI.formatAmount((long)unit.maxHealth)),
+                    () -> String.format("%s/%s", UI.formatFloat(unit.health), UI.formatFloat(unit.maxHealth)),
                     () -> Pal.health,
                     unit::healthf).blink(Color.white));
             bars.row();

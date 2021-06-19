@@ -616,7 +616,7 @@ public class UI implements ApplicationListener, Loadable{
     }
 
     public static String formatFloat(float number){
-        if (Math.ceil(number) == number) return String.format("%.0f", number);
+        if (number - Math.floor(number) < 0.01) return String.format("%.0f", number);
         return String.format("%.2f", number);
     }
 }
