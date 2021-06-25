@@ -118,7 +118,7 @@ public class Turret extends ReloadTurret{
             hasLiquids = true;
             consumes.add(new ConsumeCoolant(coolantUsage)).update(false).boost();
         }
-        
+
         if(shootLength < 0) shootLength = size * tilesize / 2f;
         if(elevation < 0) elevation = size / 2f;
 
@@ -235,6 +235,7 @@ public class Turret extends ReloadTurret{
 
             tr2.trns(rotation, -recoil);
 
+            if (Core.settings.getBool("turretrange")) Drawf.thinCircle(x, y, range, team.color);
             Drawf.shadow(region, x + tr2.x - elevation, y + tr2.y - elevation, rotation - 90);
             drawer.get(this);
 

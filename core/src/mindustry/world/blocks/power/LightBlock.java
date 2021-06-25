@@ -36,6 +36,12 @@ public class LightBlock extends Block{
         super.init();
     }
 
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+        Drawf.light(x * tilesize + offset, y * tilesize + offset, lightRadius, Color.white, brightness);
+    }
+
     public class LightBuild extends Building{
         public int color = Pal.accent.rgba();
         public float smoothTime = 1f;

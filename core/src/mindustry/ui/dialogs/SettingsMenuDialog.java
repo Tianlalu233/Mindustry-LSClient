@@ -325,7 +325,7 @@ public class SettingsMenuDialog extends Dialog{
         }
 
         game.checkPref("doubletapmine", false);
-      
+
         if(!ios){
             game.checkPref("modcrashdisable", true);
         }
@@ -447,6 +447,9 @@ public class SettingsMenuDialog extends Dialog{
         }
 
         graphics.checkPref("flow", true);
+
+        // TODO
+        graphics.checkPref("turretrange", false);
     }
 
     public void exportData(Fi file) throws IOException{
