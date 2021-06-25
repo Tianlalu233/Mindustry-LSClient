@@ -791,6 +791,11 @@ public class Block extends UnlockableContent{
         return ContentType.block;
     }
 
+    @Override
+    public boolean logicVisible(){
+        return buildVisibility != BuildVisibility.hidden;
+    }
+
     /** Called after all blocks are created. */
     @Override
     @CallSuper
