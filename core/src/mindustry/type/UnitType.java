@@ -683,6 +683,11 @@ public class UnitType extends UnlockableContent{
 
         for(WeaponMount mount : unit.mounts){
             mount.weapon.draw(unit, mount);
+            if (unit.isShooting) {
+                float wx = unit.x + Angles.trnsx(unit.rotation - 90, mount.weapon.x, mount.weapon.y);
+                float wy = unit.y + Angles.trnsy(unit.rotation - 90, mount.weapon.x, mount.weapon.y);
+                Drawf.targetLine(unit.team.color, wx, wy, unit.aimX, unit.aimY);
+            }
         }
 
         Draw.reset();

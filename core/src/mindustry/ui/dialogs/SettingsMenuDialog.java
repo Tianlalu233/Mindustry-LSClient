@@ -454,7 +454,9 @@ public class SettingsMenuDialog extends Dialog{
 
         // TODO
         advance.checkPref("turretrange", false);
+        advance.checkPref("turrettargetline", false);
         advance.checkPref("unitrange", false);
+        advance.checkPref("unittargetline", false);
     }
 
     public void exportData(Fi file) throws IOException{

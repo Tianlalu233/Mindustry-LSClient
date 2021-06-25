@@ -25,6 +25,13 @@ public class Drawf{
         Draw.reset();
     }
 
+    public static void targetLine(Color color, float x, float y, float x2, float y2){
+        Lines.stroke(1f, color);
+        Lines.line(x, y, x2, y2);
+        Lines.circle(x2, y2, 1);
+        Draw.reset();
+    }
+
     public static void target(float x, float y, float rad, Color color){
         target(x, y, rad, 1, color);
     }
