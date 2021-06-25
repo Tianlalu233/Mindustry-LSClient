@@ -281,6 +281,10 @@ public class PlacementFragment extends Fragment{
                         Object displayState = displayBlock != null ? displayBlock : hovered;
                         boolean isHovered = displayBlock == null; //use hovered thing if displayblock is null
 
+                        // draw unit range
+                        if (isHovered && displayState instanceof Unit unit) {
+                            unit.type.drawRange(unit);
+                        }
                         //don't refresh unnecessarily
                         //refresh only when the hover state changes, or the displayed block changes
                         if(wasHovered == isHovered && lastDisplayState == displayState) return;

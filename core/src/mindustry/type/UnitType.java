@@ -572,6 +572,10 @@ public class UnitType extends UnlockableContent{
 
             Draw.reset();
         }
+
+        if (Core.settings.getBool("unitrange")) {
+            drawRange(unit);
+        }
     }
 
     public <T extends Unit & Payloadc> void drawPayload(T unit){
@@ -695,6 +699,10 @@ public class UnitType extends UnlockableContent{
         }
 
         Draw.reset();
+    }
+
+    public void drawRange(Unit unit) {
+        Drawf.thinDashCircle(unit.x, unit.y, range, unit.team.color);
     }
 
     public void applyOutlineColor(Unit unit){

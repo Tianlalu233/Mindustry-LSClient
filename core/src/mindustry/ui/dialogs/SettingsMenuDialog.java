@@ -32,6 +32,7 @@ import static mindustry.Vars.*;
 
 public class SettingsMenuDialog extends Dialog{
     public SettingsTable graphics;
+    public SettingsTable advance;
     public SettingsTable game;
     public SettingsTable sound;
     public SettingsTable main;
@@ -87,6 +88,7 @@ public class SettingsMenuDialog extends Dialog{
 
         game = new SettingsTable();
         graphics = new SettingsTable();
+        advance = new SettingsTable();
         sound = new SettingsTable();
 
         prefs = new Table();
@@ -269,7 +271,9 @@ public class SettingsMenuDialog extends Dialog{
         menu.row();
         menu.button("@settings.graphics", style, () -> visible(1));
         menu.row();
-        menu.button("@settings.sound", style, () -> visible(2));
+        menu.button("@settings.advance", style, () -> visible(2));
+        menu.row();
+        menu.button("@settings.sound", style, () -> visible(3));
         menu.row();
         menu.button("@settings.language", style, ui.language::show);
         if(!mobile || Core.settings.getBool("keyboard")){
@@ -449,7 +453,8 @@ public class SettingsMenuDialog extends Dialog{
         graphics.checkPref("flow", true);
 
         // TODO
-        graphics.checkPref("turretrange", false);
+        advance.checkPref("turretrange", false);
+        advance.checkPref("unitrange", false);
     }
 
     public void exportData(Fi file) throws IOException{
@@ -518,7 +523,7 @@ public class SettingsMenuDialog extends Dialog{
 
     private void visible(int index){
         prefs.clearChildren();
-        prefs.add(new Table[]{game, graphics, sound}[index]);
+        prefs.add(new Table[]{game, graphics, advance, sound}[index]);
     }
 
     @Override

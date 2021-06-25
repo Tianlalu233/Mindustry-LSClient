@@ -146,6 +146,12 @@ public class Drawf{
         Draw.reset();
     }
 
+    public static void thinDashCircle(float x, float y, float rad, Color color){
+        Lines.stroke(0.75f, color);
+        Lines.dashCircle(x, y, rad);
+        Draw.reset();
+    }
+
     public static void thinCircle(float x, float y, float rad, Color color){
         Lines.stroke(0.75f, color);
         Lines.circle(x, y, rad);
