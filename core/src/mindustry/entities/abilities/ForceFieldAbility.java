@@ -100,7 +100,7 @@ public class ForceFieldAbility extends Ability{
     @Override
     public void displayBars(Unit unit, Table bars){
         bars.add(new Bar(
-                () -> String.format("%s/%s", UI.formatFloat(Math.min(unit.shield, max)), UI.formatFloat(max)),
+                () -> Core.bundle.format("bar.shield", UI.formatFloat(Math.min(unit.shield, max)), UI.formatFloat(max)),
                 () -> Pal.accent,
                 () -> unit.shield / max)).row();
     }

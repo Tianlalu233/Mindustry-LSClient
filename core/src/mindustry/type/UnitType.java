@@ -190,14 +190,14 @@ public class UnitType extends UnlockableContent{
             bars.defaults().growX().height(20f).pad(4);
 
             bars.add(new Bar(
-                    () -> String.format("%s/%s", UI.formatFloat(unit.health), UI.formatFloat(unit.maxHealth)),
+                    () -> Core.bundle.format("bar.health", UI.formatFloat(unit.health), UI.formatFloat(unit.maxHealth)),
                     () -> Pal.health,
                     unit::healthf).blink(Color.white));
             bars.row();
 
             if(state.rules.unitAmmo){
                 bars.add(new Bar(
-                        () -> ammoType.icon + " " + String.format("%s/%d", UI.formatFloat(unit.ammo), ammoCapacity),
+                        () -> Core.bundle.get("stat.ammo") + " : " + ammoType.icon + " " + String.format("%s/%d", UI.formatFloat(unit.ammo), ammoCapacity),
                         () -> ammoType.barColor,
                         () -> unit.ammo / ammoCapacity));
                 bars.row();
@@ -209,7 +209,7 @@ public class UnitType extends UnlockableContent{
 
             if(unit instanceof Payloadc payload){
                 bars.add(new Bar(
-                        () -> payload.payloadUsed() > 0 ? String.format("%s/%s", UI.formatFloat(payload.payloadUsed() / 64), UI.formatFloat(unit.type().payloadCapacity / 64)): Core.bundle.get("stat.payloadcapacity", "stat.payloadcapacity"),
+                        () -> payload.payloadUsed() > 0 ? Core.bundle.format("bar.payload", UI.formatFloat(payload.payloadUsed() / 64), UI.formatFloat(unit.type().payloadCapacity / 64)): Core.bundle.get("stat.payloadcapacity"),
                         () -> Pal.items,
                         () -> payload.payloadUsed() / unit.type().payloadCapacity));
                 bars.row();

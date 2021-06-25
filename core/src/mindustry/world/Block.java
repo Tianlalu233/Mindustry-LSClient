@@ -408,7 +408,7 @@ public class Block extends UnlockableContent{
 
     public void setBars(){
         bars.add("health", entity -> new Bar(
-                () -> String.format("%s/%s", UI.formatFloat(entity.health), UI.formatFloat(entity.maxHealth)),
+                () -> Core.bundle.format("bar.health", UI.formatFloat(entity.health), UI.formatFloat(entity.maxHealth)),
                 () -> Pal.health,
                 entity::healthf).blink(Color.white));
 
@@ -421,7 +421,7 @@ public class Block extends UnlockableContent{
                 current = entity -> entity.liquids == null ? Liquids.water : entity.liquids.current();
             }
             bars.add("liquid", entity -> new Bar(
-                    () -> entity.liquids.get(current.get(entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : String.format("%s/%s", UI.formatFloat(entity.liquids.get(current.get(entity))), UI.formatAmount((long)liquidCapacity)),
+                    () -> entity.liquids.get(current.get(entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : Core.bundle.format("bar.liquidinfo", current.get(entity).localizedName, UI.formatFloat(entity.liquids.get(current.get(entity))), UI.formatAmount((long)liquidCapacity)),
                     () -> current.get(entity).barColor(),
                     () -> entity == null || entity.liquids == null ? 0f : entity.liquids.get(current.get(entity)) / liquidCapacity)
             );
