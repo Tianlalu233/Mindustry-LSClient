@@ -10,6 +10,7 @@ import arc.util.*;
 import arc.util.io.*;
 import mindustry.annotations.Annotations.*;
 import mindustry.content.*;
+import mindustry.core.UI;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
@@ -65,7 +66,13 @@ public class ForceProjector extends Block{
     @Override
     public void setBars(){
         super.setBars();
-        bars.add("shield", (ForceBuild entity) -> new Bar("stat.shieldhealth", Pal.accent, () -> entity.broken ? 0f : 1f - entity.buildup / (shieldHealth + phaseShieldBoost * entity.phaseHeat)).blink(Color.white));
+
+        bars.add("shield", (ForceBuild entity) -> new Bar(
+                () -> Core.bundle.format("bar.shield",
+                        UI.formatFloat(shieldHealth + phaseShieldBoost * entity.phaseHeat - Math.max(entity.buildup, 0)),
+                        UI.formatFloat(shieldHealth + phaseShieldBoost * entity.phaseHeat)),
+                () -> Pal.accent,
+                () -> entity.broken ? 0f : 1f - entity.buildup / (shieldHealth + phaseShieldBoost * entity.phaseHeat)).blink(Color.white));
     }
 
     @Override
@@ -90,9 +97,11 @@ public class ForceProjector extends Block{
         Draw.color(Pal.gray);
         Lines.stroke(3f);
         Lines.poly(x * tilesize + offset, y * tilesize + offset, 6, radius);
+        Lines.poly(x * tilesize + offset, y * tilesize + offset, 6, radius + phaseRadiusBoost);
         Draw.color(player.team().color);
         Lines.stroke(1f);
         Lines.poly(x * tilesize + offset, y * tilesize + offset, 6, radius);
+        Lines.poly(x * tilesize + offset, y * tilesize + offset, 6, radius + phaseRadiusBoost);
         Draw.color();
     }
 
@@ -189,7 +198,7 @@ public class ForceProjector extends Block{
                 Draw.blend();
                 Draw.reset();
             }
-            
+
             drawShield();
         }
 

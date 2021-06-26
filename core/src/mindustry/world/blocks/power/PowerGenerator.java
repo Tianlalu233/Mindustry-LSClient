@@ -5,6 +5,7 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import mindustry.core.UI;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
@@ -33,11 +34,10 @@ public class PowerGenerator extends PowerDistributor{
         super.setBars();
 
         if(hasPower && outputsPower && !consumes.hasPower()){
-            bars.add("power", (GeneratorBuild entity) -> new Bar(() ->
-            Core.bundle.format("bar.poweroutput",
-            Strings.fixed(entity.getPowerProduction() * 60 * entity.timeScale(), 1)),
-            () -> Pal.powerBar,
-            () -> entity.productionEfficiency));
+            bars.add("power", (GeneratorBuild entity) -> new Bar(
+                    () -> Core.bundle.format("bar.poweroutput", UI.formatFloat(entity.getPowerProduction() * 60 * entity.timeScale())),
+                    () -> Pal.powerBar,
+                    () -> entity.productionEfficiency));
         }
     }
 

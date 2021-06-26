@@ -67,7 +67,10 @@ public class UnitFactory extends UnitBlock{
     @Override
     public void setBars(){
         super.setBars();
-        bars.add("progress", (UnitFactoryBuild e) -> new Bar("bar.progress", Pal.ammo, e::fraction));
+        bars.add("progress", (UnitFactoryBuild e) -> new Bar(
+                () -> Core.bundle.format("bar.progress", Math.round(e.fraction() * 100)),
+                () -> Pal.ammo,
+                e::fraction));
 
         bars.add("units", (UnitFactoryBuild e) ->
         new Bar(

@@ -189,11 +189,17 @@ public class UnitType extends UnlockableContent{
         table.table(bars -> {
             bars.defaults().growX().height(20f).pad(4);
 
-            bars.add(new Bar("stat.health", Pal.health, unit::healthf).blink(Color.white));
+            bars.add(new Bar(
+                    () -> Core.bundle.format("bar.health", UI.formatFloat(unit.health), UI.formatFloat(unit.maxHealth)),
+                    () -> Pal.health,
+                    unit::healthf).blink(Color.white));
             bars.row();
 
             if(state.rules.unitAmmo){
-                bars.add(new Bar(ammoType.icon + " " + Core.bundle.get("stat.ammo"), ammoType.barColor, () -> unit.ammo / ammoCapacity));
+                bars.add(new Bar(
+                        () -> Core.bundle.get("stat.ammo") + " : " + ammoType.icon + " " + String.format("%s/%d", UI.formatFloat(unit.ammo), ammoCapacity),
+                        () -> ammoType.barColor,
+                        () -> unit.ammo / ammoCapacity));
                 bars.row();
             }
 
@@ -202,7 +208,10 @@ public class UnitType extends UnlockableContent{
             }
 
             if(unit instanceof Payloadc payload){
-                bars.add(new Bar("stat.payloadcapacity", Pal.items, () -> payload.payloadUsed() / unit.type().payloadCapacity));
+                bars.add(new Bar(
+                        () -> payload.payloadUsed() > 0 ? Core.bundle.format("bar.payload", UI.formatFloat(payload.payloadUsed() / 64), UI.formatFloat(unit.type().payloadCapacity / 64)): Core.bundle.get("stat.payloadcapacity"),
+                        () -> Pal.items,
+                        () -> payload.payloadUsed() / unit.type().payloadCapacity));
                 bars.row();
 
                 var count = new float[]{-1};
@@ -221,7 +230,7 @@ public class UnitType extends UnlockableContent{
             table.row();
             table.label(() -> Iconc.settings + " " + (long)unit.flag + "").color(Color.lightGray).growX().wrap().left();
         }
-        
+
         table.row();
     }
 
@@ -563,6 +572,10 @@ public class UnitType extends UnlockableContent{
 
             Draw.reset();
         }
+
+        if (Core.settings.getBool("unitrange")) {
+            drawRange(unit);
+        }
     }
 
     public <T extends Unit & Payloadc> void drawPayload(T unit){
@@ -670,6 +683,11 @@ public class UnitType extends UnlockableContent{
 
         for(WeaponMount mount : unit.mounts){
             mount.weapon.draw(unit, mount);
+            if (unit.isShooting) {
+                float wx = unit.x + Angles.trnsx(unit.rotation - 90, mount.weapon.x, mount.weapon.y);
+                float wy = unit.y + Angles.trnsy(unit.rotation - 90, mount.weapon.x, mount.weapon.y);
+                Drawf.targetLine(unit.team.color, wx, wy, unit.aimX, unit.aimY);
+            }
         }
 
         Draw.reset();
@@ -686,6 +704,10 @@ public class UnitType extends UnlockableContent{
         }
 
         Draw.reset();
+    }
+
+    public void drawRange(Unit unit) {
+        Drawf.thinDashCircle(unit.x, unit.y, range, unit.team.color);
     }
 
     public void applyOutlineColor(Unit unit){
