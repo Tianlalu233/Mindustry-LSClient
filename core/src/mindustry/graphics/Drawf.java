@@ -32,6 +32,14 @@ public class Drawf{
         Draw.reset();
     }
 
+    public static void dashTargetLine(Color color, float x, float y, float x2, float y2){
+        int segments = (int)(Math.sqrt(Math.pow(x - x2, 2) + Math.pow(y - y2, 2)) / tilesize * 2);
+        Lines.stroke(1f, color);
+        Lines.dashLine(x, y, x2, y2, segments);
+        Lines.circle(x2, y2, 1);
+        Draw.reset();
+    }
+
     public static void target(float x, float y, float rad, Color color){
         target(x, y, rad, 1, color);
     }
@@ -154,13 +162,13 @@ public class Drawf{
     }
 
     public static void thinDashCircle(float x, float y, float rad, Color color){
-        Lines.stroke(0.75f, color);
+        Lines.stroke(1f, color);
         Lines.dashCircle(x, y, rad);
         Draw.reset();
     }
 
     public static void thinCircle(float x, float y, float rad, Color color){
-        Lines.stroke(0.75f, color);
+        Lines.stroke(1f, color);
         Lines.circle(x, y, rad);
         Draw.reset();
     }
