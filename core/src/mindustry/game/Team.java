@@ -117,4 +117,10 @@ public class Team implements Comparable<Team>{
     public String toString(){
         return name;
     }
+
+    public Color getTransparentColor() {
+        Color transparentColor = new Color(color);
+        transparentColor.a = 0.5f;
+        return transparentColor;
+    }
 }

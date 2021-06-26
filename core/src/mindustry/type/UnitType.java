@@ -682,11 +682,15 @@ public class UnitType extends UnlockableContent{
         applyColor(unit);
 
         for(WeaponMount mount : unit.mounts){
-            mount.weapon.draw(unit, mount);
-            if (unit.isShooting) {
-                float wx = unit.x + Angles.trnsx(unit.rotation - 90, mount.weapon.x, mount.weapon.y);
-                float wy = unit.y + Angles.trnsy(unit.rotation - 90, mount.weapon.x, mount.weapon.y);
+            Weapon weapon = mount.weapon;
+            weapon.draw(unit, mount);
+            float wx = unit.x + Angles.trnsx(unit.rotation - 90, weapon.x, weapon.y);
+            float wy = unit.y + Angles.trnsy(unit.rotation - 90, weapon.x, weapon.y);
+            if (mount.shoot) {
                 Drawf.targetLine(unit.team.color, wx, wy, unit.aimX, unit.aimY);
+            }
+            else if (Core.settings.getBool("playertargetline") && unit.isPlayer() && weapon.controllable) {
+                Drawf.dashTargetLine(unit.team.getTransparentColor(), wx, wy, mount.aimX, mount.aimY);
             }
         }
 
@@ -707,7 +711,7 @@ public class UnitType extends UnlockableContent{
     }
 
     public void drawRange(Unit unit) {
-        Drawf.thinDashCircle(unit.x, unit.y, range, unit.team.color);
+        Drawf.thinDashCircle(unit.x, unit.y, maxRange, unit.team.getTransparentColor());
     }
 
     public void applyOutlineColor(Unit unit){
