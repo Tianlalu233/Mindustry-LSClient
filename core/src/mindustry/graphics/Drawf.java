@@ -25,6 +25,15 @@ public class Drawf{
         Draw.reset();
     }
 
+    public static void dashThickLine(Color color, float x, float y, float x2, float y2){
+        int segments = (int)(Math.max(Math.abs(x - x2), Math.abs(y - y2)) / tilesize);
+        Lines.stroke(4f, Pal.gray);
+        Lines.dashLine(x, y, x2, y2, segments);
+        Lines.stroke(2f, color);
+        Lines.dashLine(x, y, x2, y2, segments);
+        Draw.reset();
+    }
+
     public static void targetLine(Color color, float x, float y, float x2, float y2){
         Lines.stroke(1f, color);
         Lines.line(x, y, x2, y2);
