@@ -573,6 +573,7 @@ public class UnitType extends UnlockableContent{
             Draw.reset();
         }
 
+        Draw.z(Layer.darkness);
         if (Core.settings.getBool("unitrange")) {
             drawRange(unit);
         }
@@ -687,7 +688,7 @@ public class UnitType extends UnlockableContent{
             float wx = unit.x + Angles.trnsx(unit.rotation - 90, weapon.x, weapon.y);
             float wy = unit.y + Angles.trnsy(unit.rotation - 90, weapon.x, weapon.y);
             if (mount.shoot) {
-                Drawf.targetLine(unit.team.color, wx, wy, unit.aimX, unit.aimY);
+                Drawf.targetLine(unit.team.color, wx, wy, mount.aimX, mount.aimY);
             }
             else if (Core.settings.getBool("playertargetline") && unit.isPlayer() && weapon.controllable) {
                 Drawf.dashTargetLine(unit.team.getTransparentColor(), wx, wy, mount.aimX, mount.aimY);

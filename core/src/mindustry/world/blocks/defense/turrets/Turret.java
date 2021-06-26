@@ -235,14 +235,16 @@ public class Turret extends ReloadTurret{
 
             tr2.trns(rotation, -recoil);
 
+            Drawf.shadow(region, x + tr2.x - elevation, y + tr2.y - elevation, rotation - 90);
+            drawer.get(this);
+
+            Draw.z(Layer.darkness);
             if (Core.settings.getBool("turretrange")) {
                 Drawf.thinCircle(x, y, range, team.getTransparentColor());
             }
             if (Core.settings.getBool("turrettargetline") && targetPos.x != 0 && targetPos.y != 0 && isShooting()) {
                 Drawf.targetLine(team.color, x, y, targetPos.x, targetPos.y);
             }
-            Drawf.shadow(region, x + tr2.x - elevation, y + tr2.y - elevation, rotation - 90);
-            drawer.get(this);
 
             if(heatRegion != Core.atlas.find("error")){
                 heatDrawer.get(this);
