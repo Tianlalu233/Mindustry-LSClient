@@ -25,6 +25,13 @@ public class Drawf{
         Draw.reset();
     }
 
+    public static void targetLine(Color color, float x, float y, float x2, float y2){
+        Lines.stroke(1f, color);
+        Lines.line(x, y, x2, y2);
+        Lines.circle(x2, y2, 1);
+        Draw.reset();
+    }
+
     public static void target(float x, float y, float rad, Color color){
         target(x, y, rad, 1, color);
     }
@@ -119,7 +126,7 @@ public class Drawf{
         Draw.rect(region, x, y);
         Draw.color();
     }
-    
+
     public static void shadow(TextureRegion region, float x, float y, float width, float height, float rotation){
         Draw.color(Pal.shadow);
         Draw.rect(region, x, y, width, height, rotation);
@@ -143,6 +150,18 @@ public class Drawf{
         Lines.dashCircle(x, y, rad);
         Lines.stroke(1f, color);
         Lines.dashCircle(x, y, rad);
+        Draw.reset();
+    }
+
+    public static void thinDashCircle(float x, float y, float rad, Color color){
+        Lines.stroke(0.75f, color);
+        Lines.dashCircle(x, y, rad);
+        Draw.reset();
+    }
+
+    public static void thinCircle(float x, float y, float rad, Color color){
+        Lines.stroke(0.75f, color);
+        Lines.circle(x, y, rad);
         Draw.reset();
     }
 
@@ -237,7 +256,7 @@ public class Drawf{
     public static void construct(float x, float y, TextureRegion region, float rotation, float progress, float speed, float time){
         construct(x, y, region, Pal.accent, rotation, progress, speed, time);
     }
-    
+
     public static void construct(float x, float y, TextureRegion region, Color color, float rotation, float progress, float speed, float time){
         Shaders.build.region = region;
         Shaders.build.progress = progress;
@@ -255,7 +274,7 @@ public class Drawf{
     public static void construct(Building t, TextureRegion region, float rotation, float progress, float speed, float time){
         construct(t, region, Pal.accent, rotation, progress, speed, time);
     }
-        
+
     public static void construct(Building t, TextureRegion region, Color color, float rotation, float progress, float speed, float time){
         Shaders.build.region = region;
         Shaders.build.progress = progress;

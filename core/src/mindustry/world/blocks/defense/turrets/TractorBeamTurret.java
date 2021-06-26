@@ -1,5 +1,6 @@
 package mindustry.world.blocks.defense.turrets;
 
+import arc.Core;
 import arc.audio.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -24,7 +25,7 @@ public class TractorBeamTurret extends BaseTurret{
     public @Load("block-@size") TextureRegion baseRegion;
     public @Load("@-laser") TextureRegion laser;
     public @Load("@-laser-end") TextureRegion laserEnd;
-    
+
     public float shootCone = 6f;
     public float shootLength = 5f;
     public float laserWidth = 0.6f;
@@ -143,6 +144,7 @@ public class TractorBeamTurret extends BaseTurret{
             Draw.rect(baseRegion, x, y);
             Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);
             Draw.rect(region, x, y, rotation - 90);
+            if (Core.settings.getBool("turretrange")) Drawf.thinCircle(x, y, range, team.color);
 
             //draw laser if applicable
             if(any){
