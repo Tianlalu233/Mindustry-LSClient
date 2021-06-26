@@ -6,7 +6,7 @@ buildscript{
 
         arcHash = getArcHash()
     }
-    
+
     repositories{
         mavenLocal()
         mavenCentral()
@@ -47,7 +47,7 @@ plugins{
 
 allprojects{
     apply plugin: 'maven-publish'
-    
+
     version = 'release'
     group = 'com.github.Anuken'
 
@@ -114,7 +114,7 @@ allprojects{
         }
 
         getBuildVersion = {
-            if(!project.hasProperty("buildversion")) return "custom build"
+            if(!project.hasProperty("buildversion")) return "127"//"custom build"
             return project.getProperties()["buildversion"]
         }
 
@@ -284,7 +284,7 @@ project(":ios"){
             props['app.executable'] = 'IOSLauncher'
             props['app.name'] = 'Mindustry'
         }
-        
+
         props['app.build'] = (!props.containsKey("app.build") ? 40 : props['app.build'].toInteger() + 1) + ""
         if(bversion != "custom build"){
             props['app.version'] = versionNumber + "." + bversion + (bversion.contains(".") ? "" : ".0")
