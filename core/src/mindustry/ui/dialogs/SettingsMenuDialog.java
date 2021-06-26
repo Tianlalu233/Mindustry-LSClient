@@ -453,6 +453,7 @@ public class SettingsMenuDialog extends Dialog{
         graphics.checkPref("flow", true);
 
         // TODO
+        advance.checkPref("mouseposition", false);
         advance.checkPref("turretrange", false);
         advance.checkPref("turrettargetline", false);
         advance.checkPref("unitrange", false);

@@ -96,9 +96,9 @@ public class HudFragment extends Fragment{
             //.padLeft(dsize * 5 + 4f) to prevent alpha overlap on left
         });
 
-        //minimap + position
+        //minimap + position + mouse position
         parent.fill(t -> {
-            t.name = "minimap/position";
+            t.name = "minimap/position/mouse";
             t.visible(() -> Core.settings.getBool("minimap") && shown);
             //minimap
             t.add(new Minimap()).name("minimap");
@@ -108,6 +108,12 @@ public class HudFragment extends Fragment{
             .visible(() -> Core.settings.getBool("position"))
             .touchable(Touchable.disabled)
             .name("position");
+            t.row();
+            // mouse position
+            t.label(() -> Math.round(player.mouseX() / tilesize) + "," + Math.round(player.mouseY() / tilesize))
+            .visible(() -> Core.settings.getBool("mouseposition"))
+            .touchable(Touchable.disabled)
+            .name("mouse-position");
             t.top().right();
         });
 
@@ -258,6 +264,8 @@ public class HudFragment extends Fragment{
                 }
                 info.row();
 
+                info.label(() -> Core.bundle.format("scale", renderer.getScale())).left().style(Styles.outlineLabel).name("scale").row();
+                info.label(() -> Core.bundle.format("ip", net.getIpAddress())).visible(net::client).left().style(Styles.outlineLabel).name("ip").row();
                 info.label(() -> ping.get(netClient.getPing())).visible(net::client).left().style(Styles.outlineLabel).name("ping").row();
                 info.label(() -> tps.get(state.serverTps == -1 ? 60 : state.serverTps)).visible(net::client).left().style(Styles.outlineLabel).name("tps").row();
 

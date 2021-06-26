@@ -28,6 +28,7 @@ public class Net{
     private boolean active;
     private boolean clientLoaded;
     private @Nullable StreamBuilder currentStream;
+    private @Nullable String ipAddress;
 
     private final Seq<Packet> packetQueue = new Seq<>();
     private final ObjectMap<Class<?>, Cons> clientListeners = new ObjectMap<>();
@@ -157,6 +158,7 @@ public class Net{
                 provider.connectClient(ip, port, success);
                 active = true;
                 server = false;
+                ipAddress = String.format("%s:%d", ip, port);
             }else{
                 throw new IOException("alreadyconnected");
             }
@@ -201,6 +203,7 @@ public class Net{
         provider.disconnectClient();
         server = false;
         active = false;
+        ipAddress = null;
     }
 
     /**
@@ -240,6 +243,10 @@ public class Net{
 
     public @Nullable StreamBuilder getCurrentStream(){
         return currentStream;
+    }
+
+    public @Nullable String getIpAddress() {
+        return ipAddress;
     }
 
     /**
