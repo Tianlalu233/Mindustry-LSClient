@@ -226,7 +226,7 @@ public class SchematicsDialog extends BaseDialog{
                             showInfo(s);
                         }else{
                             if(Core.settings.getBool("ignoredisableschematic") || Vars.state.rules.schematicsAllowed){
-                                control.input.useSchematic(firstSchematic);
+                                control.input.useSchematic(s);
                                 hide();
                             }
                             else{

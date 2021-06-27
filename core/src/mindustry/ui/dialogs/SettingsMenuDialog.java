@@ -457,6 +457,7 @@ public class SettingsMenuDialog extends Dialog{
         advance.sliderPref("linetransparency", 50, 0, 100, s -> s + "%");
         advance.checkPref("mouseposition", false);
         advance.checkPref("ignoredisableschematic", false);
+        advance.checkPref("disablelightrender", false);
         advance.addCategory("turret");
         advance.checkPref("targetgroundturret", true);
         advance.checkPref("targetairturret", true);
