@@ -239,16 +239,30 @@ public class Turret extends ReloadTurret{
             drawer.get(this);
 
             Draw.z(Layer.darkness);
-            if (Core.settings.getBool("turretrange")) {
-                Drawf.thinCircle(x, y, range, team.getTransparentColor());
-            }
-            if (Core.settings.getBool("turrettargetline") && targetPos.x != 0 && targetPos.y != 0 && isShooting()) {
-                Drawf.targetLine(team.color, x, y, targetPos.x, targetPos.y);
+            if ((showTargetGroundTurret() || showTargetAirTurret()) && showValidTurret()) {
+                if (Core.settings.getBool("turretrange")) {
+                    Drawf.thinCircle(x, y, range, team.getTransparentColor());
+                }
+                if (Core.settings.getBool("turrettargetline") && isShooting()) {
+                    Drawf.targetLine(team.color, x, y, targetPos.x, targetPos.y);
+                }
             }
 
             if(heatRegion != Core.atlas.find("error")){
                 heatDrawer.get(this);
             }
+        }
+
+        boolean showValidTurret() {
+            return !Core.settings.getBool("hideinvalidturret") || cons.status() == BlockStatus.active;
+        }
+
+        boolean showTargetGroundTurret(){
+            return Core.settings.getBool("targetgroundturret") && targetGround;
+        }
+
+        boolean showTargetAirTurret(){
+            return Core.settings.getBool("targetairturret") && targetAir;
         }
 
         @Override

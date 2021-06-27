@@ -120,7 +120,7 @@ public class Team implements Comparable<Team>{
 
     public Color getTransparentColor() {
         Color transparentColor = new Color(color);
-        transparentColor.a = 0.5f;
+        transparentColor.a = Core.settings.getInt("linetransparency") / 100f;
         return transparentColor;
     }
 }

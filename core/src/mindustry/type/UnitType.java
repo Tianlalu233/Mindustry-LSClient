@@ -687,7 +687,7 @@ public class UnitType extends UnlockableContent{
             weapon.draw(unit, mount);
             float wx = unit.x + Angles.trnsx(unit.rotation - 90, weapon.x, weapon.y);
             float wy = unit.y + Angles.trnsy(unit.rotation - 90, weapon.x, weapon.y);
-            if (mount.shoot) {
+            if (Core.settings.getBool("unittargetline") && mount.shoot) {
                 Drawf.targetLine(unit.team.color, wx, wy, mount.aimX, mount.aimY);
             }
             else if (Core.settings.getBool("playertargetline") && unit.isPlayer() && weapon.controllable) {

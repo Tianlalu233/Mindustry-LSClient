@@ -144,7 +144,9 @@ public class TractorBeamTurret extends BaseTurret{
             Draw.rect(baseRegion, x, y);
             Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);
             Draw.rect(region, x, y, rotation - 90);
-            if (Core.settings.getBool("turretrange")) Drawf.thinCircle(x, y, range, team.getTransparentColor());
+            if (Core.settings.getBool("targetairturret") && Core.settings.getBool("turretrange")) {
+                Drawf.thinCircle(x, y, range, team.getTransparentColor());
+            }
 
             //draw laser if applicable
             if(any){
