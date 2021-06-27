@@ -453,9 +453,12 @@ public class SettingsMenuDialog extends Dialog{
         graphics.checkPref("flow", true);
 
         // TODO
+        advance.addCategory("general");
         advance.checkPref("mouseposition", false);
+        advance.addCategory("turret");
         advance.checkPref("turretrange", false);
         advance.checkPref("turrettargetline", false);
+        advance.addCategory("unit");
         advance.checkPref("unitrange", false);
         advance.checkPref("unittargetline", false);
         advance.checkPref("playertargetline", false);
@@ -625,6 +628,11 @@ public class SettingsMenuDialog extends Dialog{
             rebuild();
         }
 
+        public void addCategory(String name){
+            list.add(new Divider(name, bundle.get("category." + name + ".name")));
+            rebuild();
+        }
+
         void rebuild(){
             clearChildren();
 
@@ -716,6 +724,20 @@ public class SettingsMenuDialog extends Dialog{
                 }).left().padTop(3);
 
                 table.row();
+            }
+        }
+
+        public static class Divider extends Setting {
+
+            Divider(String name, String title) {
+                this.name = name;
+                this.title = title;
+            }
+
+            @Override
+            public void add(SettingsTable table) {
+                table.add(title).color(Color.goldenrod).colspan(4).pad(10).padTop(15).padBottom(4).row();
+                table.image().color(Color.goldenrod).fillX().height(3).colspan(4).padTop(0).padBottom(10).row();
             }
         }
 
