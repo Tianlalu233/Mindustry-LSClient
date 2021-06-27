@@ -110,7 +110,7 @@ public class HudFragment extends Fragment{
             .name("position");
             t.row();
             // mouse position
-            t.label(() -> Math.round(player.mouseX() / tilesize) + "," + Math.round(player.mouseY() / tilesize))
+            t.label(() -> Math.round(control.input.tileX(control.input.getMouseX())) + "," + Math.round(control.input.tileY(control.input.getMouseY())))
             .visible(() -> Core.settings.getBool("mouseposition"))
             .touchable(Touchable.disabled)
             .name("mouse-position");
