@@ -254,7 +254,7 @@ public class Turret extends ReloadTurret{
         }
 
         boolean showValidTurret() {
-            return !Core.settings.getBool("hideinvalidturret") || cons.status() == BlockStatus.active;
+            return !Core.settings.getBool("hideinvalidturret") || (cons.status() == BlockStatus.active && hasAmmo());
         }
 
         boolean showTargetGroundTurret(){

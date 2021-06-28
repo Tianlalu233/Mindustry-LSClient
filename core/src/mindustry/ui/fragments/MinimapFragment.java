@@ -19,6 +19,7 @@ public class MinimapFragment extends Fragment{
     float panx, pany, zoom = 1f, lastZoom = -1;
     private float baseSize = Scl.scl(5f);
     public Element elem;
+    public MapInfoFragment mapInfofrag = new MapInfoFragment();
 
     @Override
     public void build(Group parent){
@@ -98,11 +99,12 @@ public class MinimapFragment extends Fragment{
             t.visible(() -> shown);
             t.update(() -> t.setBounds(0, 0, Core.graphics.getWidth(), Core.graphics.getHeight()));
 
-            t.add("@minimap").style(Styles.outlineLabel).pad(10f);
+            t.add("@minimap").colspan(2).style(Styles.outlineLabel).pad(10f);
             t.row();
             t.add().growY();
             t.row();
             t.button("@back", Icon.leftOpen, () -> shown = false).size(220f, 60f).pad(10f);
+            t.button("@mapinfo", Icon.info, mapInfofrag::show).size(220f, 60f).pad(10f);
         });
     }
 
