@@ -70,26 +70,28 @@ public class MapInfoFragment extends Fragment{
     private void buildInfoTable(Table info) {
         info.clear();
         info.add(buildMapAttrsTable()).padBottom(10).row();
-        info.add(buildWavesTable());
+        if (!currState.rules.pvp) {
+            info.add(buildWavesInfoTable());
+        }
     }
 
     private Table buildMapAttrsTable() {
         Table mapAttrs = new Table();
         Table table1 = new Table();
         Table table2 = new Table();
-        addMapAttrs(table1, "reactorexplosions", state.rules.reactorExplosions);
-        addMapAttrs(table1, "schematic", state.rules.schematicsAllowed);
-        addMapAttrs(table1, "explosions", state.rules.damageExplosions);
-        addMapAttrs(table1, "fire", state.rules.fire);
-        addMapAttrs(table1, "unitammo", state.rules.unitAmmo);
-        addMapAttrs(table1, "coreincinerates", state.rules.coreIncinerates);
-        addMapAttrs(table2, "unitbuildspeedmultiplier", state.rules.unitBuildSpeedMultiplier);
-        addMapAttrs(table2, "unitdamagemultiplier", state.rules.unitDamageMultiplier);
-        addMapAttrs(table2, "blockhealthmultiplier", state.rules.blockHealthMultiplier);
-        addMapAttrs(table2, "blockdamagemultiplier", state.rules.blockDamageMultiplier);
-        addMapAttrs(table2, "buildcostmultiplier", state.rules.buildCostMultiplier);
-        addMapAttrs(table2, "buildspeedmultiplier", state.rules.buildSpeedMultiplier);
-        addMapAttrs(table2, "deconstructrefundmultiplier", state.rules.deconstructRefundMultiplier);
+        addMapAttrs(table1, "reactorexplosions", currState.rules.reactorExplosions);
+        addMapAttrs(table1, "schematic", currState.rules.schematicsAllowed);
+        addMapAttrs(table1, "explosions", currState.rules.damageExplosions);
+        addMapAttrs(table1, "fire", currState.rules.fire);
+        addMapAttrs(table1, "unitammo", currState.rules.unitAmmo);
+        addMapAttrs(table1, "coreincinerates", currState.rules.coreIncinerates);
+        addMapAttrs(table2, "unitbuildspeedmultiplier", currState.rules.unitBuildSpeedMultiplier);
+        addMapAttrs(table2, "unitdamagemultiplier", currState.rules.unitDamageMultiplier);
+        addMapAttrs(table2, "blockhealthmultiplier", currState.rules.blockHealthMultiplier);
+        addMapAttrs(table2, "blockdamagemultiplier", currState.rules.blockDamageMultiplier);
+        addMapAttrs(table2, "buildcostmultiplier", currState.rules.buildCostMultiplier);
+        addMapAttrs(table2, "buildspeedmultiplier", currState.rules.buildSpeedMultiplier);
+        addMapAttrs(table2, "deconstructrefundmultiplier", currState.rules.deconstructRefundMultiplier);
 
         mapAttrs.add(table1).pad(10);
         mapAttrs.add(table2).pad(10);
@@ -106,7 +108,7 @@ public class MapInfoFragment extends Fragment{
         t.add(String.valueOf(num)).pad(5).row();
     }
 
-    private Table buildWavesTable() {
+    private Table buildWavesInfoTable() {
         Table wavesInfo = new Table();
 
         Table waveNums = new Table();
@@ -120,7 +122,7 @@ public class MapInfoFragment extends Fragment{
         control.button(Icon.home, () -> currWave(enemies)).size(60).pad(5);
         control.button("+1", () -> forwardWave(enemies, 1)).size(60).pad(5);
         control.button("+10", () -> forwardWave(enemies, 10)).size(60).pad(5);
-        buildWavesTable(enemies, wave);
+        buildEnemiesTable(enemies, wave);
 
         wavesInfo.add(waveNums).pad(5).row();
         wavesInfo.add(control).pad(5).row();
@@ -135,31 +137,31 @@ public class MapInfoFragment extends Fragment{
 
     private void backWave(Table enemies, int step) {
         wave = Math.max(1, wave - step);
-        buildWavesTable(enemies, wave);
+        buildEnemiesTable(enemies, wave);
     }
 
     private void forwardWave(Table enemies, int step) {
         wave += step;
-        buildWavesTable(enemies, wave);
+        buildEnemiesTable(enemies, wave);
     }
 
     private void currWave(Table enemies) {
-        wave = state.wave;
-        buildWavesTable(enemies, wave);
+        wave = currState.wave;
+        buildEnemiesTable(enemies, wave);
     }
 
-    private void buildWavesTable(Table t, int wave) {
+    private void buildEnemiesTable(Table t, int wave) {
         t.clear();
         Table labels = new Table();
         labels.add().size(50).pad(5).padLeft(10).padRight(10).row();
         labels.add(Core.bundle.get("number")).pad(5).padLeft(10).padRight(10).row();
         labels.add(Core.bundle.get("shield")).pad(5).padLeft(10).padRight(10).row();
         t.add(labels);
-        for(SpawnGroup group : state.rules.spawns) {
-            if (group.getSpawned(wave) == 0) continue;
+        for(SpawnGroup group : currState.rules.spawns) {
+            if (group.getSpawned(wave - 1) == 0) continue;
             Table enemy = new Table();
             enemy.add(new Image(group.type.uiIcon)).size(50).pad(5).padLeft(10).padRight(10).row();
-            enemy.add(String.valueOf(group.getSpawned(wave))).pad(5).padLeft(10).padRight(10).row();
+            enemy.add(String.valueOf(group.getSpawned(wave - 1))).pad(5).padLeft(10).padRight(10).row();
             enemy.add(String.valueOf(UI.formatFloat(group.getShield(wave)))).pad(5).padLeft(10).padRight(10).row();
             t.add(enemy);
         }
