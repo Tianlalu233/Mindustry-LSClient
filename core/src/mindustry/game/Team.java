@@ -123,4 +123,13 @@ public class Team implements Comparable<Team>{
         transparentColor.a = Core.settings.getInt("linetransparency") / 100f;
         return transparentColor;
     }
+
+    public Color getUnitColor() {
+        Color unitColor = new Color(color);
+        float factor = 0.75f;
+        unitColor.r *= factor;
+        unitColor.g *= factor;
+        unitColor.b *= factor;
+        return unitColor;
+    }
 }

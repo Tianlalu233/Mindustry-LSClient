@@ -195,6 +195,15 @@ public class UnitType extends UnlockableContent{
                     unit::healthf).blink(Color.white));
             bars.row();
 
+            if (unit.shield > 0) {
+                bars.add(new Bar(
+                        () -> Core.bundle.format("bar.shields", UI.formatFloat(unit.shield), UI.formatFloat(unit.shield / unit.maxHealth)),
+                        () -> Pal.accent,
+                        () -> (unit.shield % unit.maxHealth) / unit.maxHealth)
+                        .blink(Color.white));
+                bars.row();
+            }
+
             if(state.rules.unitAmmo){
                 bars.add(new Bar(
                         () -> Core.bundle.get("stat.ammo") + " : " + ammoType.icon + " " + String.format("%s/%d", UI.formatFloat(unit.ammo), ammoCapacity),
@@ -573,7 +582,7 @@ public class UnitType extends UnlockableContent{
             Draw.reset();
         }
 
-        Draw.z(Layer.darkness);
+        Draw.z(Layer.plans);
         if (Core.settings.getBool("unitrange")) {
             drawRange(unit);
         }
@@ -687,10 +696,11 @@ public class UnitType extends UnlockableContent{
             weapon.draw(unit, mount);
             float wx = unit.x + Angles.trnsx(unit.rotation - 90, weapon.x, weapon.y);
             float wy = unit.y + Angles.trnsy(unit.rotation - 90, weapon.x, weapon.y);
-            if (Core.settings.getBool("unittargetline") && mount.shoot) {
+            if (!weapon.controllable) continue;
+            if (mount.shoot && (Core.settings.getBool("unittargetline") || unit.isPlayer())) {
                 Drawf.targetLine(unit.team.color, wx, wy, mount.aimX, mount.aimY);
             }
-            else if (Core.settings.getBool("playertargetline") && unit.isPlayer() && weapon.controllable) {
+            else if (Core.settings.getBool("playertargetline") && unit.isPlayer()) {
                 Drawf.dashTargetLine(unit.team.getTransparentColor(), wx, wy, mount.aimX, mount.aimY);
             }
         }

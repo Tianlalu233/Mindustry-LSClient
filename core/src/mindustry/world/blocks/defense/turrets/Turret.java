@@ -238,7 +238,7 @@ public class Turret extends ReloadTurret{
             Drawf.shadow(region, x + tr2.x - elevation, y + tr2.y - elevation, rotation - 90);
             drawer.get(this);
 
-            Draw.z(Layer.darkness);
+            Draw.z(Layer.plans);
             if ((showTargetGroundTurret() || showTargetAirTurret()) && showValidTurret()) {
                 if (Core.settings.getBool("turretrange")) {
                     Drawf.thinCircle(x, y, range, team.getTransparentColor());

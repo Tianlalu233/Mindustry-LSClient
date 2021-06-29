@@ -68,7 +68,7 @@ public class ForceProjector extends Block{
         super.setBars();
 
         bars.add("shield", (ForceBuild entity) -> new Bar(
-                () -> Core.bundle.format("bar.shield",
+                () -> Core.bundle.format("bar.shieldhealth",
                         UI.formatFloat(shieldHealth + phaseShieldBoost * entity.phaseHeat - Math.max(entity.buildup, 0)),
                         UI.formatFloat(shieldHealth + phaseShieldBoost * entity.phaseHeat)),
                 () -> Pal.accent,
