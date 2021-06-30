@@ -51,7 +51,7 @@ public class Blocks implements ContentList{
     melter, separator, disassembler, sporePress, pulverizer, incinerator, coalCentrifuge,
 
     //sandbox
-    powerSource, powerVoid, itemSource, itemVoid, liquidSource, liquidVoid, payloadVoid, payloadSource, illuminator,
+    powerSource, powerVoid, itemSource, itemVoid, liquidSource, liquidVoid, payloadSource, payloadVoid, illuminator,
 
     //defense
     copperWall, copperWallLarge, titaniumWall, titaniumWallLarge, plastaniumWall, plastaniumWallLarge, thoriumWall, thoriumWallLarge, door, doorLarge,
@@ -1610,7 +1610,7 @@ public class Blocks implements ContentList{
 
             size = 2;
             range = 190f;
-            reloadTime = 34f;
+            reloadTime = 31f;
             restitution = 0.03f;
             ammoEjectBack = 3f;
             cooldown = 0.03f;
@@ -1990,7 +1990,7 @@ public class Blocks implements ContentList{
             requirements(Category.units, with(Items.silicon, 90, Items.thorium, 80, Items.plastanium, 80));
             size = 2;
             length = 6f;
-            repairSpeed = 3.25f;
+            repairSpeed = 3f;
             repairRadius = 140f;
             powerUse = 5f;
             beamWidth = 1.1f;
@@ -2068,12 +2068,12 @@ public class Blocks implements ContentList{
             alwaysUnlocked = true;
         }};
 
-        payloadVoid = new PayloadVoid("payload-void"){{
+        payloadSource = new PayloadSource("payload-source"){{
             requirements(Category.units, BuildVisibility.sandboxOnly, with());
             size = 5;
         }};
 
-        payloadSource = new PayloadSource("payload-source"){{
+        payloadVoid = new PayloadVoid("payload-void"){{
             requirements(Category.units, BuildVisibility.sandboxOnly, with());
             size = 5;
         }};
