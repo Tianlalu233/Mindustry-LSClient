@@ -37,7 +37,7 @@ public class HudFragment extends Fragment{
     public boolean shown = true;
 
     private ImageButton flip;
-    private CoreItemsDisplay coreItems = new CoreItemsDisplay();
+    private final TopStatsDisplay topStats = new TopStatsDisplay();
 
     private String hudText = "";
     private boolean showHudText;
@@ -83,8 +83,7 @@ public class HudFragment extends Fragment{
         });
 
         Events.on(ResetEvent.class, e -> {
-            coreItems.resetUsed();
-            coreItems.clear();
+            topStats.resetUsed();
         });
 
         //paused table
@@ -282,8 +281,8 @@ public class HudFragment extends Fragment{
             t.collapser(v -> v.add().height(pauseHeight), () -> state.isPaused()).row();
 
             t.table(c -> {
-                //core items
-                c.top().collapser(coreItems, () -> Core.settings.getBool("coreitems") && !mobile && shown).fillX().row();
+                //core items and units
+                c.top().add(topStats).row();
 
                 float notifDuration = 240f;
                 float[] coreAttackTime = {0};
@@ -595,6 +594,7 @@ public class HudFragment extends Fragment{
         }
 
         shown = !shown;
+        topStats.setShown(shown);
     }
 
     private Table makeStatusTable(){

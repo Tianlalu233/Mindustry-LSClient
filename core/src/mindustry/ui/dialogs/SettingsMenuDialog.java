@@ -468,6 +468,7 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("unitrange", false);
         advance.checkPref("unittargetline", false);
         advance.checkPref("playertargetline", false);
+        advance.checkPref("unitstat", false);
     }
 
     public void exportData(Fi file) throws IOException{
