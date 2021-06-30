@@ -190,7 +190,11 @@ public class OverlayRenderer{
 
         if(state.hasSpawns()){
             for(Tile tile : spawner.getSpawns()){
-                if(tile.within(player.x, player.y, state.rules.dropZoneRadius + spawnerMargin)){
+                if (Core.settings.getBool("keepshowingdropzone")) {
+                    Draw.alpha(1f);
+                    Lines.dashCircle(tile.worldx(), tile.worldy(), state.rules.dropZoneRadius);
+                }
+                else if(tile.within(player.x, player.y, state.rules.dropZoneRadius + spawnerMargin)){
                     Draw.alpha(Mathf.clamp(1f - (player.dst(tile) - state.rules.dropZoneRadius) / spawnerMargin));
                     Lines.dashCircle(tile.worldx(), tile.worldy(), state.rules.dropZoneRadius);
                 }

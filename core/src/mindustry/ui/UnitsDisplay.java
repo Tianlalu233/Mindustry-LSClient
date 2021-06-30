@@ -9,6 +9,7 @@ import static mindustry.Vars.*;
 public class UnitsDisplay extends Table {
 
     private Teams.TeamData data;
+    private int typesNum = 0;
 
     public UnitsDisplay() {
         build();
@@ -23,7 +24,10 @@ public class UnitsDisplay extends Table {
 
         update(() -> {
             data = player.team().data();
-            build();
+            if (data != null && data.countTypes() != getTypesNum()) {
+                build();
+                System.out.println(data.countTypes() + " " + getTypesNum());
+            }
         });
 
         if (data == null) return;
@@ -33,7 +37,9 @@ public class UnitsDisplay extends Table {
             int num = data.countType(unitType);
             if (num > 0) {
                 image(unitType.uiIcon).size(iconSmall).padRight(3).tooltip(t -> t.background(Styles.black6).margin(4f).add(unitType.localizedName).style(Styles.outlineLabel));
-                label(() -> String.valueOf(num)).padRight(3).minWidth(25f).left();
+                label(() -> String.valueOf(num)).update(t -> {
+                    if (data != null) t.setText(String.valueOf(data.countType(unitType)));
+                }).padRight(3).minWidth(25f).left();
                 if (++count % 5 == 0) row();
             }
         }
@@ -41,5 +47,10 @@ public class UnitsDisplay extends Table {
             background(Styles.black6);
             margin(4);
         }
+        typesNum = count;
+    }
+
+    public int getTypesNum() {
+        return typesNum;
     }
 }

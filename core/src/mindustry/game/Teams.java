@@ -284,6 +284,13 @@ public class Teams{
             return typeCounts == null || typeCounts.length <= type.id ? 0 : typeCounts[type.id];
         }
 
+        public int countTypes() {
+            int sum = 0;
+            if (typeCounts == null) return sum;
+            for (int n : typeCounts) sum += n > 0 ? 1 : 0;
+            return sum;
+        }
+
         public boolean active(){
             return (team == state.rules.waveTeam && state.rules.waves) || cores.size > 0;
         }
