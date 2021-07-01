@@ -292,7 +292,7 @@ public class Teams{
         }
 
         public boolean active(){
-            return (team == state.rules.waveTeam && state.rules.waves) || cores.size > 0;
+            return (team == state.rules.waveTeam && state.rules.waves && !state.rules.pvp) || cores.size > 0;
         }
 
         public boolean hasCore(){

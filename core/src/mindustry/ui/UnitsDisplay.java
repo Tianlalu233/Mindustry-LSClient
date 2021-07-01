@@ -26,7 +26,6 @@ public class UnitsDisplay extends Table {
             data = player.team().data();
             if (data != null && data.countTypes() != getTypesNum()) {
                 build();
-                System.out.println(data.countTypes() + " " + getTypesNum());
             }
         });
 

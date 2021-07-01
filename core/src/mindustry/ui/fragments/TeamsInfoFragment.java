@@ -32,7 +32,9 @@ public class TeamsInfoFragment extends Fragment {
                         rowTable.add(new Image(item.uiIcon)).size(15).pad(3);
                         boolean hasATeam = false;
                         for (TeamData data : teamData) {
-                            int num = data.core().items.get(item);
+                            int num;
+                            if (data.core() == null ) num = 0;
+                            else num = data.core().items.get(item);
                             rowTable.add(UI.formatAmount(num)).color(data.team.color).size(15).pad(3).padRight(35);
                             if (num > 0) {
                                 hasATeam = true;
