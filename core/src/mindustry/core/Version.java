@@ -7,6 +7,8 @@ import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 
+import java.util.Calendar;
+
 public class Version{
     /** Build type. 'official' for official releases; 'custom' or 'bleeding edge' are also used. */
     public static String type = "unknown";
@@ -68,6 +70,8 @@ public class Version{
         if(build == -1){
             return "custom build";
         }
-        return (type.equals("official") ? modifier : type) + " build " + build + (revision == 0 ? "" : "." + revision);
+        Calendar calendar = Calendar.getInstance();
+        String subVersion = "LS-" + String.format("%d%d%d", calendar.get(Calendar.YEAR)%100, calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DATE));
+        return (type.equals("official") ? modifier : type) + " build " + build + (revision == 0 ? "" : "." + revision + "." + subVersion);
     }
 }
