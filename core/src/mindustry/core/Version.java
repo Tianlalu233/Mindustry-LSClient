@@ -71,7 +71,7 @@ public class Version{
             return "custom build";
         }
         Calendar calendar = Calendar.getInstance();
-        String subVersion = "LS-" + String.format("%d%d%d", calendar.get(Calendar.YEAR)%100, calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DATE));
+        String subVersion = "LS" + String.format("%d%d%d", calendar.get(Calendar.YEAR)%100, calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DATE));
         return (type.equals("official") ? modifier : type) + " build " + build + (revision == 0 ? "" : "." + revision + "." + subVersion);
     }
 }

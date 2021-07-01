@@ -40,7 +40,7 @@ public class UnitsDisplay extends Table {
                 label(() -> String.valueOf(num)).update(t -> {
                     if (data != null) t.setText(String.valueOf(data.countType(unitType)));
                 }).padRight(3).minWidth(25f).left();
-                if (++count % 5 == 0) row();
+                if (++count % 4 == 0) row();
             }
         }
         if(count > 0){
