@@ -51,7 +51,7 @@ public class DesktopInput extends InputHandler{
 
     boolean showHint(){
         return ui.hudfrag.shown && Core.settings.getBool("hints") && selectRequests.isEmpty() &&
-            (!isBuilding && !Core.settings.getBool("buildautopause") || player.unit().isBuilding() || !player.dead() && !player.unit().spawnedByCore());
+            (!isBuilding && !Core.settings.getBool("buildautopause") || player.unit().isBuilding() || !player.dead() && !player.unit().spawnedByCore() || settings.getBool("removecameralock"));
     }
 
     @Override
@@ -76,6 +76,9 @@ public class DesktopInput extends InputHandler{
                     }
                     if(!player.dead() && !player.unit().spawnedByCore()){
                         str.append(str.length() != 0 ? "\n" : "").append(Core.bundle.format("respawn", Core.keybinds.get(Binding.respawn).key.toString()));
+                    }
+                    if(settings.getBool("removecameralock")) {
+                        str.append(str.length() != 0 ? "\n" : "").append(Core.bundle.format("lockcamera", Core.keybinds.get(Binding.camera_lock).key.toString()));
                     }
                     return str;
                 }).style(Styles.outlineLabel);
@@ -211,13 +214,22 @@ public class DesktopInput extends InputHandler{
             }
 
             Core.camera.position.add(Tmp.v1.setZero().add(Core.input.axis(Binding.move_x), Core.input.axis(Binding.move_y)).nor().scl(camSpeed));
-        }else if(!player.dead() && !panning){
+        }else if(!player.dead() && !panning && !Core.settings.getBool("removecameralock")){
             Core.camera.position.lerpDelta(player, Core.settings.getBool("smoothcamera") ? 0.08f : 1f);
         }
 
+        float midWidth = graphics.getWidth() / 2f;
+        float midHeight = graphics.getHeight() / 2f;
+        if (settings.getBool("movecameraonedge") &&
+                (Math.abs(input.mouseX() - midWidth) > midWidth - 10 ||
+                Math.abs(input.mouseY() - midHeight) > midHeight - 10)) {
+            panCam = true;
+            panning = true;
+        }
+
         if(panCam){
-            Core.camera.position.x += Mathf.clamp((Core.input.mouseX() - Core.graphics.getWidth() / 2f) * panScale, -1, 1) * camSpeed;
-            Core.camera.position.y += Mathf.clamp((Core.input.mouseY() - Core.graphics.getHeight() / 2f) * panScale, -1, 1) * camSpeed;
+            Core.camera.position.x += Mathf.clamp((Core.input.mouseX() - midWidth) * panScale, -1, 1) * camSpeed;
+            Core.camera.position.y += Mathf.clamp((Core.input.mouseY() - midHeight) * panScale, -1, 1) * camSpeed;
         }
 
         shouldShoot = !scene.hasMouse();
@@ -245,6 +257,10 @@ public class DesktopInput extends InputHandler{
                 recentRespawnTimer = 1f;
                 Call.unitClear(player);
             }
+        }
+
+        if (Core.input.keyTap(Binding.camera_lock)) {
+            settings.put("removecameralock", !settings.getBool("removecameralock"));
         }
 
         if(Core.input.keyRelease(Binding.select)){

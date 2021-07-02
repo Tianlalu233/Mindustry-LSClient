@@ -472,6 +472,11 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("playertargetline", false);
         advance.checkPref("unitstat", false);
         advance.checkPref("showunititemsamount", false);
+        advance.addCategory("camera");
+        if (!mobile) {
+            advance.checkPref("removecameralock", false);
+            advance.checkPref("movecameraonedge", false);
+        }
     }
 
     public void exportData(Fi file) throws IOException{

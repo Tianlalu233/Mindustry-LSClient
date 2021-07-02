@@ -10,6 +10,7 @@ public enum Binding implements KeyBind{
     move_y(new Axis(KeyCode.s, KeyCode.w)),
     mouse_move(KeyCode.mouseBack),
     pan(KeyCode.mouseForward),
+    camera_lock(KeyCode.altLeft),
 
     boost(KeyCode.shiftLeft),
     control(KeyCode.controlLeft),

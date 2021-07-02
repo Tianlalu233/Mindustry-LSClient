@@ -339,7 +339,7 @@ public class BlockRenderer{
                         Draw.z(Layer.block);
                     }
 
-                    if(entity.team == player.team() && renderer.drawStatus && block.consumes.any()){
+                    if(renderer.drawStatus && block.consumes.any()){
                         entity.drawStatus();
                     }
                 }
