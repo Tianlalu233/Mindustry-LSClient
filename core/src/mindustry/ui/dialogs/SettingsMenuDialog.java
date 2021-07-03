@@ -467,13 +467,15 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("turretrange", false);
         advance.checkPref("turrettargetline", false);
         advance.addCategory("unit");
+        advance.sliderPref("unittransparency", 100, 0, 100, s -> s + "%");
+        advance.sliderPref("unitlegtransparency", 100, 0, 100, s -> s + "%");
         advance.checkPref("unitrange", false);
         advance.checkPref("unittargetline", false);
         advance.checkPref("playertargetline", false);
         advance.checkPref("unitstat", false);
         advance.checkPref("showunititemsamount", false);
-        advance.addCategory("camera");
         if (!mobile) {
+            advance.addCategory("camera");
             advance.checkPref("removecameralock", false);
             advance.checkPref("movecameraonedge", false);
         }

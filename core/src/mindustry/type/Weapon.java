@@ -24,7 +24,7 @@ import static mindustry.Vars.*;
 public class Weapon implements Cloneable{
     /** temporary weapon sequence number */
     static int sequenceNum = 0;
-    
+
     /** displayed weapon region */
     public String name = "";
     /** bullet shot */
@@ -154,7 +154,7 @@ public class Weapon implements Cloneable{
             weaponRotation);
         }
     }
-    
+
     public void draw(Unit unit, WeaponMount mount){
         float
         rotation = unit.rotation - 90,
@@ -164,9 +164,10 @@ public class Weapon implements Cloneable{
         wy = unit.y + Angles.trnsy(rotation, x, y) + Angles.trnsy(weaponRotation, 0, recoil);
 
         if(shadow > 0){
-            Drawf.shadow(wx, wy, shadow);
+            Drawf.shadow(wx, wy, Math.min(shadow, Core.settings.getInt("unittransparency") / 100f));
         }
 
+        Draw.color(Draw.getColor(), Core.settings.getInt("unittransparency") / 100f);
         if(outlineRegion.found() && top){
             Draw.rect(outlineRegion,
             wx, wy,
