@@ -460,6 +460,7 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("disablelightrender", false);
         advance.checkPref("keepshowingdropzone", false);
         advance.checkPref("showallteamstats", false);
+        advance.checkPref("experimentalblock", false);
         advance.addCategory("turret");
         advance.checkPref("targetgroundturret", true);
         advance.checkPref("targetairturret", true);

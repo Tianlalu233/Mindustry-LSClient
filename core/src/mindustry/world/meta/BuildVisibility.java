@@ -1,12 +1,13 @@
 package mindustry.world.meta;
 
+import arc.Core;
 import arc.func.*;
 import mindustry.*;
 
 public enum BuildVisibility{
     hidden(() -> false),
     shown(() -> true),
-    debugOnly(() -> false),
+    debugOnly(() -> Core.settings.getBool("experimentalblock")),
     editorOnly(() -> false),
     sandboxOnly(() -> Vars.state == null || Vars.state.rules.infiniteResources),
     campaignOnly(() -> Vars.state == null || Vars.state.isCampaign()),
