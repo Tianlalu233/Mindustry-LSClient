@@ -240,6 +240,26 @@ public class UnitType extends UnlockableContent{
             table.label(() -> Iconc.settings + " " + (long)unit.flag + "").color(Color.lightGray).growX().wrap().left();
         }
 
+        Bits statuses = new Bits();
+        table.row();
+        table.table().update(t -> {
+            t.left();
+            Bits applied = unit.statusBits();
+            if(!statuses.equals(applied)){
+                t.clear();
+
+                if(applied != null){
+                    for(StatusEffect effect : content.statusEffects()){
+                        if(applied.get(effect.id) && !effect.isHidden()){
+                            t.image(effect.uiIcon).size(iconMed).get();
+//                                    .addListener(new Tooltip(l -> l.label(() -> effect.localizedName + " [lightgray]" + UI.formatTime(unit.getDuration(effect))).style(Styles.outlineLabel)));
+                        }
+                    }
+                    statuses.set(applied);
+                }
+            }
+        }).left();
+
         table.row();
     }
 
