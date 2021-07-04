@@ -161,7 +161,7 @@ public class MapInfoFragment extends Fragment{
             if (group.getSpawned(wave - 1) == 0) continue;
             Table enemy = new Table();
             enemy.add(new Image(group.type.uiIcon)).size(50).pad(5).padLeft(10).padRight(10).row();
-            enemy.add(String.valueOf(group.getSpawned(wave - 1))).pad(5).padLeft(10).padRight(10).row();
+            enemy.add(String.valueOf(group.getSpawned(wave - 1) * spawner.countSpawns())).pad(5).padLeft(10).padRight(10).row();
             enemy.add(String.valueOf(UI.formatFloat(group.getShield(wave)))).pad(5).padLeft(10).padRight(10).row();
             t.add(enemy);
         }

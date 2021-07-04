@@ -437,7 +437,7 @@ public class Block extends UnlockableContent{
                             Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : (int)(entity.power.status * capacity))
                             :
                             entity.power.status > 0 ?
-                                    Core.bundle.format("bar.powerconsume", UI.formatFloat(entity.power.status * cons.usage * 60))
+                                    Core.bundle.format("bar.powerconsume", UI.formatFloat(entity.power.status * cons.usage * 60 * entity.timeScale()))
                                     :
                                     Core.bundle.get("bar.power"),
                     () -> Pal.powerBar,

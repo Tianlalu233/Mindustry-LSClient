@@ -35,9 +35,9 @@ public class ConsumeItems extends Consume{
     public void build(Building tile, Table table){
         table.table(c -> {
             int i = 0;
-            for(var stack : items){
-                c.add(new ReqImage(new ItemImage(stack.item.uiIcon, stack.amount),
-                () -> tile.items != null && tile.items.has(stack.item, stack.amount))).padRight(8);
+            for(ItemStack stack : items){
+                c.add(new ReqImage(new ItemImage(stack.item.uiIcon, stack, tile.items),
+                () -> tile.items != null && tile.items.has(stack.item, stack.amount))).padRight(10);
                 if(++i % 4 == 0) c.row();
             }
         }).left();

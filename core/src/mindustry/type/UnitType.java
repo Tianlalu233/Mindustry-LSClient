@@ -250,7 +250,7 @@ public class UnitType extends UnlockableContent{
 
                 if(applied != null){
                     for(StatusEffect effect : content.statusEffects()){
-                        if(applied.get(effect.id) && !effect.isHidden()){
+                        if(applied.get(effect.id) && !effect.isHidden() && effect.uiIcon != null){
                             t.image(effect.uiIcon).size(iconMed).get();
 //                                    .addListener(new Tooltip(l -> l.label(() -> effect.localizedName + " [lightgray]" + UI.formatTime(unit.getDuration(effect))).style(Styles.outlineLabel)));
                         }
