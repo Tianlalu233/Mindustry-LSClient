@@ -744,7 +744,13 @@ public class UnitType extends UnlockableContent{
     }
 
     public void drawRange(Unit unit) {
-        Drawf.thinDashCircle(unit.x, unit.y, maxRange, unit.team.getTransparentColor());
+        Drawf.dashCircle(unit.x, unit.y, maxRange, unit.team.getTransparentColor());
+    }
+
+    public void drawLogicLine(Unit unit) {
+        if (unit.controller() instanceof LogicAI ai) {
+            Drawf.dashThinLine(Pal.logicLine, unit.x, unit.y, ai.controller.x, ai.controller.y);
+        }
     }
 
     public void applyOutlineColor(Unit unit){

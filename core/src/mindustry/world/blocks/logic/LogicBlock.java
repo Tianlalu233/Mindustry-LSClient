@@ -491,6 +491,7 @@ public class LogicBlock extends Block{
         public void drawSelect(){
             Groups.unit.each(u -> u.controller() instanceof LogicAI ai && ai.controller == this, unit -> {
                 Drawf.square(unit.x, unit.y, unit.hitSize, unit.rotation + 45);
+                Drawf.dashThinLine(Pal.logicLine, unit.x, unit.y, x, y);
             });
         }
 

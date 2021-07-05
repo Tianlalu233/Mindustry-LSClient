@@ -1,9 +1,13 @@
 package mindustry.world.blocks.logic;
 
+import arc.scene.ui.layout.Table;
 import arc.util.io.*;
 import mindustry.gen.*;
+import mindustry.ui.Styles;
 import mindustry.world.*;
 import mindustry.world.meta.*;
+
+import static mindustry.Vars.*;
 
 public class MemoryBlock extends Block{
     public int memoryCapacity = 32;
@@ -12,6 +16,7 @@ public class MemoryBlock extends Block{
         super(name);
         destructible = true;
         solid = true;
+        configurable = true;
         group = BlockGroup.logic;
         drawDisabled = false;
     }
@@ -30,6 +35,14 @@ public class MemoryBlock extends Block{
         @Override
         public boolean canPickup(){
             return false;
+        }
+
+        @Override
+        public void buildConfiguration(Table table){
+            table.button(Icon.eyeSmall, Styles.clearTransi, () -> {
+                ui.memory.setMemory(memory);
+                ui.memory.toggle();
+            }).size(40);
         }
 
         @Override

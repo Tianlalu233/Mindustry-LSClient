@@ -284,6 +284,7 @@ public class PlacementFragment extends Fragment{
                         // draw unit range
                         if (isHovered && displayState instanceof Unit unit) {
                             unit.type.drawRange(unit);
+                            unit.type.drawLogicLine(unit);
                         }
                         //don't refresh unnecessarily
                         //refresh only when the hover state changes, or the displayed block changes
