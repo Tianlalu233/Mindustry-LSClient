@@ -1,3 +1,17 @@
+# 一个自定义客户端 A Custom Client
+这是一个Mindustry的自定义客户端。之所以叫自定义客户端，是因为我想不到什么好名字。
+此客户端在原版的基础上增加了许多辅助显示和功能，具体请在游戏内查看。
+
+**此客户端会与原版同步开发（即第一时间获取原版的更新），并且大部分release与原版同步发布**
+
+This is a custom client for Mindustry. It is called "custom" as it is hard to figure out a funny name.
+Many helpful displays and functionalities are supplemented based on the vanilla game. For more details about the add-ons, please check in the game.
+
+**This client will be developed synchronously with the original (Fetch each commit from the original)
+, and most releases will be published with the original at the same time.**
+
+***
+
 ![Logo](core/assets-raw/sprites/ui/logo.png)
 
 [![Build Status](https://github.com/Anuken/Mindustry/workflows/Tests/badge.svg?event=push)](https://github.com/Anuken/Mindustry/actions)
