@@ -160,7 +160,8 @@ public class MapInfoFragment extends Fragment{
         for(SpawnGroup group : currState.rules.spawns) {
             if (group.getSpawned(wave - 1) == 0) continue;
             Table enemy = new Table();
-            enemy.add(new Image(group.type.uiIcon)).size(50).pad(5).padLeft(10).padRight(10).row();
+            enemy.add(new Image(group.type.uiIcon)).size(50).pad(5).padLeft(10).padRight(10).tooltip(o -> o.background(Styles.black6).margin(4f).add(group.type.localizedName).style(Styles.outlineLabel));
+            enemy.row();
             enemy.add(String.valueOf(group.getSpawned(wave - 1) * spawner.countSpawns())).pad(5).padLeft(10).padRight(10).row();
             enemy.add(String.valueOf(UI.formatFloat(group.getShield(wave)))).pad(5).padLeft(10).padRight(10).row();
             t.add(enemy);

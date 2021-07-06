@@ -604,7 +604,7 @@ public class UnitType extends UnlockableContent{
 
         Draw.z(Layer.plans);
         if (Core.settings.getBool("unitrange")) {
-            drawRange(unit);
+            Drawf.thinDashCircle(unit.x, unit.y, maxRange, unit.team.getTransparentColor());
         }
     }
 
@@ -659,6 +659,7 @@ public class UnitType extends UnlockableContent{
             color.a = Core.settings.getInt("unittransparency") / 100f;
 
             Draw.mixcol(color, Mathf.absin(Time.time, 5f, 0.1f));
+            Draw.color(Draw.getColor(), Core.settings.getInt("unittransparency") / 100f);
             Draw.rect(unit.item().fullIcon,
             unit.x + Angles.trnsx(unit.rotation + 180f, itemOffsetY),
             unit.y + Angles.trnsy(unit.rotation + 180f, itemOffsetY),
@@ -744,7 +745,7 @@ public class UnitType extends UnlockableContent{
     }
 
     public void drawRange(Unit unit) {
-        Drawf.dashCircle(unit.x, unit.y, maxRange, unit.team.getTransparentColor());
+        Drawf.dashCircle(unit.x, unit.y, maxRange, unit.team.color);
     }
 
     public void drawLogicLine(Unit unit) {
@@ -891,7 +892,7 @@ public class UnitType extends UnlockableContent{
         }else{
             Draw.color(Color.white);
         }
-
+        Draw.color(Draw.getColor(), Math.min(Core.settings.getInt("unittransparency"), Core.settings.getInt("unitlegtransparency")) / 100f);
         Draw.rect(baseRegion, unit, mech.baseRotation() - 90);
 
         Draw.mixcol();
