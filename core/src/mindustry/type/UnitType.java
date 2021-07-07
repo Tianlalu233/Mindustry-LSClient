@@ -602,6 +602,12 @@ public class UnitType extends UnlockableContent{
             Draw.reset();
         }
 
+        if (Core.settings.getBool("unithealthline") && unit.health != unit.maxHealth) {
+            Draw.z(z+1);
+            float widthOffset = region.width / (float)tilesize, heightOffset = region.width / (float)tilesize;
+            Drawf.drawHealthLine(unit.x - widthOffset, unit.y + heightOffset / 2, unit.x + widthOffset, unit.y + heightOffset / 2,unit.health / unit.maxHealth);
+        }
+
         Draw.z(Layer.plans);
         if (Core.settings.getBool("unitrange")) {
             Drawf.thinDashCircle(unit.x, unit.y, maxRange, unit.team.getTransparentColor());

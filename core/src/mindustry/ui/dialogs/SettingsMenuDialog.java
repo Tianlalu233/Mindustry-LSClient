@@ -472,6 +472,7 @@ public class SettingsMenuDialog extends Dialog{
         advance.sliderPref("unitlegtransparency", 100, 0, 100, s -> s + "%");
         advance.checkPref("unitrange", false);
         advance.checkPref("unittargetline", false);
+        advance.checkPref("unithealthline", false);
         advance.checkPref("playertargetline", false);
         advance.checkPref("unitstat", false);
         advance.checkPref("showunititemsamount", false);
