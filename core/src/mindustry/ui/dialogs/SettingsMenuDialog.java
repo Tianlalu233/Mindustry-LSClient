@@ -456,11 +456,8 @@ public class SettingsMenuDialog extends Dialog{
         advance.addCategory("general");
         advance.sliderPref("linetransparency", 50, 0, 100, s -> s + "%");
         advance.checkPref("mouseposition", false);
-        advance.checkPref("ignoredisableschematic", false);
         advance.checkPref("disablelightrender", false);
-        advance.checkPref("keepshowingdropzone", false);
         advance.checkPref("showallteamstats", false);
-        advance.checkPref("experimentalblock", false);
         advance.addCategory("turret");
         advance.checkPref("targetgroundturret", true);
         advance.checkPref("targetairturret", true);
@@ -474,13 +471,17 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("unittargetline", false);
         advance.checkPref("unithealthline", false);
         advance.checkPref("playertargetline", false);
-        advance.checkPref("unitstat", false);
+        if (!mobile) advance.checkPref("unitstat", false);
         advance.checkPref("showunititemsamount", false);
         if (!mobile) {
             advance.addCategory("camera");
             advance.checkPref("removecameralock", false);
             advance.checkPref("movecameraonedge", false);
         }
+        advance.addCategory("other");
+        advance.checkPref("keepshowingdropzone", false);
+        advance.checkPref("ignoredisableschematic", false);
+        advance.checkPref("experimentalblock", false);
     }
 
     public void exportData(Fi file) throws IOException{

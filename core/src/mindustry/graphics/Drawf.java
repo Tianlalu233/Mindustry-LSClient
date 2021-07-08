@@ -319,7 +319,9 @@ public class Drawf{
     }
 
     public static void drawHealthLine(float x, float y, float x2, float y2, float health) {
-        Lines.stroke(3f, Color.black);
+        Lines.stroke(2f, Color.black);
+        Lines.line(x, y, x2, y2);
+        Lines.stroke(1f, Color.darkGray);
         Lines.line(x, y, x2, y2);
         Lines.stroke(1f, Pal.health);
         float newX = (x2 - x) * health + x;
