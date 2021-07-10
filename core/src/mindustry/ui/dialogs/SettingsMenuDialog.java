@@ -456,7 +456,7 @@ public class SettingsMenuDialog extends Dialog{
         advance.addCategory("general");
         advance.sliderPref("linetransparency", 50, 0, 100, s -> s + "%");
         advance.checkPref("mouseposition", false);
-        advance.checkPref("disablelightrender", false);
+        advance.checkPref("showiteminjb", false);
         advance.checkPref("showallteamstats", false);
         advance.addCategory("turret");
         advance.checkPref("targetgroundturret", true);
@@ -479,6 +479,7 @@ public class SettingsMenuDialog extends Dialog{
             advance.checkPref("movecameraonedge", false);
         }
         advance.addCategory("other");
+        advance.checkPref("disablelightrender", false);
         advance.checkPref("keepshowingdropzone", false);
         advance.checkPref("ignoredisableschematic", false);
         advance.checkPref("experimentalblock", false);

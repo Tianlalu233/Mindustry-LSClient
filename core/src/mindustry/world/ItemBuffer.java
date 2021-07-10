@@ -44,6 +44,18 @@ public class ItemBuffer{
         index--;
     }
 
+    public float getTime(int i){
+        return i < index ? Float.intBitsToFloat(Pack.leftInt(buffer[i])) : -1;
+    }
+
+    public Item getItem(int i){
+        return i < index ? content.item(Pack.leftShort(Pack.rightInt(buffer[i]))) : null;
+    }
+
+    public int count() {
+        return index;
+    }
+
     public void write(Writes write){
         write.b((byte)index);
         write.b((byte)buffer.length);

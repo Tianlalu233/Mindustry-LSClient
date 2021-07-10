@@ -1,5 +1,8 @@
 package mindustry.world.blocks.distribution;
 
+import arc.Core;
+import arc.math.geom.*;
+import arc.graphics.g2d.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.gen.*;
@@ -75,6 +78,27 @@ public class Junction extends Block{
             if(relative == -1 || !buffer.accepts(relative)) return false;
             Building to = nearby(relative);
             return to != null && to.team == team;
+        }
+
+        @Override
+        public void draw(){
+            super.draw();
+            if (!Core.settings.getBool("showiteminjb")) return;
+            float width = region.width / (float)tilesize, height = region.height / (float)tilesize, iconSize = 3f;;
+            float widthOffset = width / 1.5f, heightOffset = height / 1.5f;
+            float timeSpent = speed / timeScale;
+            for(int i = 0; i < 4; i++){
+                if(buffer.indexes[i] > 0){
+                    float offsetX = x + widthOffset * Geometry.d8edge(i).x, offsetY = y + heightOffset * Geometry.d8edge(i).y;
+                    for (int j = 0; j < buffer.indexes[i]; j ++) {
+                        long l = buffer.buffers[i][j];
+                        float time = BufferItem.time(l);
+                        float ratio = Math.max(j / (float)capacity, Time.time < time ? 0 : 1 - Math.min(1, (Time.time - time) / timeSpent));
+                        Item item = content.item(BufferItem.item(l));
+                        Draw.rect(item.uiIcon, offsetX + Geometry.d4(i+2).x * width * ratio, offsetY + Geometry.d4(i+2).y * height * ratio, iconSize, iconSize);
+                    }
+                }
+            }
         }
 
         @Override

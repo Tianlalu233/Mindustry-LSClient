@@ -21,6 +21,8 @@ public class ExtendingItemBridge extends ItemBridge{
         public void draw(){
             Draw.rect(region, x, y);
 
+            if (items != null) drawItemStack();
+
             Draw.z(Layer.power);
 
             Tile other = world.tile(link);

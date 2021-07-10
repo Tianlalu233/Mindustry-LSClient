@@ -1,5 +1,6 @@
 package mindustry.world.blocks.distribution;
 
+import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -332,6 +333,8 @@ public class ItemBridge extends Block{
         public void draw(){
             super.draw();
 
+            if (items != null) drawItemStack();
+
             Draw.z(Layer.power);
 
             Tile other = world.tile(link);
@@ -371,6 +374,20 @@ public class ItemBridge extends Block{
                 y + Geometry.d4(i).y * (tilesize / 2f + a * 4f + time % 4f), i * 90f);
             }
             Draw.reset();
+        }
+
+        protected void drawItemStack() {
+            if (!Core.settings.getBool("showiteminjb")) return;
+            float iconSize = 4f;
+            float height = region.height / (float)tilesize, posOffset = height / 2f;
+            int count = 0;
+            for (Item item : content.items()) {
+                int num = items.get(item);
+                for (int n = 0; n < num; n++) {
+                    Draw.rect(item.uiIcon, x, y - posOffset+ count * height / itemCapacity, iconSize, iconSize);
+                    count++;
+                }
+            }
         }
 
         @Override

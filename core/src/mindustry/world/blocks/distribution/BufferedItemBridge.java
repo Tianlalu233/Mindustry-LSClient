@@ -1,10 +1,16 @@
 package mindustry.world.blocks.distribution;
 
+import arc.Core;
 import arc.math.*;
+import arc.math.geom.*;
+import arc.graphics.g2d.*;
+import arc.util.Time;
 import arc.util.io.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
+
+import static mindustry.Vars.*;
 
 public class BufferedItemBridge extends ExtendingItemBridge{
     public final int timerAccept = timers++;
@@ -35,6 +41,23 @@ public class BufferedItemBridge extends ExtendingItemBridge{
                 buffer.remove();
             }else{
                 cycleSpeed = Mathf.lerpDelta(cycleSpeed, 0f, 0.008f);
+            }
+        }
+
+        @Override
+        public void draw() {
+            super.draw();
+            if (!Core.settings.getBool("showiteminjb")) return;
+            Tile other = world.tile(link);
+            if(!linkValid(tile, other)) return;
+
+            int direction = tile.absoluteRelativeTo(other.x, other.y);
+            float distance = Math.max(Math.abs(other.build.x - x), Math.abs(other.build.y - y)) - region.width / 3f / tilesize;
+            float timeSpent = speed / timeScale, iconSize = 4;
+            for (int i = 0; i < buffer.count(); i++) {
+                float time = buffer.getTime(i);
+                float ratio = Math.min(1 - i / (float)bufferCapacity, Time.time < time ? 1 : Math.min((Time.time - time) / timeSpent, 1));
+                Draw.rect(buffer.getItem(i).uiIcon, x + Geometry.d4(direction).x * distance * ratio, y + Geometry.d4(direction).y * distance * ratio, iconSize, iconSize);
             }
         }
 
