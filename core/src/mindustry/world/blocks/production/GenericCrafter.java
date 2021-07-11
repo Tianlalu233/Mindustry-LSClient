@@ -1,5 +1,6 @@
 package mindustry.world.blocks.production;
 
+import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
@@ -8,8 +9,10 @@ import arc.util.io.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
+import mindustry.graphics.Pal;
 import mindustry.logic.*;
 import mindustry.type.*;
+import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
@@ -52,6 +55,16 @@ public class GenericCrafter extends Block{
         if(outputLiquid != null){
             stats.add(Stat.output, outputLiquid.liquid, outputLiquid.amount * (60f / craftTime), true);
         }
+    }
+
+    @Override
+    public void setBars() {
+        super.setBars();
+        bars.add("progress", (GenericCrafterBuild e) ->
+                new Bar(() -> Core.bundle.format("bar.progress", Math.round(e.progress * 100)),
+                        () -> Pal.ammo,
+                        () -> e.progress)
+        );
     }
 
     @Override

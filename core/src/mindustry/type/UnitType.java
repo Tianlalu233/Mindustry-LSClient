@@ -605,7 +605,7 @@ public class UnitType extends UnlockableContent{
         if (Core.settings.getBool("unithealthline") && unit.health != unit.maxHealth) {
             Draw.z(z+1);
             float widthOffset = region.width / (float)tilesize, heightOffset = region.width / (float)tilesize;
-            Drawf.drawHealthLine(unit.x - widthOffset, unit.y + heightOffset / 2, unit.x + widthOffset, unit.y + heightOffset / 2,unit.health / unit.maxHealth);
+            Drawf.drawHealthLine(unit.x - widthOffset, unit.y + heightOffset / 2, unit.x + widthOffset, unit.y + heightOffset / 2, Math.max(0, unit.health / unit.maxHealth));
         }
 
         Draw.z(Layer.plans);
