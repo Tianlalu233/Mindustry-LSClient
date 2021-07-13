@@ -458,6 +458,8 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("mouseposition", false);
         advance.checkPref("showiteminjb", false);
         advance.checkPref("showallteamstats", false);
+        advance.checkPref("experimentalblock", false);
+        advance.checkPref("keepshowingdropzone", false);
         advance.addCategory("turret");
         advance.checkPref("targetgroundturret", true);
         advance.checkPref("targetairturret", true);
@@ -478,11 +480,9 @@ public class SettingsMenuDialog extends Dialog{
             advance.checkPref("removecameralock", false);
             advance.checkPref("movecameraonedge", false);
         }
-        advance.addCategory("other");
+        advance.addCategory("cheat");
         advance.checkPref("disablelightrender", false);
-        advance.checkPref("keepshowingdropzone", false);
         advance.checkPref("ignoredisableschematic", false);
-        advance.checkPref("experimentalblock", false);
     }
 
     public void exportData(Fi file) throws IOException{
