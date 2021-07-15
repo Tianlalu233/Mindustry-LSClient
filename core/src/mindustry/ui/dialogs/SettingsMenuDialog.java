@@ -70,6 +70,7 @@ public class SettingsMenuDialog extends Dialog{
         Events.on(ResizeEvent.class, event -> {
             if(isShown() && Core.scene.getDialog() == this){
                 graphics.rebuild();
+                advance.rebuild();
                 sound.rebuild();
                 game.rebuild();
                 updateScrollFocus();
@@ -460,7 +461,6 @@ public class SettingsMenuDialog extends Dialog{
         advance.sliderPref("linetransparency", 50, 0, 100, s -> s + "%");
         advance.checkPref("mouseposition", false);
         advance.checkPref("showiteminjb", false);
-        advance.checkPref("showallteamstats", false);
         advance.checkPref("experimentalblock", false);
         advance.checkPref("keepshowingdropzone", false);
         advance.addCategory("turret");
@@ -478,14 +478,15 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("playertargetline", false);
         if (!mobile) advance.checkPref("unitstat", false);
         advance.checkPref("showunititemsamount", false);
+        advance.addCategory("cheat");
+        advance.checkPref("showallteamstats", false);
+        advance.checkPref("disablelightrender", false);
+        advance.checkPref("ignoredisableschematic", false);
         if (!mobile) {
             advance.addCategory("camera");
             advance.checkPref("removecameralock", false);
             advance.checkPref("movecameraonedge", false);
         }
-        advance.addCategory("cheat");
-        advance.checkPref("disablelightrender", false);
-        advance.checkPref("ignoredisableschematic", false);
     }
 
     public void exportData(Fi file) throws IOException{
