@@ -70,7 +70,7 @@ public class MapInfoFragment extends Fragment{
     private void buildInfoTable(Table info) {
         info.clear();
         info.add(buildMapAttrsTable()).padBottom(10).row();
-        if (!currState.rules.pvp) {
+        if (state.hasSpawns() && spawner.countSpawns() > 0) {
             info.add(buildWavesInfoTable());
         }
     }

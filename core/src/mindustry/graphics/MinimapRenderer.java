@@ -101,6 +101,18 @@ public class MinimapRenderer{
             Draw.reset();
         }
 
+        if (state.hasSpawns()) {
+            for(Tile tile : spawner.getSpawns()){
+                float tileX = tile.x + 0.5f;
+                float tileY = tile.y + 0.5f;
+                float rx = !withLabels ? (tileX * tilesize - rect.x) / rect.width * w : tileX * w / world.width();
+                float ry = !withLabels ? (tileY * tilesize - rect.y) / rect.width * h : tileY * h / world.height();
+                float scale = Scl.scl(1f) * scaling * 8f;
+                TextureRegion region = Core.atlas.find("editor-spawn");
+                Draw.rect(region, x + rx, y + ry, scale, scale * (float)region.height / region.width);
+            }
+        }
+
         if(withLabels && net.active()){
             for(Player player : Groups.player){
                 if(!player.dead()){
