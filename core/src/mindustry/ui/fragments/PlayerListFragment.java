@@ -1,15 +1,18 @@
 package mindustry.ui.fragments;
 
 import arc.*;
+import arc.func.Cons;
 import arc.graphics.g2d.*;
 import arc.scene.*;
 import arc.scene.event.*;
+import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.input.DesktopInput;
 import mindustry.net.*;
 import mindustry.net.Packets.*;
 import mindustry.ui.*;
@@ -117,7 +120,10 @@ public class PlayerListFragment extends Fragment{
             button.add().grow();
 
             button.image(Icon.admin).visible(() -> user.admin && !(!user.isLocal() && net.server())).padRight(5).get().updateVisibility();
-
+            button.button(Icon.eyeSmall, Styles.clearPartiali, () -> {
+                if (control.input instanceof DesktopInput desktopInput) desktopInput.panning = true;
+                Core.camera.position.set(user);
+            }).size(h);
             if((net.server() || player.admin) && !user.isLocal() && (!user.admin || net.server())){
                 button.add().growY();
 
@@ -162,14 +168,14 @@ public class PlayerListFragment extends Fragment{
                 }).size(h);
             }
 
-            content.add(button).padBottom(-6).width(350f).maxHeight(h + 14);
+            content.add(button).padBottom(-6).width(450f).maxHeight(h + 14);
             content.row();
             content.image().height(4f).color(state.rules.pvp ? user.team().color : Pal.gray).growX();
             content.row();
         }
 
         if(!found){
-            content.add(Core.bundle.format("players.notfound")).padBottom(6).width(350f).maxHeight(h + 14);
+            content.add(Core.bundle.format("players.notfound")).padBottom(6).width(450f).maxHeight(h + 14);
         }
 
         content.marginBottom(5);

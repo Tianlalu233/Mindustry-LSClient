@@ -461,7 +461,6 @@ public class SettingsMenuDialog extends Dialog{
         advance.sliderPref("linetransparency", 50, 0, 100, s -> s + "%");
         advance.checkPref("mouseposition", false);
         advance.checkPref("showiteminjb", false);
-        advance.checkPref("experimentalblock", false);
         advance.checkPref("keepshowingdropzone", false);
         advance.addCategory("turret");
         advance.checkPref("targetgroundturret", true);
@@ -487,6 +486,10 @@ public class SettingsMenuDialog extends Dialog{
             advance.checkPref("removecameralock", false);
             advance.checkPref("movecameraonedge", false);
         }
+        advance.addCategory("other");
+        advance.checkPref("hidetypingstate", false);
+        advance.checkPref("experimentalblock", false);
+        advance.checkPref("beanai", false);
     }
 
     public void exportData(Fi file) throws IOException{

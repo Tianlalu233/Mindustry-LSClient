@@ -5,13 +5,15 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.scene.*;
 import arc.scene.ui.Image;
-import arc.scene.ui.layout.Table;
-import mindustry.core.GameState;
+import arc.scene.ui.layout.*;
+import mindustry.content.*;
+import mindustry.core.*;
 import mindustry.core.UI;
 import mindustry.game.*;
-import mindustry.gen.Icon;
-import mindustry.input.Binding;
-import mindustry.ui.Styles;
+import mindustry.gen.*;
+import mindustry.graphics.Pal;
+import mindustry.input.*;
+import mindustry.ui.*;
 
 import static mindustry.Vars.*;
 
@@ -157,14 +159,17 @@ public class MapInfoFragment extends Fragment{
         labels.add(Core.bundle.get("number")).pad(5).padLeft(10).padRight(10).row();
         labels.add(Core.bundle.get("shield")).pad(5).padLeft(10).padRight(10).row();
         t.add(labels);
+        Table enemyTable = new Table();
+        t.pane(enemyTable).maxWidth(1000f).get().setScrollingDisabled(false, true);
         for(SpawnGroup group : currState.rules.spawns) {
             if (group.getSpawned(wave - 1) == 0) continue;
+            Color color = group.effect == StatusEffects.boss ? Pal.health : Color.white;
             Table enemy = new Table();
             enemy.add(new Image(group.type.uiIcon)).size(50).pad(5).padLeft(10).padRight(10).tooltip(o -> o.background(Styles.black6).margin(4f).add(group.type.localizedName).style(Styles.outlineLabel));
             enemy.row();
-            enemy.add(String.valueOf(group.getSpawned(wave - 1) * spawner.countSpawns())).pad(5).padLeft(10).padRight(10).row();
-            enemy.add(String.valueOf(UI.formatFloat(group.getShield(wave)))).pad(5).padLeft(10).padRight(10).row();
-            t.add(enemy);
+            enemy.add(String.valueOf(group.getSpawned(wave - 1) * spawner.countSpawns())).color(color).pad(5).padLeft(10).padRight(10).row();
+            enemy.add(String.valueOf(UI.formatFloat(group.getShield(wave)))).color(color).pad(5).padLeft(10).padRight(10).row();
+            enemyTable.add(enemy);
         }
     }
 }

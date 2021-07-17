@@ -250,7 +250,13 @@ public class DesktopInput extends InputHandler{
         }
 
         if(!player.dead() && !state.isPaused() && !scene.hasField()){
-            updateMovement(player.unit());
+            Unit unit = player.unit();
+            if (settings.getBool("beanai")) {
+                UnitController controller = unit.type.createController();
+                controller.unit(unit);
+                controller.updateUnit();
+            }
+            else updateMovement(unit);
 
             if(Core.input.keyTap(Binding.respawn)){
                 controlledType = null;

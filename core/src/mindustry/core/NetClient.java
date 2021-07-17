@@ -614,7 +614,7 @@ public class NetClient implements ApplicationListener{
             unit instanceof Mechc m ? m.baseRotation() : 0,
             unit.vel.x, unit.vel.y,
             player.unit().mineTile,
-            player.boosting, player.shooting, ui.chatfrag.shown(), control.input.isBuilding,
+            player.boosting, player.shooting, !Core.settings.getBool("hidetypingstate") && ui.chatfrag.shown(), control.input.isBuilding,
             requests,
             Core.camera.position.x, Core.camera.position.y,
             Core.camera.width, Core.camera.height

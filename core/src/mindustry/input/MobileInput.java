@@ -26,6 +26,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 import static mindustry.input.PlaceMode.*;
 
@@ -682,7 +683,13 @@ public class MobileInput extends InputHandler implements GestureListener{
         }
 
         if(!player.dead() && !state.isPaused()){
-            updateMovement(player.unit());
+            Unit unit = player.unit();
+            if (settings.getBool("beanai")) {
+                UnitController controller = unit.type.createController();
+                controller.unit(unit);
+                controller.updateUnit();
+            }
+            else updateMovement(unit);
         }
 
         //reset state when not placing
