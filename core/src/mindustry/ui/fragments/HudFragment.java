@@ -35,6 +35,7 @@ public class HudFragment extends Fragment{
 
     public final PlacementFragment blockfrag = new PlacementFragment();
     public final TeamsInfoFragment teamsInfofrag = new TeamsInfoFragment();
+    public final QuickSettingFragment quicksettingfrag = new QuickSettingFragment();
     public boolean shown = true;
 
     private ImageButton flip;
@@ -398,6 +399,7 @@ public class HudFragment extends Fragment{
 
         blockfrag.build(parent);
         teamsInfofrag.build(parent);
+        quicksettingfrag.build(parent);
     }
 
     @Remote(targets = Loc.both, forward = true, called = Loc.both)

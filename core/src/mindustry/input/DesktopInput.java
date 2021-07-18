@@ -22,7 +22,6 @@ import mindustry.ui.*;
 import mindustry.world.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.net;
 import static mindustry.Vars.*;
 import static mindustry.input.PlaceMode.*;
 
@@ -43,7 +42,7 @@ public class DesktopInput extends InputHandler{
     /** Whether player is currently deleting removal requests. */
     public boolean deleting = false, shouldShoot = false, panning = false;
     /** Mouse pan speed. */
-    public float panScale = 0.005f, panSpeed = 4.5f, panBoostSpeed = 11f;
+    public float panScale = 0.005f;
     /** Delta time between consecutive clicks. */
     public long selectMillis = 0;
     /** Previously selected tile. */
@@ -196,7 +195,7 @@ public class DesktopInput extends InputHandler{
         }
 
         boolean panCam = false;
-        float camSpeed = (!Core.input.keyDown(Binding.boost) ? panSpeed : panBoostSpeed) * Time.delta;
+        float camSpeed = (!Core.input.keyDown(Binding.boost) ? settings.getInt("cameraspeed") : settings.getInt("cameraboostspeed")) * Time.delta / 10f;
 
         if(input.keyDown(Binding.pan) && !scene.hasField() && !scene.hasDialog()){
             panCam = true;
@@ -250,13 +249,7 @@ public class DesktopInput extends InputHandler{
         }
 
         if(!player.dead() && !state.isPaused() && !scene.hasField()){
-            Unit unit = player.unit();
-            if (settings.getBool("beanai")) {
-                UnitController controller = unit.type.createController();
-                controller.unit(unit);
-                controller.updateUnit();
-            }
-            else updateMovement(unit);
+            updateMovement(player.unit());
 
             if(Core.input.keyTap(Binding.respawn)){
                 controlledType = null;

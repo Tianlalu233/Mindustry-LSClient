@@ -1,15 +1,15 @@
 package mindustry.ui.fragments;
 
 import arc.Core;
-import arc.graphics.*;
 import arc.scene.*;
-import arc.scene.ui.Image;
+import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
-import mindustry.core.UI;
+import mindustry.core.*;
+import mindustry.game.*;
 import mindustry.game.Teams.TeamData;
 import mindustry.type.*;
-import mindustry.ui.Styles;
+import mindustry.ui.*;
 
 import static mindustry.Vars.*;
 
@@ -32,6 +32,7 @@ public class TeamsInfoFragment extends Fragment {
                         rowTable.add(new Image(item.uiIcon)).size(15).pad(3);
                         boolean hasATeam = false;
                         for (TeamData data : teamData) {
+                            if (data.team.equals(Team.derelict)) continue;
                             int num;
                             if (data.core() == null ) num = 0;
                             else num = data.core().items.get(item);

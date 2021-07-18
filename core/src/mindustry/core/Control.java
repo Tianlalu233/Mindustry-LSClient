@@ -546,7 +546,7 @@ public class Control implements ApplicationListener, Loadable{
                 state.set(state.is(State.playing) ? State.paused : State.playing);
             }
 
-            if(Core.input.keyTap(Binding.menu) && !ui.restart.isShown() && !ui.minimapfrag.shown()){
+            if(Core.input.keyTap(Binding.menu) && !ui.restart.isShown() && !ui.minimapfrag.shown() && !ui.mapInfofrag.isShown()){
                 if(ui.chatfrag.shown()){
                     ui.chatfrag.hide();
                 }else if(!ui.paused.isShown() && !scene.hasDialog()){

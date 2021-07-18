@@ -69,6 +69,10 @@ public class MapInfoFragment extends Fragment{
         shown = false;
     }
 
+    public boolean isShown() {
+        return shown;
+    }
+
     private void buildInfoTable(Table info) {
         info.clear();
         info.add(buildMapAttrsTable()).padBottom(10).row();
@@ -160,7 +164,7 @@ public class MapInfoFragment extends Fragment{
         labels.add(Core.bundle.get("shield")).pad(5).padLeft(10).padRight(10).row();
         t.add(labels);
         Table enemyTable = new Table();
-        t.pane(enemyTable).maxWidth(1000f).get().setScrollingDisabled(false, true);
+        t.pane(Styles.horizontalPane, enemyTable).maxWidth(1000f).get().setScrollingDisabled(false, true);
         for(SpawnGroup group : currState.rules.spawns) {
             if (group.getSpawned(wave - 1) == 0) continue;
             Color color = group.effect == StatusEffects.boss ? Pal.health : Color.white;

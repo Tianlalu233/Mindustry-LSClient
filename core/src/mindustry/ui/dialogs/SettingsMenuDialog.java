@@ -42,6 +42,7 @@ public class SettingsMenuDialog extends Dialog{
     private Table menu;
     private BaseDialog dataDialog;
     private boolean wasPaused;
+    private boolean shortcutAdvance = false;
 
     public SettingsMenuDialog(){
         super(bundle.get("settings", "Settings"));
@@ -462,6 +463,7 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("mouseposition", false);
         advance.checkPref("showiteminjb", false);
         advance.checkPref("keepshowingdropzone", false);
+        advance.checkPref("showquicksetting", false);
         advance.addCategory("turret");
         advance.checkPref("targetgroundturret", true);
         advance.checkPref("targetairturret", true);
@@ -483,13 +485,14 @@ public class SettingsMenuDialog extends Dialog{
         advance.checkPref("ignoredisableschematic", false);
         if (!mobile) {
             advance.addCategory("camera");
+            advance.sliderPref("cameraspeed", 45, 10, 100, s -> s+"");
+            advance.sliderPref("cameraboostspeed", 110, 60, 180, s -> s+"");
             advance.checkPref("removecameralock", false);
             advance.checkPref("movecameraonedge", false);
         }
         advance.addCategory("other");
         advance.checkPref("hidetypingstate", false);
         advance.checkPref("experimentalblock", false);
-        advance.checkPref("beanai", false);
     }
 
     public void exportData(Fi file) throws IOException{
@@ -561,10 +564,20 @@ public class SettingsMenuDialog extends Dialog{
         prefs.add(new Table[]{game, graphics, advance, sound}[index]);
     }
 
+    public void showAdavance() {
+        shortcutAdvance = true;
+        show();
+        visible(2);
+    }
+
     @Override
     public void addCloseButton(){
         buttons.button("@back", Icon.left, () -> {
-            if(prefs.getChildren().first() != menu){
+            if (shortcutAdvance) {
+                hide();
+                shortcutAdvance = false;
+            }
+            else if(prefs.getChildren().first() != menu){
                 back();
             }else{
                 hide();
@@ -573,7 +586,11 @@ public class SettingsMenuDialog extends Dialog{
 
         keyDown(key -> {
             if(key == KeyCode.escape || key == KeyCode.back){
-                if(prefs.getChildren().first() != menu){
+                if (shortcutAdvance) {
+                    hide();
+                    shortcutAdvance = false;
+                }
+                else if(prefs.getChildren().first() != menu){
                     back();
                 }else{
                     hide();

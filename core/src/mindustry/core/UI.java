@@ -45,6 +45,7 @@ public class UI implements ApplicationListener, Loadable{
     public PlayerListFragment listfrag;
     public LoadingFragment loadfrag;
     public HintsFragment hints;
+    public MapInfoFragment mapInfofrag;
     public MemoryFragment memory;
 
     public WidgetGroup menuGroup, hudGroup;
@@ -170,6 +171,7 @@ public class UI implements ApplicationListener, Loadable{
         listfrag = new PlayerListFragment();
         loadfrag = new LoadingFragment();
         scriptfrag = new ScriptConsoleFragment();
+        mapInfofrag = new MapInfoFragment();
         memory = new MemoryFragment();
 
         picker = new ColorPicker();
@@ -213,7 +215,7 @@ public class UI implements ApplicationListener, Loadable{
         menufrag.build(menuGroup);
         chatfrag.container().build(hudGroup);
         minimapfrag.build(hudGroup);
-        minimapfrag.mapInfofrag.build(hudGroup);
+        mapInfofrag.build(hudGroup);
         listfrag.build(hudGroup);
         scriptfrag.container().build(hudGroup);
         memory.build(hudGroup);
