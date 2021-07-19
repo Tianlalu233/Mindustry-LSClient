@@ -767,7 +767,7 @@ public class SettingsMenuDialog extends Dialog{
         public static class Divider extends Setting {
 
             Divider(String name, String title) {
-                this.name = name;
+                super(name);
                 this.title = title;
             }
 
