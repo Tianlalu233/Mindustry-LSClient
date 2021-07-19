@@ -637,6 +637,8 @@ public class DesktopInput extends InputHandler{
     }
 
     protected void updateMovement(Unit unit){
+        if (useAIControl(unit)) return;
+
         boolean omni = unit.type.omniMovement;
 
         float speed = unit.realSpeed();

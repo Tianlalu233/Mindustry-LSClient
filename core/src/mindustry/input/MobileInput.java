@@ -852,6 +852,8 @@ public class MobileInput extends InputHandler implements GestureListener{
     //region movement
 
     protected void updateMovement(Unit unit){
+        if (useAIControl(unit)) return;
+
         Rect rect = Tmp.r3;
 
         UnitType type = unit.type;

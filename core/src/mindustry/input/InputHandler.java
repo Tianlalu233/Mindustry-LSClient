@@ -38,6 +38,7 @@ import mindustry.world.meta.*;
 
 import java.util.*;
 
+import static arc.Core.settings;
 import static mindustry.Vars.*;
 
 public abstract class InputHandler implements InputProcessor, GestureListener{
@@ -67,6 +68,7 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
     public BuildPlan brequest = new BuildPlan();
     public Seq<BuildPlan> lineRequests = new Seq<>();
     public Seq<BuildPlan> selectRequests = new Seq<>();
+    public @Nullable UnitController aiControl;
 
     public InputHandler(){
         Events.on(UnitDestroyEvent.class, e -> {
@@ -1302,6 +1304,21 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
 
             Tmp.r3.setSize(block.size * tilesize).setCenter(point.x * tilesize + block.offset, point.y * tilesize + block.offset);
         }
+    }
+
+    public boolean useAIControl(Unit unit) {
+        if (settings.getBool("aicontrol")) {
+            if (aiControl == null) {
+                aiControl = unit.type.createController();
+            }
+            if (aiControl.unit() == null || aiControl.unit() != unit) {
+                aiControl.unit(unit);
+            }
+            aiControl.updateUnit();
+            return true;
+        }
+        aiControl = null;
+        return false;
     }
 
     static class PlaceLine{

@@ -492,6 +492,7 @@ public class SettingsMenuDialog extends Dialog{
             advance.checkPref("movecameraonedge", false);
         }
         advance.addCategory("other");
+        advance.checkPref("aicontrol", false);
         advance.checkPref("hidetypingstate", false);
         advance.checkPref("experimentalblock", false);
     }
