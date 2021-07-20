@@ -1308,10 +1308,8 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
 
     public boolean useAIControl(Unit unit) {
         if (settings.getBool("aicontrol")) {
-            if (aiControl == null) {
+            if (aiControl == null || aiControl.unit() != unit) {
                 aiControl = unit.type.createController();
-            }
-            if (aiControl.unit() == null || aiControl.unit() != unit) {
                 aiControl.unit(unit);
             }
             aiControl.updateUnit();
