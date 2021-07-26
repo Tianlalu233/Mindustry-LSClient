@@ -1,7 +1,6 @@
 package mindustry.world.blocks.distribution;
 
 import arc.Core;
-import arc.math.*;
 import arc.math.geom.*;
 import arc.graphics.g2d.*;
 import arc.util.Time;
@@ -12,7 +11,7 @@ import mindustry.world.*;
 
 import static mindustry.Vars.*;
 
-public class BufferedItemBridge extends ExtendingItemBridge{
+public class BufferedItemBridge extends ItemBridge{
     public final int timerAccept = timers++;
 
     public float speed = 40f;
@@ -25,7 +24,7 @@ public class BufferedItemBridge extends ExtendingItemBridge{
         canOverdrive = true;
     }
 
-    public class BufferedItemBridgeBuild extends ExtendingItemBridgeBuild{
+    public class BufferedItemBridgeBuild extends ItemBridgeBuild{
         ItemBuffer buffer = new ItemBuffer(bufferCapacity);
 
         @Override
@@ -36,11 +35,9 @@ public class BufferedItemBridge extends ExtendingItemBridge{
 
             Item item = buffer.poll(speed / timeScale);
             if(timer(timerAccept, 4 / timeScale) && item != null && other.acceptItem(this, item)){
-                cycleSpeed = Mathf.lerpDelta(cycleSpeed, 4f, 0.05f);
+                moved = true;
                 other.handleItem(this, item);
                 buffer.remove();
-            }else{
-                cycleSpeed = Mathf.lerpDelta(cycleSpeed, 0f, 0.008f);
             }
         }
 
