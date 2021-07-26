@@ -47,6 +47,10 @@ public class BufferedItemBridge extends ExtendingItemBridge{
         @Override
         public void draw() {
             super.draw();
+            drawItemInBridge();
+        }
+
+        private void drawItemInBridge() {
             if (!Core.settings.getBool("showiteminjb")) return;
             Tile other = world.tile(link);
             if(!linkValid(tile, other)) return;
