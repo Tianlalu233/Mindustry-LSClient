@@ -438,7 +438,7 @@ public class Block extends UnlockableContent{
 
             bars.add("power", entity -> new Bar(
                     () -> buffered ?
-                            Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : (int)(entity.power.status * capacity))
+                            Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : UI.formatAmount((int)(entity.power.status * capacity)))
                             :
                             entity.power.status > 0 ?
                                     Core.bundle.format("bar.powerconsume", UI.formatFloat(entity.power.status * cons.usage * 60 * entity.timeScale()))
@@ -810,7 +810,7 @@ public class Block extends UnlockableContent{
         }
 
         clipSize = Math.max(clipSize, size * tilesize);
-        
+
         //only kept to ensure compatibility with v6 mods.
         if(expanded){
             clipSize += tilesize * 10f;
