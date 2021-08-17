@@ -363,7 +363,7 @@ public class UnitType extends UnlockableContent{
         singleTarget = weapons.size <= 1 && !forceMultiTarget;
 
         if(itemCapacity < 0){
-            itemCapacity = Math.max(Mathf.round((int)(hitSize * 4.3), 10), 10);
+            itemCapacity = Math.max(Mathf.round((int)(hitSize * 4f), 10), 10);
         }
 
         //assume slight range margin
@@ -608,9 +608,9 @@ public class UnitType extends UnlockableContent{
                 Draw.reset();
                 a.draw(unit);
             }
-
-            Draw.reset();
         }
+
+        Draw.reset();
 
         if (Core.settings.getBool("unithealthline") && unit.health != unit.maxHealth) {
             Draw.z(z+1);

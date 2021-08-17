@@ -1137,7 +1137,7 @@ public class UnitTypes implements ContentList{
             hitSize = 58f;
             destructibleWreck = false;
             armor = 13f;
-            targetFlags = new BlockFlag[]{BlockFlag.reactor, BlockFlag.core, null};
+            targetFlags = new BlockFlag[]{BlockFlag.reactor, BlockFlag.battery, BlockFlag.core, null};
             ammoType = new ItemAmmoType(Items.thorium);
 
             BulletType fragBullet = new FlakBulletType(4f, 5){{
@@ -1789,7 +1789,7 @@ public class UnitTypes implements ContentList{
                 shootY = 6f;
                 beamWidth = 0.8f;
                 mirror = false;
-                repairSpeed = 0.7f;
+                repairSpeed = 0.75f;
 
                 bullet = new BulletType(){{
                     maxRange = 120f;
@@ -1835,8 +1835,8 @@ public class UnitTypes implements ContentList{
 
                     speed = 0f;
 
-                    splashDamage = 50f;
-                    splashDamageRadius = 40f;
+                    splashDamage = 55f;
+                    splashDamageRadius = 45f;
                 }};
             }});
         }};

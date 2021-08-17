@@ -97,7 +97,7 @@ public class SchematicsDialog extends BaseDialog{
                     }
                 };
                 rebuildTags.run();
-            }).fillX().height(tagh).get().setScrollingDisabled(false, true);
+            }).fillX().height(tagh).scrollY(false);
 
             in.button(Icon.pencilSmall, () -> {
                 showAllTags();
@@ -165,12 +165,12 @@ public class SchematicsDialog extends BaseDialog{
                                     cont.table(tags -> buildTags(s, tags, false)).maxWidth(400f).fillX().left().row();
 
                                     cont.margin(30).add("@name").padRight(6f);
-                                    TextField nameField = cont.field(s.name(), null).size(400f, 55f).addInputDialog().left().get();
+                                    TextField nameField = cont.field(s.name(), null).size(400f, 55f).left().get();
 
                                     cont.row();
 
                                     cont.margin(30).add("@editor.description").padRight(6f);
-                                    TextField descField = cont.area(s.description(), Styles.areaField, t -> {}).size(400f, 140f).left().addInputDialog().get();
+                                    TextField descField = cont.area(s.description(), Styles.areaField, t -> {}).size(400f, 140f).left().get();
 
                                     Runnable accept = () -> {
                                         s.tags.put("name", nameField.getText());
@@ -248,7 +248,7 @@ public class SchematicsDialog extends BaseDialog{
             };
 
             rebuildPane.run();
-        }).grow().get().setScrollingDisabled(true, false);
+        }).grow().scrollX(false);
     }
 
     public void showInfo(Schematic schematic){
@@ -575,7 +575,7 @@ public class SchematicsDialog extends BaseDialog{
                 });
             }
 
-        }).fillX().left().height(tagh).get().setScrollingDisabled(false, true);
+        }).fillX().left().height(tagh).scrollY(false);
 
         t.button(Icon.addSmall, () -> {
             var dialog = new BaseDialog("@schematic.addtag");
