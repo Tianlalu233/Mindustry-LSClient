@@ -239,9 +239,9 @@ public class UnitType extends UnlockableContent{
             }
         }).growX();
 
-        if(unit.controller() instanceof LogicAI){
+        if(unit.controller() instanceof LogicAI control){
             table.row();
-            table.add(Blocks.microProcessor.emoji() + " " + Core.bundle.get("units.processorcontrol")).growX().wrap().left();
+            table.add(Blocks.microProcessor.emoji() + " (" + control.controller.x / tilesize + ", " + control.controller.y / tilesize + ")").growX().wrap().left();
             table.row();
             table.label(() -> Iconc.settings + " " + (long)unit.flag + "").color(Color.lightGray).growX().wrap().left();
         }
