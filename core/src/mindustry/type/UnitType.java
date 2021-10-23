@@ -212,7 +212,7 @@ public class UnitType extends UnlockableContent{
                 bars.row();
             }
 
-            if(state.rules.unitAmmo){
+            if(state.rules.unitAmmo && !unit.team.rules().infiniteAmmo){
                 bars.add(new Bar(
                         () -> Core.bundle.get("stat.ammo") + " : " + ammoType.icon() + " " + String.format("%s/%d", UI.formatFloat(unit.ammo), ammoCapacity),
                         () -> ammoType.barColor(),

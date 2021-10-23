@@ -4,11 +4,11 @@ import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.scene.*;
-import arc.scene.ui.Image;
+import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import arc.struct.*;
 import mindustry.content.*;
 import mindustry.core.*;
-import mindustry.core.UI;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
@@ -76,6 +76,7 @@ public class MapInfoFragment extends Fragment{
     private void buildInfoTable(Table info) {
         info.clear();
         info.add(buildMapAttrsTable()).padBottom(10).row();
+        info.add(buildTeamAttrsTable()).padBottom(10).row();
         if (state.hasSpawns()) {
             info.add(buildWavesInfoTable());
         }
@@ -83,33 +84,75 @@ public class MapInfoFragment extends Fragment{
 
     private Table buildMapAttrsTable() {
         Table mapAttrs = new Table();
-        Table table1 = new Table();
-        Table table2 = new Table();
-        addMapAttrs(table1, "reactorexplosions", currState.rules.reactorExplosions);
-        addMapAttrs(table1, "schematic", currState.rules.schematicsAllowed);
-        addMapAttrs(table1, "explosions", currState.rules.damageExplosions);
-        addMapAttrs(table1, "fire", currState.rules.fire);
-        addMapAttrs(table1, "unitammo", currState.rules.unitAmmo);
-        addMapAttrs(table1, "coreincinerates", currState.rules.coreIncinerates);
-        addMapAttrs(table2, "unitbuildspeedmultiplier", currState.rules.unitBuildSpeedMultiplier);
-        addMapAttrs(table2, "unitdamagemultiplier", currState.rules.unitDamageMultiplier);
-        addMapAttrs(table2, "blockhealthmultiplier", currState.rules.blockHealthMultiplier);
-        addMapAttrs(table2, "blockdamagemultiplier", currState.rules.blockDamageMultiplier);
-        addMapAttrs(table2, "buildcostmultiplier", currState.rules.buildCostMultiplier);
-        addMapAttrs(table2, "buildspeedmultiplier", currState.rules.buildSpeedMultiplier);
-        addMapAttrs(table2, "deconstructrefundmultiplier", currState.rules.deconstructRefundMultiplier);
-
-        mapAttrs.add(table1).pad(10);
-        mapAttrs.add(table2).pad(10);
+        mapAttrs.add(buildGlobalAttrsTable()).row();
         return mapAttrs;
     }
 
-    private void addMapAttrs(Table t, String name, boolean open) {
+    private Table buildGlobalAttrsTable() {
+        Table global = new Table();
+        Table table1 = new Table();
+        Table table2 = new Table();
+        addMapAttr(table1, "reactorexplosions", currState.rules.reactorExplosions);
+        addMapAttr(table1, "schematic", currState.rules.schematicsAllowed);
+        addMapAttr(table1, "explosions", currState.rules.damageExplosions);
+        addMapAttr(table1, "fire", currState.rules.fire);
+        addMapAttr(table1, "unitammo", currState.rules.unitAmmo);
+        addMapAttr(table1, "coreincinerates", currState.rules.coreIncinerates);
+        addMapAttr(table2, "unitbuildspeedmultiplier", currState.rules.unitBuildSpeedMultiplier);
+        addMapAttr(table2, "unitdamagemultiplier", currState.rules.unitDamageMultiplier);
+        addMapAttr(table2, "blockhealthmultiplier", currState.rules.blockHealthMultiplier);
+        addMapAttr(table2, "blockdamagemultiplier", currState.rules.blockDamageMultiplier);
+        addMapAttr(table2, "buildcostmultiplier", currState.rules.buildCostMultiplier);
+        addMapAttr(table2, "buildspeedmultiplier", currState.rules.buildSpeedMultiplier);
+        addMapAttr(table2, "deconstructrefundmultiplier", currState.rules.deconstructRefundMultiplier);
+        global.add(table1).pad(10);
+        global.add(table2).pad(10);
+        return global;
+    }
+
+    private Table buildTeamAttrsTable() {
+        Table teamTable = new Table();
+
+        Table header = new Table();
+        Table empty = new Table();
+        empty.add(" ");
+        header.add(empty).pad(5).row();
+        header.add(Core.bundle.get("rules." + "infiniteresources")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "blockhealthmultiplier")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "blockdamagemultiplier")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "buildspeedmultiplier")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "unitdamagemultiplier")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "unitbuildspeedmultiplier")).pad(5).row();
+        header.marginRight(20);
+        teamTable.add(header);
+
+        Seq<Teams.TeamData> activeTeam = currState.teams.getActive();
+        Rules rules = currState.rules;
+        for (Teams.TeamData data : activeTeam) {
+            Team team = data.team;
+            if (team.emoji.equals("")) continue;
+            Table tt = new Table();
+            Table teamEmoji = new Table();
+            teamEmoji.add(team.emoji);
+            tt.add(team.emoji).pad(5).row();
+            tt.add(new Image(rules.teams.get(team).infiniteResources ? Icon.ok : Icon.cancel)).pad(5).row();
+            tt.add(String.valueOf(rules.blockHealth(team))).pad(5).row();
+            tt.add(String.valueOf(rules.blockDamage(team))).pad(5).row();
+            tt.add(String.valueOf(rules.buildSpeed(team))).pad(5).row();
+            tt.add(String.valueOf(rules.unitDamage(team))).pad(5).row();
+            tt.add(String.valueOf(rules.unitBuildSpeed(team))).pad(5).row();
+            tt.marginRight(10);
+            teamTable.add(tt);
+        }
+        return teamTable;
+    }
+
+    private void addMapAttr(Table t, String name, boolean open) {
         t.add(Core.bundle.get("rules." + name)).pad(5);
         t.add(new Image(open ? Icon.ok : Icon.cancel)).pad(5).row();
     }
 
-    private void addMapAttrs(Table t, String name, float num) {
+    private void addMapAttr(Table t, String name, float num) {
         t.add(Core.bundle.get("rules." + name)).pad(5);
         t.add(String.valueOf(num)).pad(5).row();
     }
