@@ -114,9 +114,6 @@ public class MapInfoFragment extends Fragment{
         Table teamTable = new Table();
 
         Table header = new Table();
-        Table empty = new Table();
-        empty.add(" ");
-        header.add(empty).pad(5).row();
         header.add(Core.bundle.get("rules." + "infiniteresources")).pad(5).row();
         header.add(Core.bundle.get("rules." + "blockhealthmultiplier")).pad(5).row();
         header.add(Core.bundle.get("rules." + "blockdamagemultiplier")).pad(5).row();
@@ -130,17 +127,14 @@ public class MapInfoFragment extends Fragment{
         Rules rules = currState.rules;
         for (Teams.TeamData data : activeTeam) {
             Team team = data.team;
-            if (team.emoji.equals("")) continue;
+            if (team.id > 5) continue;
             Table tt = new Table();
-            Table teamEmoji = new Table();
-            teamEmoji.add(team.emoji);
-            tt.add(team.emoji).pad(5).row();
             tt.add(new Image(rules.teams.get(team).infiniteResources ? Icon.ok : Icon.cancel)).pad(5).row();
-            tt.add(String.valueOf(rules.blockHealth(team))).pad(5).row();
-            tt.add(String.valueOf(rules.blockDamage(team))).pad(5).row();
-            tt.add(String.valueOf(rules.buildSpeed(team))).pad(5).row();
-            tt.add(String.valueOf(rules.unitDamage(team))).pad(5).row();
-            tt.add(String.valueOf(rules.unitBuildSpeed(team))).pad(5).row();
+            tt.add(String.valueOf(rules.blockHealth(team))).color(team.color).pad(5).row();
+            tt.add(String.valueOf(rules.blockDamage(team))).color(team.color).pad(5).row();
+            tt.add(String.valueOf(rules.buildSpeed(team))).color(team.color).pad(5).row();
+            tt.add(String.valueOf(rules.unitDamage(team))).color(team.color).pad(5).row();
+            tt.add(String.valueOf(rules.unitBuildSpeed(team))).color(team.color).pad(5).row();
             tt.marginRight(10);
             teamTable.add(tt);
         }
