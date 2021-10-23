@@ -2,13 +2,17 @@
 这是一个Mindustry的自定义客户端。
 此客户端在原版的基础上增加了许多辅助显示和功能，具体请在游戏内查看。
 
-**此客户端会与原版同步开发（即第一时间获取原版的更新），并且大部分release与原版同步发布**
+~~**此客户端会与原版同步开发（即第一时间获取原版的更新），并且大部分release与原版同步发布**~~ 
+
+**学业繁忙，鸽**
 
 This is a custom client of Mindustry. 
 Many helpful displays and functionalities are supplemented based on the vanilla game. For more details about the add-ons, please check in the game.
 
-**This client will be developed synchronously with the original (Fetch each commit from the original)
-, and most releases will be published with the original at the same time.**
+~~**This client will be developed synchronously with the original (Fetch each commit from the original)
+, and most releases will be published with the original at the same time.**~~
+
+**Busy On Work, Irregular Update**
 
 ***
 
