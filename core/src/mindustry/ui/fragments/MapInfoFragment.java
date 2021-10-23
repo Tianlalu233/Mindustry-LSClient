@@ -121,10 +121,11 @@ public class MapInfoFragment extends Fragment{
         header.add(Core.bundle.get("rules." + "unitdamagemultiplier")).pad(5).row();
         header.add(Core.bundle.get("rules." + "unitbuildspeedmultiplier")).pad(5).row();
         header.marginRight(20);
-        teamTable.add(header);
 
+        teamTable.add(header);
         Seq<Teams.TeamData> activeTeam = currState.teams.getActive();
         Rules rules = currState.rules;
+        int count = 0;
         for (Teams.TeamData data : activeTeam) {
             Team team = data.team;
             if (team.id > 5) continue;
@@ -137,8 +138,10 @@ public class MapInfoFragment extends Fragment{
             tt.add(String.valueOf(rules.unitBuildSpeed(team))).color(team.color).pad(5).row();
             tt.marginRight(10);
             teamTable.add(tt);
+            count++;
         }
-        return teamTable;
+
+        return count > 0 ? teamTable : new Table();
     }
 
     private void addMapAttr(Table t, String name, boolean open) {

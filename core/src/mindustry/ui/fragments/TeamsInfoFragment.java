@@ -51,6 +51,7 @@ public class TeamsInfoFragment extends Fragment {
                         rowTable.add(new Image(unitType.uiIcon)).size(15).pad(3);
                         boolean hasATeam = false;
                         for (TeamData data : teamData) {
+                            if (data.team.equals(Team.derelict)) continue;
                             int num = data.countType(unitType);
                             rowTable.add(UI.formatAmount(num)).color(data.team.color).size(15).pad(3).padRight(35);
                             if (num > 0) {
