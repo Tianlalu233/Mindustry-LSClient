@@ -10,7 +10,8 @@ import arc.util.*;
 import arc.util.io.*;
 import mindustry.annotations.Annotations.*;
 import mindustry.content.*;
-import mindustry.core.UI;
+import mindustry.entities.*;
+import mindustry.core.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
@@ -32,13 +33,16 @@ public class ForceProjector extends Block{
     public float cooldownNormal = 1.75f;
     public float cooldownLiquid = 1.5f;
     public float cooldownBrokenBase = 0.35f;
+    public Effect absorbEffect = Fx.absorb;
+    public Effect shieldBreakEffect = Fx.shieldBreak;
     public @Load("@-top") TextureRegion topRegion;
 
     static ForceBuild paramEntity;
+    static Effect paramEffect;
     static final Cons<Bullet> shieldConsumer = trait -> {
         if(trait.team != paramEntity.team && trait.type.absorbable && Intersector.isInsideHexagon(paramEntity.x, paramEntity.y, paramEntity.realRadius() * 2f, trait.x(), trait.y())){
             trait.absorb();
-            Fx.absorb.at(trait);
+            paramEffect.at(trait);
             paramEntity.hit = 1f;
             paramEntity.buildup += trait.damage();
         }
@@ -55,6 +59,7 @@ public class ForceProjector extends Block{
         ambientSound = Sounds.shield;
         ambientSoundVolume = 0.08f;
         consumes.add(new ConsumeCoolant(0.1f)).boost().update(false);
+        envEnabled |= Env.space;
     }
 
     @Override
@@ -162,7 +167,7 @@ public class ForceProjector extends Block{
             if(buildup >= shieldHealth + phaseShieldBoost * phaseHeat && !broken){
                 broken = true;
                 buildup = shieldHealth;
-                Fx.shieldBreak.at(x, y, realRadius(), team.color);
+                shieldBreakEffect.at(x, y, realRadius(), team.color);
             }
 
             if(hit > 0f){
@@ -173,6 +178,7 @@ public class ForceProjector extends Block{
 
             if(realRadius > 0 && !broken){
                 paramEntity = this;
+                paramEffect = absorbEffect;
                 Groups.bullet.intersect(x - realRadius, y - realRadius, realRadius * 2f, realRadius * 2f, shieldConsumer);
             }
         }

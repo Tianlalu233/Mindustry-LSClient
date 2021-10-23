@@ -22,7 +22,7 @@ import static mindustry.Vars.*;
 
 public class Conveyor extends Block implements Autotiler{
     private static final float itemSpace = 0.4f;
-    private static final int capacity = 4;
+    private static final int capacity = 3;
 
     final Vec2 tr1 = new Vec2();
     final Vec2 tr2 = new Vec2();
@@ -40,7 +40,7 @@ public class Conveyor extends Block implements Autotiler{
         update = true;
         group = BlockGroup.transportation;
         hasItems = true;
-        itemCapacity = 4;
+        itemCapacity = capacity;
         conveyorPlacement = true;
 
         ambientSound = Sounds.conveyor;
@@ -163,8 +163,8 @@ public class Conveyor extends Block implements Autotiler{
                 tr2.trns(rotation * 90, -tilesize / 2f, xs[i] * tilesize / 2f);
 
                 Draw.rect(item.fullIcon,
-                    (tile.x * tilesize + tr1.x * ys[i] + tr2.x),
-                    (tile.y * tilesize + tr1.y * ys[i] + tr2.y),
+                    (x + tr1.x * ys[i] + tr2.x),
+                    (y + tr1.y * ys[i] + tr2.y),
                     itemSize, itemSize);
             }
         }
@@ -323,7 +323,7 @@ public class Conveyor extends Block implements Autotiler{
 
         @Override
         public void handleStack(Item item, int amount, Teamc source){
-            amount = Math.min(amount, itemCapacity - len);
+            amount = Math.min(amount, capacity - len);
 
             for(int i = amount - 1; i >= 0; i--){
                 add(0);

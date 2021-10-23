@@ -19,6 +19,7 @@ public class MemoryBlock extends Block{
         configurable = true;
         group = BlockGroup.logic;
         drawDisabled = false;
+        envEnabled = Env.any;
     }
 
     @Override

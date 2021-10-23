@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.*;
+import mindustry.content.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -35,7 +36,7 @@ public abstract class BlockProducer extends PayloadBlock{
 
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{region, outRegion};
+        return new TextureRegion[]{region, outRegion, topRegion};
     }
 
     @Override
@@ -49,6 +50,14 @@ public abstract class BlockProducer extends PayloadBlock{
     public void drawRequestRegion(BuildPlan req, Eachable<BuildPlan> list){
         Draw.rect(region, req.drawx(), req.drawy());
         Draw.rect(outRegion, req.drawx(), req.drawy(), req.rotation * 90);
+        Draw.rect(topRegion, req.drawx(), req.drawy());
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        bars.add("progress", (BlockProducerBuild entity) -> new Bar("bar.progress", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildCost)));
     }
 
     public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
@@ -86,6 +95,7 @@ public abstract class BlockProducer extends PayloadBlock{
                 if(progress >= recipe.buildCost){
                     consume();
                     payload = new BuildPayload(recipe, team);
+                    Fx.placeBlock.at(x, y, payload.size() / tilesize);
                     payVector.setZero();
                     progress %= 1f;
                 }
@@ -110,6 +120,7 @@ public abstract class BlockProducer extends PayloadBlock{
 
                     for(TextureRegion region : recipe.getGeneratedIcons()){
                         Shaders.blockbuild.region = region;
+                        Shaders.blockbuild.time = time;
                         Shaders.blockbuild.progress = progress / recipe.buildCost;
 
                         Draw.rect(region, x, y, recipe.rotate ? rotdeg() : 0);
@@ -127,6 +138,9 @@ public abstract class BlockProducer extends PayloadBlock{
             }
 
             drawPayload();
+
+            Draw.z(Layer.blockBuilding + 1.1f);
+            Draw.rect(topRegion, x, y);
         }
 
         @Override
