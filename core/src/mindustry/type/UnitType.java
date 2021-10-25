@@ -746,7 +746,7 @@ public class UnitType extends UnlockableContent{
     }
 
     public void drawSoftShadow(Unit unit){
-        drawSoftShadow(unit, 1f);
+        drawSoftShadow(unit, getUnitTransparency());
     }
 
     public void drawSoftShadow(Unit unit, float alpha){
@@ -764,10 +764,10 @@ public class UnitType extends UnlockableContent{
         if(unit.item() != null && unit.itemTime > 0.01f){
             float size = (itemSize + Mathf.absin(Time.time, 5f, 1f)) * unit.itemTime;
             Color color = new Color(Pal.accent);
-            color.a = Core.settings.getInt("unittransparency") / 100f;
+            color.a = getUnitTransparency();
 
             Draw.mixcol(color, Mathf.absin(Time.time, 5f, 0.1f));
-            Draw.color(Draw.getColor(), Core.settings.getInt("unittransparency") / 100f);
+            Draw.color(Draw.getColor(), getUnitTransparency());
             Draw.rect(unit.item().fullIcon,
             unit.x + Angles.trnsx(unit.rotation + 180f, itemOffsetY),
             unit.y + Angles.trnsy(unit.rotation + 180f, itemOffsetY),
@@ -803,7 +803,7 @@ public class UnitType extends UnlockableContent{
             Trail trail = ((Trailc)unit).trail();
             trail.draw(unit.team.color, (engineSize + Mathf.absin(Time.time, 2f, engineSize / 4f) * scale) * trailScl);
         }
-        float alpha = Core.settings.getInt("unittransparency") / 100f;
+        float alpha = getUnitTransparency();
         Draw.color(unit.team.color, alpha);
         Fill.circle(
             unit.x + Angles.trnsx(unit.rotation + 180, offset),
@@ -842,7 +842,7 @@ public class UnitType extends UnlockableContent{
     public void drawWeaponOutlines(Unit unit){
         applyColor(unit);
         applyOutlineColor(unit);
-        Draw.color(Draw.getColor(), Core.settings.getInt("unittransparency") / 100f);
+        Draw.color(Draw.getColor(), getUnitTransparency());
         for(WeaponMount mount : unit.mounts){
             if(!mount.weapon.top){
                 mount.weapon.drawOutline(unit, mount);
@@ -868,7 +868,7 @@ public class UnitType extends UnlockableContent{
         if(Core.atlas.isFound(outlineRegion)){
             applyColor(unit);
             applyOutlineColor(unit);
-            Draw.color(Draw.getColor(), Core.settings.getInt("unittransparency") / 100f);
+            Draw.color(Draw.getColor(), getUnitTransparency());
             Draw.rect(outlineRegion, unit.x, unit.y, unit.rotation - 90);
             Draw.reset();
         }
@@ -876,7 +876,7 @@ public class UnitType extends UnlockableContent{
 
     public void drawBody(Unit unit){
         applyColor(unit);
-        Draw.color(Draw.getColor(), Core.settings.getInt("unittransparency") / 100f);
+        Draw.color(Draw.getColor(), getUnitTransparency());
         Draw.rect(region, unit.x, unit.y, unit.rotation - 90);
 
         Draw.reset();
@@ -893,7 +893,7 @@ public class UnitType extends UnlockableContent{
     public Color cellColor(Unit unit){
         float f = Mathf.clamp(unit.healthf());
         Color cellColor = Tmp.c1.set(Color.black).lerp(unit.team.color, f + Mathf.absin(Time.time, Math.max(f * 5f, 1f), 1f - f));
-        cellColor.a = Core.settings.getInt("unittransparency") / 100f;
+        cellColor.a = getUnitTransparency();
         return cellColor;
     }
 
@@ -936,7 +936,7 @@ public class UnitType extends UnlockableContent{
                 Draw.rect(footRegion, leg.base.x + shadowTX * elev, leg.base.y + shadowTY * elev, position.angleTo(leg.base));
                 Draw.color();
             }
-            Draw.color(Draw.getColor(), Math.min(Core.settings.getInt("unittransparency"), Core.settings.getInt("unitlegtransparency")) / 100f);
+            Draw.color(Draw.getColor(), getLegTransparency());
 
             Draw.mixcol(Tmp.c3, Tmp.c3.a);
 
@@ -958,7 +958,7 @@ public class UnitType extends UnlockableContent{
         }
 
         if(baseRegion.found()){
-            Draw.color(Draw.getColor(), Core.settings.getInt("unittransparency") / 100f);
+            Draw.color(Draw.getColor(), getUnitTransparency());
             Draw.rect(baseRegion, unit.x, unit.y, rotation - 90);
         }
 
@@ -984,7 +984,7 @@ public class UnitType extends UnlockableContent{
 
         for(int i : Mathf.signs){
             Draw.mixcol(Tmp.c1.set(mechLegColor).lerp(Color.white, Mathf.clamp(unit.hitTime)), Math.max(Math.max(0, i * extension / mechStride), unit.hitTime));
-            Draw.color(Draw.getColor(), Math.min(Core.settings.getInt("unittransparency"), Core.settings.getInt("unitlegtransparency")) / 100f);
+            Draw.color(Draw.getColor(), getLegTransparency());
             Draw.rect(legRegion,
             unit.x + Angles.trnsx(mech.baseRotation(), extension * i - boostTrns, -boostTrns*i),
             unit.y + Angles.trnsy(mech.baseRotation(), extension * i - boostTrns, -boostTrns*i),
@@ -1000,7 +1000,7 @@ public class UnitType extends UnlockableContent{
         }else{
             Draw.color(Color.white);
         }
-        Draw.color(Draw.getColor(), Math.min(Core.settings.getInt("unittransparency"), Core.settings.getInt("unitlegtransparency")) / 100f);
+        Draw.color(Draw.getColor(), getLegTransparency());
         Draw.rect(baseRegion, unit, mech.baseRotation() - 90);
 
         Draw.mixcol();
@@ -1030,4 +1030,11 @@ public class UnitType extends UnlockableContent{
 
     //endregion
 
+    private float getUnitTransparency() {
+        return Core.settings.getInt("unittransparency") / 100f;
+    }
+
+    private float getLegTransparency() {
+        return getUnitTransparency() * Core.settings.getInt("unitlegtransparency") / 100f;
+    }
 }
