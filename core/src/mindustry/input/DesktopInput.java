@@ -721,7 +721,7 @@ public class DesktopInput extends InputHandler{
                 lookAtAngle = unit.angleTo(intercept);
             }
         }
-        if (unit.type.rotateShooting && unit.type.faceTarget) {
+        if (unit.type.rotateShooting && unit.type.faceTarget && unit.isShooting) {
             unit.lookAt(lookAtAngle);
         }
         else {
