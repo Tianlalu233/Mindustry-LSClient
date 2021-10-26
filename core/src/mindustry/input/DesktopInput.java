@@ -678,7 +678,7 @@ public class DesktopInput extends InputHandler{
             movement.add(input.mouseWorld().sub(player).scl(1f / 25f * speed)).limit(speed);
         }
 
-        boolean busy = unit.mining() || unit.isBuilding();
+        boolean busy = unit.mining() || unit.activelyBuilding();
         boolean manualShoot = omni && Core.input.keyDown(Binding.select) && !busy && unit.type.hasWeapons() && !boosted;
 
         float mouseX = unit.aimX(), mouseY = unit.aimY();
@@ -721,7 +721,7 @@ public class DesktopInput extends InputHandler{
                 lookAtAngle = unit.angleTo(intercept);
             }
         }
-        if (unit.type.rotateShooting && unit.type.faceTarget) {
+        if (unit.type.rotateShooting && unit.type.faceTarget && unit.isShooting) {
             unit.lookAt(lookAtAngle);
         }
         else {
