@@ -55,8 +55,6 @@ public class DesktopInput extends InputHandler{
     public @Nullable Teamc target;
     public @Nullable Teamc lastTarget;
     public float crosshairScale;
-    /** If shooting is auto-target. */
-    public boolean autoShooting = false;
 
     boolean showHint(){
         return ui.hudfrag.shown && Core.settings.getBool("hints") && selectRequests.isEmpty() &&
@@ -681,15 +679,14 @@ public class DesktopInput extends InputHandler{
         }
 
         boolean busy = unit.mining() || unit.isBuilding();
-        boolean manualShoot = omni && Core.input.keyDown(Binding.select) && !busy && unit.type.hasWeapons() && unit.type.faceTarget && !boosted && unit.type.rotateShooting;
+        boolean manualShoot = omni && Core.input.keyDown(Binding.select) && !busy && unit.type.hasWeapons() && !boosted;
 
         float mouseX = unit.aimX(), mouseY = unit.aimY();
         Vec2 aimPos = unit.type.faceTarget ? Core.input.mouseWorld() : Tmp.v1.trns(unit.rotation, Core.input.mouseWorld().dst(unit)).add(unit.x, unit.y);
 
-        if(manualShoot){
-            unit.lookAt(Angles.mouseAngle(unit.x, unit.y));
-        }
-        else if (Core.settings.getBool("autotarget") && !busy) {
+        float lookAtAngle = Angles.mouseAngle(unit.x, unit.y);
+
+        if (!manualShoot && Core.settings.getBool("autotarget") && !busy) {
             UnitType type = unit.type;
 
             if(target != null) {
@@ -712,7 +709,6 @@ public class DesktopInput extends InputHandler{
                         }
                     }
                 }
-                unit.lookAt(unit.prefRotation());
             }
             else {
                 Vec2 intercept = Predict.intercept(unit, target, unit.hasWeapons() ? type.weapons.first().bullet.speed : 0f);
@@ -722,8 +718,11 @@ public class DesktopInput extends InputHandler{
                 player.shooting = !boosted;
 
                 aimPos = intercept;
-                unit.lookAt(intercept);
+                lookAtAngle = unit.angleTo(intercept);
             }
+        }
+        if (unit.type.rotateShooting && unit.type.faceTarget) {
+            unit.lookAt(lookAtAngle);
         }
         else {
             unit.lookAt(unit.prefRotation());
