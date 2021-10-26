@@ -666,7 +666,8 @@ public class DesktopInput extends InputHandler{
     protected void updateMovement(Unit unit){
         if (useAIControl(unit)) return;
 
-        boolean omni = unit.type.omniMovement;
+        UnitType type = unit.type;
+        boolean omni = type.omniMovement;
 
         float speed = unit.speed();
         float xa = Core.input.axis(Binding.move_x);
@@ -679,23 +680,21 @@ public class DesktopInput extends InputHandler{
         }
 
         boolean busy = unit.mining() || unit.activelyBuilding();
-        boolean manualShoot = omni && Core.input.keyDown(Binding.select) && !busy && unit.type.hasWeapons() && !boosted;
+        boolean manualShoot = omni && Core.input.keyDown(Binding.select) && !busy && type.hasWeapons() && !boosted;
 
         float mouseX = unit.aimX(), mouseY = unit.aimY();
-        Vec2 aimPos = unit.type.faceTarget ? Core.input.mouseWorld() : Tmp.v1.trns(unit.rotation, Core.input.mouseWorld().dst(unit)).add(unit.x, unit.y);
+        Vec2 aimPos = type.faceTarget ? Core.input.mouseWorld() : Tmp.v1.trns(unit.rotation, Core.input.mouseWorld().dst(unit)).add(unit.x, unit.y);
 
         float lookAtAngle = Angles.mouseAngle(unit.x, unit.y);
 
-        if (!manualShoot && Core.settings.getBool("autotarget") && !busy) {
-            UnitType type = unit.type;
-
-            if(target != null) {
-                boolean validHealTarget = type.canHeal && target instanceof Building b && b.isValid() && target.team() == unit.team && b.damaged() && target.within(unit, type.range);
-                if ((Units.invalidateTarget(target, unit, type.range) && !validHealTarget) || state.isEditor()) {
-                    target = null;
-                }
+        if(target != null) {
+            boolean validHealTarget = type.canHeal && target instanceof Building b && b.isValid() && target.team() == unit.team && b.damaged() && target.within(unit, type.range);
+            if ((Units.invalidateTarget(target, unit, type.range) && !validHealTarget) || state.isEditor()) {
+                target = null;
             }
+        }
 
+        if (!manualShoot && Core.settings.getBool("autotarget") && !busy) {
             if (target == null) {
                 float range = unit.hasWeapons() ? unit.range() : 0f;
                 player.shooting = false;
@@ -721,7 +720,7 @@ public class DesktopInput extends InputHandler{
                 lookAtAngle = unit.angleTo(intercept);
             }
         }
-        if (unit.type.rotateShooting && unit.type.faceTarget && unit.isShooting) {
+        if (type.rotateShooting && type.faceTarget && unit.isShooting) {
             unit.lookAt(lookAtAngle);
         }
         else {
@@ -748,7 +747,7 @@ public class DesktopInput extends InputHandler{
         }
 
         //update commander unit
-        if(Core.input.keyTap(Binding.command) && unit.type.commandLimit > 0){
+        if(Core.input.keyTap(Binding.command) && type.commandLimit > 0){
             Call.unitCommand(player);
         }
     }
