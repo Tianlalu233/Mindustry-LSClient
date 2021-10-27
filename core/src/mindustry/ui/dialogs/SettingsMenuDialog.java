@@ -481,6 +481,7 @@ public class SettingsMenuDialog extends BaseDialog{
         advance.checkPref("unittargetline", false);
         advance.checkPref("unithealthline", false);
         advance.checkPref("playertargetline", false);
+        advance.checkPref("hideminebeam", false);
         if (!mobile) advance.checkPref("unitstat", false);
         advance.checkPref("showunititemsamount", false);
         advance.addCategory("cheat");

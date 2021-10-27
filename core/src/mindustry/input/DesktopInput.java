@@ -667,7 +667,6 @@ public class DesktopInput extends InputHandler{
         if (useAIControl(unit)) return;
 
         UnitType type = unit.type;
-        boolean omni = type.omniMovement;
 
         float speed = unit.speed();
         float xa = Core.input.axis(Binding.move_x);
@@ -680,7 +679,7 @@ public class DesktopInput extends InputHandler{
         }
 
         boolean busy = unit.mining() || unit.activelyBuilding();
-        boolean manualShoot = omni && Core.input.keyDown(Binding.select) && !busy && type.hasWeapons() && !boosted;
+        boolean manualShoot = Core.input.keyDown(Binding.select) && !busy && type.hasWeapons() && !boosted;
 
         float mouseX = unit.aimX(), mouseY = unit.aimY();
         Vec2 aimPos = type.faceTarget ? Core.input.mouseWorld() : Tmp.v1.trns(unit.rotation, Core.input.mouseWorld().dst(unit)).add(unit.x, unit.y);
@@ -719,6 +718,9 @@ public class DesktopInput extends InputHandler{
                 aimPos = intercept;
                 lookAtAngle = unit.angleTo(intercept);
             }
+        }
+        else {
+            target = null;
         }
         if (type.rotateShooting && type.faceTarget && unit.isShooting) {
             unit.lookAt(lookAtAngle);
