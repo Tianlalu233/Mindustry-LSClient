@@ -350,7 +350,7 @@ public class Turret extends ReloadTurret{
             if(targetAir && !targetGround){
                 target = Units.bestEnemy(team, x, y, range, e -> !e.dead() && !e.isGrounded(), unitSort);
             }else{
-                target = Units.bestTarget(team, x, y, range, e -> !e.dead() && (e.isGrounded() || targetAir) && (!e.isGrounded() || targetGround), b -> true, unitSort);
+                target = Units.bestTarget(team, x, y, range, e -> !e.dead() && (e.isGrounded() || targetAir) && (!e.isGrounded() || targetGround), b -> targetGround, unitSort);
 
                 if(target == null && canHeal()){
                     target = Units.findAllyTile(team, x, y, range, b -> b.damaged() && b != this);
@@ -417,7 +417,7 @@ public class Turret extends ReloadTurret{
 
                 for(int i = 0; i < chargeEffects; i++){
                     Time.run(Mathf.random(chargeMaxDelay), () -> {
-                        if(!isValid()) return;
+                        if(dead) return;
                         tr.trns(rotation, shootLength);
                         chargeEffect.at(x + tr.x, y + tr.y, rotation);
                     });
@@ -426,7 +426,7 @@ public class Turret extends ReloadTurret{
                 charging = true;
 
                 Time.run(chargeTime, () -> {
-                    if(!isValid()) return;
+                    if(dead) return;
                     tr.trns(rotation, shootLength);
                     recoil = recoilAmount;
                     heat = 1f;
@@ -440,7 +440,7 @@ public class Turret extends ReloadTurret{
                 for(int i = 0; i < shots; i++){
                     int ii = i;
                     Time.run(burstSpacing * i, () -> {
-                        if(!isValid() || !hasAmmo()) return;
+                        if(dead || !hasAmmo()) return;
 
                         recoil = recoilAmount;
 
@@ -500,7 +500,7 @@ public class Turret extends ReloadTurret{
         }
 
         protected void ejectEffects(){
-            if(!isValid()) return;
+            if(dead) return;
 
             //alternate sides when using a double turret
             float scl = (shots == 2 && alternate && shotCounter % 2 == 1 ? -1f : 1f);
