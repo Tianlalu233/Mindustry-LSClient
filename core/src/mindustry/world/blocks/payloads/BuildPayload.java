@@ -93,6 +93,17 @@ public class BuildPayload implements Payload{
         float prevZ = Draw.z();
         Draw.zTransform(z -> 0.0011f + Mathf.clamp(z, prevZ - 0.001f, prevZ + 0.9f));
         build.payloadDraw();
+        Draw.z(Layer.block);
+        if(build.damaged()){
+            build.drawCracks();
+        }
+        if(build.team != player.team()){
+            build.drawTeam();
+        }
+        if(renderer.drawStatus && build.block.consumes.any()){
+            build.drawStatus();
+        }
+        Draw.reset();
         Draw.zTransform();
     }
 
