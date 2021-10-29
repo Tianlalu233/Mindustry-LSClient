@@ -102,8 +102,8 @@ public class MapInfoFragment extends Fragment{
         addMapAttr(table2, "unitdamagemultiplier", currState.rules.unitDamageMultiplier);
         addMapAttr(table2, "blockhealthmultiplier", currState.rules.blockHealthMultiplier);
         addMapAttr(table2, "blockdamagemultiplier", currState.rules.blockDamageMultiplier);
-        addMapAttr(table2, "buildcostmultiplier", currState.rules.buildCostMultiplier);
         addMapAttr(table2, "buildspeedmultiplier", currState.rules.buildSpeedMultiplier);
+        addMapAttr(table2, "buildcostmultiplier", currState.rules.buildCostMultiplier);
         addMapAttr(table2, "deconstructrefundmultiplier", currState.rules.deconstructRefundMultiplier);
         global.add(table1).pad(10);
         global.add(table2).pad(10);
@@ -115,11 +115,11 @@ public class MapInfoFragment extends Fragment{
 
         Table header = new Table();
         header.add(Core.bundle.get("rules." + "infiniteresources")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "unitdamagemultiplier")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "unitbuildspeedmultiplier")).pad(5).row();
         header.add(Core.bundle.get("rules." + "blockhealthmultiplier")).pad(5).row();
         header.add(Core.bundle.get("rules." + "blockdamagemultiplier")).pad(5).row();
         header.add(Core.bundle.get("rules." + "buildspeedmultiplier")).pad(5).row();
-        header.add(Core.bundle.get("rules." + "unitdamagemultiplier")).pad(5).row();
-        header.add(Core.bundle.get("rules." + "unitbuildspeedmultiplier")).pad(5).row();
         header.marginRight(20);
 
         teamTable.add(header);

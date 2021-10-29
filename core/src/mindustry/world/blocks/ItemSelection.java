@@ -20,14 +20,18 @@ public class ItemSelection{
     }
 
     public static <T extends UnlockableContent> void buildTable(Block block, Table table, Seq<T> items, Prov<T> holder, Cons<T> consumer){
-        buildTable(block, table, items, holder, consumer, true);
+        buildTable(block, table, items, holder, consumer, true, 4);
+    }
+
+    public static <T extends UnlockableContent> void buildTable(Block block, Table table, Seq<T> items, Prov<T> holder, Cons<T> consumer, int column){
+        buildTable(block, table, items, holder, consumer, true, column);
     }
 
     public static <T extends UnlockableContent> void buildTable(Table table, Seq<T> items, Prov<T> holder, Cons<T> consumer, boolean closeSelect){
-        buildTable(null, table, items, holder, consumer, closeSelect);
+        buildTable(null, table, items, holder, consumer, closeSelect, 4);
     }
-    
-    public static <T extends UnlockableContent> void buildTable(@Nullable Block block, Table table, Seq<T> items, Prov<T> holder, Cons<T> consumer, boolean closeSelect){
+
+    public static <T extends UnlockableContent> void buildTable(@Nullable Block block, Table table, Seq<T> items, Prov<T> holder, Cons<T> consumer, boolean closeSelect, int column){
 
         ButtonGroup<ImageButton> group = new ButtonGroup<>();
         group.setMinCheckCount(0);
@@ -46,14 +50,14 @@ public class ItemSelection{
             button.getStyle().imageUp = new TextureRegionDrawable(item.uiIcon);
             button.update(() -> button.setChecked(holder.get() == item));
 
-            if(i++ % 4 == 3){
+            if(i++ % column == column - 1){
                 cont.row();
             }
         }
 
         //add extra blank spaces so it looks nice
-        if(i % 4 != 0){
-            int remaining = 4 - (i % 4);
+        if(i % column != 0){
+            int remaining = column - (i % column);
             for(int j = 0; j < remaining; j++){
                 cont.image(Styles.black6);
             }
@@ -70,6 +74,6 @@ public class ItemSelection{
         }
 
         pane.setOverscroll(false, false);
-        table.add(pane).maxHeight(Scl.scl(40 * 5));
+        table.add(pane).maxHeight(Scl.scl(40 * 8));
     }
 }

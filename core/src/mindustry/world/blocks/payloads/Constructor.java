@@ -44,7 +44,7 @@ public class Constructor extends BlockProducer{
     public boolean canProduce(Block b){
         return b.isVisible() && b.size >= minBlockSize && b.size <= maxBlockSize && !(b instanceof CoreBlock) && !state.rules.bannedBlocks.contains(b);
     }
-    
+
     public class ConstructorBuild extends BlockProducerBuild{
         public @Nullable Block recipe;
 
@@ -55,7 +55,7 @@ public class Constructor extends BlockProducer{
 
         @Override
         public void buildConfiguration(Table table){
-            ItemSelection.buildTable(Constructor.this, table, content.blocks().select(Constructor.this::canProduce), () -> recipe, this::configure);
+            ItemSelection.buildTable(Constructor.this, table, content.blocks().select(Constructor.this::canProduce), () -> recipe, this::configure, 8);
         }
 
         @Override
@@ -73,7 +73,7 @@ public class Constructor extends BlockProducer{
         public Object config(){
             return recipe;
         }
-        
+
         @Override
         public void drawSelect(){
             if(recipe != null){

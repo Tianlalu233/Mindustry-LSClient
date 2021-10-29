@@ -77,7 +77,7 @@ public class PayloadSource extends PayloadBlock{
     public boolean canProduce(UnitType t){
         return !t.isHidden() && !t.isBanned();
     }
-    
+
     public class PayloadSourceBuild extends PayloadBlockBuild<Payload>{
         public UnitType unit;
         public Block block;
@@ -88,7 +88,7 @@ public class PayloadSource extends PayloadBlock{
             ItemSelection.buildTable(PayloadSource.this, table,
                 content.blocks().select(PayloadSource.this::canProduce).<UnlockableContent>as()
                 .and(content.units().select(PayloadSource.this::canProduce).as()),
-            () -> (UnlockableContent)config(), this::configure);
+            () -> (UnlockableContent)config(), this::configure, 8);
         }
 
         @Override
