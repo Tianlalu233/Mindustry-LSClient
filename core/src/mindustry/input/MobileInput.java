@@ -277,6 +277,7 @@ public class MobileInput extends InputHandler implements GestureListener{
                 b.button(Icon.flipY, style, () -> flipRequests(selectRequests, false));
                 b.row();
                 b.button(Icon.rotate, style, () -> rotateRequests(selectRequests, 1));
+                b.button(Icon.info, style, this::showSchematicPreview).disabled(f -> lastSchematic == null || lastSchematic.file != null);
 
             }).margin(4f);
         });

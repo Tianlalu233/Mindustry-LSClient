@@ -635,6 +635,11 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
         });
     }
 
+    protected void showSchematicPreview() {
+        if (lastSchematic == null) return;
+        ui.schematics.showInfo(lastSchematic);
+    }
+
     public void rotateRequests(Seq<BuildPlan> requests, int direction){
         int ox = schemOriginX(), oy = schemOriginY();
 

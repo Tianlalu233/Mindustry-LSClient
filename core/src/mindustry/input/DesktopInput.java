@@ -105,6 +105,10 @@ public class DesktopInput extends InputHandler{
                 b.table(a -> {
                     a.button("@schematic.add", Icon.save, this::showSchematicSave).colspan(2).size(250f, 50f).disabled(f -> lastSchematic == null || lastSchematic.file != null);
                 });
+                b.row();
+                b.table(a -> {
+                    a.button("@schematic.preview", Icon.info, this::showSchematicPreview).colspan(2).size(250f, 50f).disabled(f -> lastSchematic == null || lastSchematic.file != null);
+                });
             }).margin(6f);
         });
     }
