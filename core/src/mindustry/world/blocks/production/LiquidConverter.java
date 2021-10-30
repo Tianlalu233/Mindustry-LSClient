@@ -1,6 +1,9 @@
 package mindustry.world.blocks.production;
 
+import arc.Core;
 import arc.math.*;
+import mindustry.graphics.*;
+import mindustry.ui.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
@@ -33,6 +36,16 @@ public class LiquidConverter extends GenericCrafter{
         super.setStats();
         stats.remove(Stat.output);
         stats.add(Stat.output, outputLiquid.liquid, outputLiquid.amount * 60f, true);
+    }
+
+    @Override
+    public void setBars() {
+        super.setBars();
+        bars.add("progress", (GenericCrafterBuild e) ->
+                new Bar(() -> Core.bundle.format("bar.progress", Math.round(e.progress / craftTime * 100)),
+                        () -> Pal.ammo,
+                        () -> e.progress / craftTime)
+        );
     }
 
     public class LiquidConverterBuild extends GenericCrafterBuild{

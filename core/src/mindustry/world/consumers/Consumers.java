@@ -54,6 +54,10 @@ public class Consumers{
         return get(ConsumeType.item);
     }
 
+    public ConsumeLiquid getLiquid(){
+        return get(ConsumeType.liquid);
+    }
+
     public boolean hasPower(){
         return has(ConsumeType.power);
     }

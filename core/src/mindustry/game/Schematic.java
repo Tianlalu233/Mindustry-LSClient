@@ -8,6 +8,7 @@ import mindustry.mod.Mods.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
+import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.consumers.*;
 
@@ -49,6 +50,61 @@ public class Schematic implements Publishable, Comparable<Schematic>{
         });
 
         return requirements;
+    }
+
+    public ObjectFloatMap<Item> itemIO() {
+        ObjectFloatMap<Item> items = new ObjectFloatMap<>(content.items().size << 1);
+        tiles.each(t -> {
+            if (t.block instanceof GenericCrafter gc) {
+                if (gc.consumes.has(ConsumeType.item)) {
+                    for (ItemStack stack : gc.consumes.getItem().items) {
+                       Item item = stack.item;
+                       items.put(item, items.get(item, 0) - stack.amount * 60f / gc.craftTime);
+                    }
+                }
+                if (gc.outputItems != null) {
+                    for (ItemStack stack : gc.outputItems) {
+                        Item item = stack.item;
+                        items.put(item, items.get(item, 0) + stack.amount * 60f / gc.craftTime);
+                    }
+                }
+            }
+            else if (t.block instanceof Separator s) {
+                if (s.consumes.has(ConsumeType.item)) {
+                    for (ItemStack stack : s.consumes.getItem().items) {
+                        Item item = stack.item;
+                        items.put(item, items.get(item, 0) - stack.amount * 60f / s.craftTime);
+                    }
+                }
+            }
+        });
+        return items;
+    }
+
+    public ObjectFloatMap<Liquid> liquidIO() {
+        ObjectFloatMap<Liquid> liquids = new ObjectFloatMap<>(content.items().size << 1);
+        tiles.each(t -> {
+            if (t.block instanceof GenericCrafter gc) {
+                if (gc.consumes.has(ConsumeType.liquid)) {
+                    ConsumeLiquid consumeLiquid = gc.consumes.getLiquid();
+                    Liquid liquid = consumeLiquid.liquid;
+                    if (gc instanceof LiquidConverter) liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
+                    else liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f / gc.craftTime);
+                }
+
+                if (gc.outputLiquid != null) {
+                    LiquidStack stack = gc.outputLiquid;
+                    if (gc instanceof LiquidConverter) liquids.put(stack.liquid, liquids.get(stack.liquid, 0) + stack.amount * 60f);
+                    else liquids.put(stack.liquid, liquids.get(stack.liquid, 0) + stack.amount * 60f / gc.craftTime);
+                }
+            }
+            else if (t.block instanceof Separator s) {
+                ConsumeLiquid consumeLiquid = s.consumes.getLiquid();
+                Liquid liquid = consumeLiquid.liquid;
+                liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
+            }
+        });
+        return liquids;
     }
 
     public boolean hasCore(){

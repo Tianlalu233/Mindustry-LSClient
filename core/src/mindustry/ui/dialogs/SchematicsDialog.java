@@ -23,6 +23,7 @@ import mindustry.graphics.*;
 import mindustry.input.*;
 import mindustry.type.*;
 import mindustry.ui.*;
+import mindustry.world.meta.*;
 
 import java.util.regex.*;
 
@@ -756,6 +757,30 @@ public class SchematicsDialog extends BaseDialog{
                     }
                 });
             }
+            cont.row();
+            ObjectFloatMap<Item> itemIO = schem.itemIO();
+            ObjectFloatMap<Liquid> liquidIO = schem.liquidIO();
+            cont.table(r -> {
+                int i = 0;
+                for(Item item : itemIO.keys()){
+                    r.image(item.uiIcon).left().size(iconMed);
+                    r.label(
+                            () -> (itemIO.get(item, 0) > 0 ? "+" : "") + Strings.autoFixed(itemIO.get(item, 0), 2) + StatUnit.perSecond.localized()
+                    ).padLeft(2).left().padRight(5).color(Color.lightGray);
+                    if(++i % 4 == 0){
+                        r.row();
+                    }
+                }
+                for (Liquid liquid : liquidIO.keys()) {
+                    r.image(liquid.uiIcon).left().size(iconMed);
+                    r.label(
+                            () -> (liquidIO.get(liquid, 0) > 0 ? "+" : "") + Strings.autoFixed(liquidIO.get(liquid, 0), 2) + StatUnit.perSecond.localized()
+                    ).padLeft(2).left().padRight(5).color(Color.lightGray);
+                    if(++i % 4 == 0){
+                        r.row();
+                    }
+                }
+            });
 
             show();
         }

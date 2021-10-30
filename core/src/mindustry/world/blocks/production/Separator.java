@@ -10,6 +10,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.type.*;
+import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
@@ -41,6 +42,16 @@ public class Separator extends Block{
 
         stats.add(Stat.output, StatValues.items(item -> Structs.contains(results, i -> i.item == item)));
         stats.add(Stat.productionTime, craftTime / 60f, StatUnit.seconds);
+    }
+
+    @Override
+    public void setBars() {
+        super.setBars();
+        bars.add("progress", (SeparatorBuild e) ->
+                new Bar(() -> Core.bundle.format("bar.progress", Math.round(e.progress * 100)),
+                        () -> Pal.ammo,
+                        () -> e.progress)
+        );
     }
 
     public class SeparatorBuild extends Building{
