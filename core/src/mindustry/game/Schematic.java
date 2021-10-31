@@ -77,6 +77,12 @@ public class Schematic implements Publishable, Comparable<Schematic>{
                     }
                 }
             }
+            else if (t.block instanceof Fracker f) {
+                for (ItemStack stack : f.consumes.getItem().items) {
+                    Item item = stack.item;
+                    items.put(item, items.get(item, 0) - stack.amount * f.itemUseTime / 60f);
+                }
+            }
         });
         return items;
     }
@@ -88,8 +94,7 @@ public class Schematic implements Publishable, Comparable<Schematic>{
                 if (gc.consumes.has(ConsumeType.liquid)) {
                     ConsumeLiquid consumeLiquid = gc.consumes.getLiquid();
                     Liquid liquid = consumeLiquid.liquid;
-                    if (gc instanceof LiquidConverter) liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
-                    else liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f / gc.craftTime);
+                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
                 }
 
                 if (gc.outputLiquid != null) {
@@ -102,6 +107,14 @@ public class Schematic implements Publishable, Comparable<Schematic>{
                 ConsumeLiquid consumeLiquid = s.consumes.getLiquid();
                 Liquid liquid = consumeLiquid.liquid;
                 liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
+            }
+            else if (t.block instanceof SolidPump sp) {
+                if (sp.consumes.has(ConsumeType.liquid)) {
+                    ConsumeLiquid consumeLiquid = sp.consumes.getLiquid();
+                    Liquid liquid = consumeLiquid.liquid;
+                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
+                }
+                liquids.put(sp.result, liquids.get(sp.result, 0) + sp.pumpAmount * 60f);
             }
         });
         return liquids;
