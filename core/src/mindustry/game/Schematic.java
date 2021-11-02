@@ -83,6 +83,31 @@ public class Schematic implements Publishable, Comparable<Schematic>{
                     items.put(item, items.get(item, 0) - stack.amount * f.itemUseTime / 60f);
                 }
             }
+            else if (t.block instanceof PowerGenerator) {
+                if (t.block instanceof ItemLiquidGenerator ilg) {
+                    if (t.block instanceof SingleTypeGenerator stg) {
+                        ItemStack itemStack = stg.consumes.getItem().items[0];
+                        items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / stg.itemDuration * 60f);
+                    }
+                    else {
+                        ConsumeItemFilter consumeItemFilter = ilg.consumes.get(ConsumeType.item);
+                        for (Item item : content.items()) {
+                            if (consumeItemFilter.filter.get(item)) {
+                                items.put(item, items.get(item, 0) - 60f / ilg.itemDuration);
+                                break;
+                            }
+                        }
+                    }
+                }
+                else if (t.block instanceof NuclearReactor nr) {
+                    ItemStack itemStack = nr.consumes.getItem().items[0];
+                    items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / nr.itemDuration * 60f);
+                }
+                else if (t.block instanceof ImpactReactor ir) {
+                    ItemStack itemStack = ir.consumes.getItem().items[0];
+                    items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / ir.itemDuration * 60f);
+                }
+            }
         });
         return items;
     }
@@ -115,6 +140,23 @@ public class Schematic implements Publishable, Comparable<Schematic>{
                     liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
                 }
                 liquids.put(sp.result, liquids.get(sp.result, 0) + sp.pumpAmount * 60f);
+            }
+            else if (t.block instanceof PowerGenerator) {
+                if (t.block instanceof ItemLiquidGenerator ilg && ilg.hasLiquids) {
+                    ConsumeLiquid consumeLiquid = ilg.consumes.getLiquid();
+                    Liquid liquid = consumeLiquid.liquid;
+                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
+                }
+                else if (t.block instanceof NuclearReactor nr) {
+                    ConsumeLiquid consumeLiquid = nr.consumes.getLiquid();
+                    Liquid liquid = consumeLiquid.liquid;
+                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
+                }
+                else if (t.block instanceof ImpactReactor ir) {
+                    ConsumeLiquid consumeLiquid = ir.consumes.getLiquid();
+                    Liquid liquid = consumeLiquid.liquid;
+                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
+                }
             }
         });
         return liquids;
