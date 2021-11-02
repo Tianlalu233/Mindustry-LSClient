@@ -1006,4 +1006,9 @@ public class Block extends UnlockableContent{
         packer.add(PageType.editor, name + "-icon-editor", editorBase);
     }
 
+    public void flipRotation(BuildPlan req, boolean x){
+        if(x == (req.rotation % 2 == 0)){
+            req.rotation = Mathf.mod(req.rotation + 2, 4);
+        }
+    }
 }
