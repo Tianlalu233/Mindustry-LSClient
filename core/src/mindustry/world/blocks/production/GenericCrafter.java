@@ -132,7 +132,7 @@ public class GenericCrafter extends Block{
                 totalProgress += delta();
                 warmup = Mathf.approachDelta(warmup, 1f, warmupSpeed);
 
-                if(Core.settings.getInt("blockrenderlevel") > 1 && Mathf.chanceDelta(updateEffectChance)){
+                if(Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal() && Mathf.chanceDelta(updateEffectChance)){
                     updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
                 }
             }else{
@@ -161,7 +161,7 @@ public class GenericCrafter extends Block{
                 handleLiquid(this, outputLiquid.liquid, outputLiquid.amount);
             }
 
-            if (Core.settings.getInt("blockrenderlevel") > 1) craftEffect.at(x, y);
+            if (Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) craftEffect.at(x, y);
             progress %= 1f;
         }
 
