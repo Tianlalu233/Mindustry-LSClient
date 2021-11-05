@@ -124,7 +124,7 @@ public class SolidPump extends Pump{
                 liquids.add(result, maxPump);
                 lastPump = maxPump / Time.delta;
                 warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);
-                if(Mathf.chance(delta() * updateEffectChance))
+                if(Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal() && Mathf.chance(delta() * updateEffectChance))
                     updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));
             }else{
                 warmup = Mathf.lerpDelta(warmup, 0f, 0.02f);

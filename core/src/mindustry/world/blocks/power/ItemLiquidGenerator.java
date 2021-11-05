@@ -129,13 +129,13 @@ public class ItemLiquidGenerator extends PowerGenerator{
                 productionEfficiency = baseLiquidEfficiency * used / maximumPossible;
 
                 if(used > 0.001f && (generateTime -= delta()) <= 0f){
-                    generateEffect.at(x + Mathf.range(generateEffectRnd), y + Mathf.range(generateEffectRnd));
+                    if(Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) generateEffect.at(x + Mathf.range(generateEffectRnd), y + Mathf.range(generateEffectRnd));
                     generateTime = 1f;
                 }
             }else if(hasItems){
                 // No liquids accepted or none supplied, try using items if accepted
                 if(generateTime <= 0f && items.total() > 0){
-                    generateEffect.at(x + Mathf.range(generateEffectRnd), y + Mathf.range(generateEffectRnd));
+                    if(Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) generateEffect.at(x + Mathf.range(generateEffectRnd), y + Mathf.range(generateEffectRnd));
                     Item item = items.take();
                     productionEfficiency = getItemEfficiency(item);
                     explosiveness = item.explosiveness;
