@@ -286,7 +286,7 @@ public class Drill extends Block{
                 warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);
                 progress += delta() * dominantItems * speed * warmup;
 
-                if(Mathf.chanceDelta(updateEffectChance * warmup))
+                if(Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal() && Mathf.chanceDelta(updateEffectChance * warmup))
                     updateEffect.at(x + Mathf.range(size * 2f), y + Mathf.range(size * 2f));
             }else{
                 lastDrillSpeed = 0f;
@@ -301,7 +301,7 @@ public class Drill extends Block{
 
                 progress %= delay;
 
-                drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
+                if (Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
             }
         }
 

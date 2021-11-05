@@ -22,6 +22,7 @@ import mindustry.graphics.*;
 import mindustry.type.UnitType;
 import mindustry.ui.*;
 import mindustry.world.*;
+import mindustry.world.Block.*;
 import mindustry.world.blocks.*;
 
 import static arc.Core.*;
@@ -275,6 +276,11 @@ public class DesktopInput extends InputHandler{
 
         if (Core.input.keyTap(Binding.camera_lock)) {
             settings.put("removecameralock", !settings.getBool("removecameralock"));
+        }
+
+        if (input.keyTap(Binding.toggle_block_render)) {
+            int level = settings.getInt("blockrenderlevel");
+            settings.put("blockrenderlevel", (level + BlockRenderLevel.size() - 1) % BlockRenderLevel.size());
         }
 
         if(Core.input.keyRelease(Binding.select)){

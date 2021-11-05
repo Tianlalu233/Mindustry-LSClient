@@ -1,5 +1,6 @@
 package mindustry.world.blocks.distribution;
 
+import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
@@ -268,11 +269,11 @@ public class StackConveyor extends Block implements Autotiler{
 
         protected void poofIn(){
             link = tile.pos();
-            loadEffect.at(this);
+            if (Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) loadEffect.at(this);
         }
 
         protected void poofOut(){
-            unloadEffect.at(this);
+            if (Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) unloadEffect.at(this);
             link = -1;
         }
 

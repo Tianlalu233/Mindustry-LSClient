@@ -1,5 +1,6 @@
 package mindustry.world.blocks.payloads;
 
+import arc.Core;
 import arc.audio.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -162,7 +163,7 @@ public class PayloadMassDriver extends PayloadBlock{
 
             boolean pos = effectDelayTimer > 0;
             effectDelayTimer -= Time.delta;
-            if(effectDelayTimer <= 0 && pos && lastOther != null){
+            if(Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal() && effectDelayTimer <= 0 && pos && lastOther != null){
                 var other = lastOther;
                 float cx = Angles.trnsx(other.turretRotation, length), cy = Angles.trnsy(other.turretRotation, length);
                 receiveEffect.at(x - cx/2f, y - cy/2f, turretRotation);
@@ -282,12 +283,14 @@ public class PayloadMassDriver extends PayloadBlock{
                                 float cx = Angles.trnsx(turretRotation, length), cy = Angles.trnsy(turretRotation, length);
 
                                 //effects
-                                shootEffect.at(x + cx, y + cy, turretRotation);
-                                smokeEffect.at(x, y, turretRotation);
+                                if (Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) {
+                                    shootEffect.at(x + cx, y + cy, turretRotation);
+                                    smokeEffect.at(x, y, turretRotation);
 
-                                Effect.shake(shake, shake, this);
-                                shootSound.at(this, Mathf.random(0.9f, 1.1f));
-                                transferEffect.at(x + cx, y + cy, turretRotation, new PayloadMassDriverData(x + cx, y + cy, other.x - cx, other.y - cy, payload));
+                                    Effect.shake(shake, shake, this);
+                                    shootSound.at(this, Mathf.random(0.9f, 1.1f));
+                                    transferEffect.at(x + cx, y + cy, turretRotation, new PayloadMassDriverData(x + cx, y + cy, other.x - cx, other.y - cy, payload));
+                                }
                                 Payload pay = payload;
                                 other.recPayload = payload;
                                 other.effectDelayTimer = transferEffect.lifetime;

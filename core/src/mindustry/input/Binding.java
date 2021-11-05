@@ -64,6 +64,7 @@ public enum Binding implements KeyBind{
     block_info(KeyCode.f1),
     toggle_menus(KeyCode.c),
     screenshot(KeyCode.p),
+    toggle_block_render(KeyCode.i),
     toggle_power_lines(KeyCode.f5),
     toggle_block_status(KeyCode.f6),
     player_list(KeyCode.tab, "multiplayer"),

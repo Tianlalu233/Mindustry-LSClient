@@ -53,7 +53,7 @@ public class ThermalGenerator extends PowerGenerator{
         public void updateTile(){
             productionEfficiency = sum + attribute.env();
 
-            if(productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){
+            if(Core.settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal() && productionEfficiency > 0.1f && Mathf.chanceDelta(effectChance)){
                 generateEffect.at(x + Mathf.range(3f), y + Mathf.range(3f));
             }
         }

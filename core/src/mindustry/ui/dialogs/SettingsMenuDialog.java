@@ -464,6 +464,7 @@ public class SettingsMenuDialog extends BaseDialog{
         // TODO
         advance.addCategory("general");
         advance.sliderPref("linetransparency", 50, 0, 100, s -> s + "%");
+        advance.sliderPref("blockrenderlevel", 2, 0, 2, String::valueOf);
         advance.checkPref("mouseposition", false);
         advance.checkPref("showiteminjb", false);
         advance.checkPref("keepshowingdropzone", false);

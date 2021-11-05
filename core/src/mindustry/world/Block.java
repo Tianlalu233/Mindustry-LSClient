@@ -1011,4 +1011,14 @@ public class Block extends UnlockableContent{
             req.rotation = Mathf.mod(req.rotation + 2, 4);
         }
     }
+
+    public enum BlockRenderLevel {
+        EMPTY,
+        SHADOW,
+        FULL;
+
+        public static int size() {
+            return BlockRenderLevel.values().length;
+        }
+    }
 }

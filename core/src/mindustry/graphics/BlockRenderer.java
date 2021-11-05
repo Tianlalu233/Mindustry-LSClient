@@ -14,6 +14,7 @@ import mindustry.game.EventType.*;
 import mindustry.game.Teams.*;
 import mindustry.gen.*;
 import mindustry.world.*;
+import mindustry.world.Block.*;
 import mindustry.world.blocks.power.*;
 
 import static arc.Core.*;
@@ -228,6 +229,7 @@ public class BlockRenderer{
     }
 
     public void drawShadows(){
+        if (settings.getInt("blockrenderlevel") == BlockRenderLevel.EMPTY.ordinal()) return;
         if(!shadowEvents.isEmpty()){
             Draw.flush();
 
@@ -343,8 +345,8 @@ public class BlockRenderer{
 
             Draw.z(Layer.block);
 
-            if(block != Blocks.air){
-                block.drawBase(tile);
+            if(block != Blocks.air && settings.getInt("blockrenderlevel") > BlockRenderLevel.EMPTY.ordinal()){
+                if (settings.getInt("blockrenderlevel") > BlockRenderLevel.SHADOW.ordinal()) block.drawBase(tile);
                 Draw.reset();
                 Draw.z(Layer.block);
 
