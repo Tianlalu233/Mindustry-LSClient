@@ -12,6 +12,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.*;
+import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -689,7 +690,7 @@ public class DesktopInput extends InputHandler{
         }
 
         boolean busy = unit.mining() || unit.activelyBuilding();
-        boolean manualShoot = Core.input.keyDown(Binding.select) && !busy && type.hasWeapons() && !boosted;
+        boolean manualShoot = Core.input.keyDown(Binding.select) && !busy && (type.hasWeapons() || type == UnitTypes.block) && !boosted;
 
         float mouseX = unit.aimX(), mouseY = unit.aimY();
         Vec2 aimPos = type.faceTarget ? Core.input.mouseWorld() : Tmp.v1.trns(unit.rotation, Core.input.mouseWorld().dst(unit)).add(unit.x, unit.y);
