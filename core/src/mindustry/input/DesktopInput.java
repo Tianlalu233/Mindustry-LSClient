@@ -274,15 +274,6 @@ public class DesktopInput extends InputHandler{
             }
         }
 
-        if (Core.input.keyTap(Binding.camera_lock)) {
-            settings.put("removecameralock", !settings.getBool("removecameralock"));
-        }
-
-        if (input.keyTap(Binding.toggle_block_render)) {
-            int level = settings.getInt("blockrenderlevel");
-            settings.put("blockrenderlevel", (level + BlockRenderLevel.size() - 1) % BlockRenderLevel.size());
-        }
-
         if(Core.input.keyRelease(Binding.select)){
             player.shooting = false;
         }
@@ -642,6 +633,15 @@ public class DesktopInput extends InputHandler{
                 Core.settings.put("preferredlaseropacity", Core.settings.getInt("lasersopacity"));
                 Core.settings.put("lasersopacity", 0);
             }
+        }
+
+        if (Core.input.keyTap(Binding.camera_lock)) {
+            settings.put("removecameralock", !settings.getBool("removecameralock"));
+        }
+
+        if (input.keyTap(Binding.toggle_block_render)) {
+            int level = settings.getInt("blockrenderlevel");
+            settings.put("blockrenderlevel", (level + BlockRenderLevel.size() - 1) % BlockRenderLevel.size());
         }
     }
 
