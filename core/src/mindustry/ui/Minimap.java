@@ -11,39 +11,16 @@ import mindustry.gen.*;
 import static mindustry.Vars.*;
 
 public class Minimap extends Table{
+    private final float margin = 5f;
+    private float size;
+    private Element map;
 
     public Minimap(){
         background(Tex.pane);
-        float margin = 5f;
         this.touchable = Touchable.enabled;
 
-        add(new Element(){
-            {
-                setSize(Scl.scl(140f));
-            }
-
-            @Override
-            public void act(float delta){
-                setPosition(Scl.scl(margin), Scl.scl(margin));
-
-                super.act(delta);
-            }
-
-            @Override
-            public void draw(){
-                if(renderer.minimap.getRegion() == null) return;
-                if(!clipBegin()) return;
-
-                Draw.rect(renderer.minimap.getRegion(), x + width / 2f, y + height / 2f, width, height);
-
-                if(renderer.minimap.getTexture() != null){
-                    Draw.alpha(parentAlpha);
-                    renderer.minimap.drawEntities(x, y, width, height, 0.75f, false);
-                }
-
-                clipEnd();
-            }
-        }).size(140f);
+        size = Core.settings.getInt("minimapsize");
+        buildMap();
 
         margin(margin);
 
@@ -93,6 +70,12 @@ public class Minimap extends Table{
 
         update(() -> {
 
+            if (Core.settings.getInt("minimapsize") != size) {
+                size = Core.settings.getInt("minimapsize");
+                clearChildren();
+                buildMap();
+            }
+
             Element e = Core.scene.hit(Core.input.mouseX(), Core.input.mouseY(), true);
             if(e != null && e.isDescendantOf(this)){
                 requestScroll();
@@ -100,5 +83,36 @@ public class Minimap extends Table{
                 Core.scene.setScrollFocus(null);
             }
         });
+    }
+
+    private void buildMap() {
+        map = new Element(){
+            {
+                setSize(Scl.scl(size));
+            }
+
+            @Override
+            public void act(float delta){
+                setPosition(Scl.scl(margin), Scl.scl(margin));
+
+                super.act(delta);
+            }
+
+            @Override
+            public void draw(){
+                if(renderer.minimap.getRegion() == null) return;
+                if(!clipBegin()) return;
+
+                Draw.rect(renderer.minimap.getRegion(), x + width / 2f, y + height / 2f, width, height);
+
+                if(renderer.minimap.getTexture() != null){
+                    Draw.alpha(parentAlpha);
+                    renderer.minimap.drawEntities(x, y, width, height, 0.75f, false);
+                }
+
+                clipEnd();
+            }
+        };
+        add(map).size(size);
     }
 }

@@ -500,6 +500,7 @@ public class SettingsMenuDialog extends BaseDialog{
         advance.checkPref("aicontrol", false);
         advance.checkPref("hidetypingstate", false);
         advance.checkPref("experimentalblock", false);
+        advance.sliderPref("minimapsize", 140, 140, 500, String::valueOf);
     }
 
     public void exportData(Fi file) throws IOException{
