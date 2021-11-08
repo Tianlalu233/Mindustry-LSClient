@@ -283,7 +283,7 @@ public class Renderer implements ApplicationListener{
             }
         }
 
-        if(!Core.settings.getBool("disablelightrender") && state.rules.lighting){
+        if(state.rules.lighting){
             Draw.draw(Layer.light, lights::draw);
         }
 

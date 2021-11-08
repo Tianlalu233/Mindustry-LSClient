@@ -113,7 +113,7 @@ public class Schematic implements Publishable, Comparable<Schematic>{
     }
 
     public ObjectFloatMap<Liquid> liquidIO() {
-        ObjectFloatMap<Liquid> liquids = new ObjectFloatMap<>(content.items().size << 1);
+        ObjectFloatMap<Liquid> liquids = new ObjectFloatMap<>(content.liquids().size << 1);
         tiles.each(t -> {
             if (t.block instanceof GenericCrafter gc) {
                 if (gc.consumes.has(ConsumeType.liquid)) {

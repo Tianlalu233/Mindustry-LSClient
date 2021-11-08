@@ -644,6 +644,15 @@ public class DesktopInput extends InputHandler{
             int level = settings.getInt("blockrenderlevel");
             settings.put("blockrenderlevel", (level + BlockRenderLevel.size() - 1) % BlockRenderLevel.size());
         }
+
+        if (input.keyTap(Binding.toggle_auto_target)) {
+            boolean auto = settings.getBool("autotarget");
+            settings.put("autotarget", !auto);
+            if (auto && target != null && player.shooting) {
+                target = null;
+                player.shooting = false;
+            }
+        }
     }
 
     @Override
@@ -690,7 +699,7 @@ public class DesktopInput extends InputHandler{
         }
 
         boolean busy = unit.mining() || unit.activelyBuilding();
-        boolean manualShoot = Core.input.keyDown(Binding.select) && !busy && (type.hasWeapons() || type == UnitTypes.block) && !boosted;
+        boolean manualShoot = Core.input.keyDown(Binding.select) && shouldShoot && !busy && (type.hasWeapons() || UnitTypes.block.equals(type)) && !boosted;
 
         float mouseX = unit.aimX(), mouseY = unit.aimY();
         Vec2 aimPos = type.faceTarget ? Core.input.mouseWorld() : Tmp.v1.trns(unit.rotation, Core.input.mouseWorld().dst(unit)).add(unit.x, unit.y);

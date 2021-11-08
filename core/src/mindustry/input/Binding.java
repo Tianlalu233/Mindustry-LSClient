@@ -30,6 +30,7 @@ public enum Binding implements KeyBind{
     rotateplaced(KeyCode.r),
     diagonal_placement(KeyCode.controlLeft),
     pick(KeyCode.mouseMiddle),
+    toggle_auto_target(KeyCode.o),
 
     schematic_select(KeyCode.f),
     schematic_flip_x(KeyCode.z),

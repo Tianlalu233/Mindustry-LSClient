@@ -180,7 +180,7 @@ public class LightRenderer{
     }
 
     public void draw(){
-        if(!Vars.enableLight){
+        if(Core.settings.getBool("disablelightrender") || !Vars.enableLight){
             lights.clear();
             return;
         }
