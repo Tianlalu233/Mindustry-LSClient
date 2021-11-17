@@ -222,10 +222,10 @@ public class DesktopInput extends InputHandler{
         }
 
         if(!locked){
-                if(((player.dead() || state.isPaused()) && !ui.chatfrag.shown()) && !scene.hasField() && !scene.hasDialog()){
-                    if(input.keyDown(Binding.mouse_move)){
-                        panCam = true;
-                    }
+            if(((player.dead() || state.isPaused()) && !ui.chatfrag.shown()) && !scene.hasField() && !scene.hasDialog()){
+                if(input.keyDown(Binding.mouse_move)){
+                    panCam = true;
+                }
 
                 Core.camera.position.add(Tmp.v1.setZero().add(Core.input.axis(Binding.move_x), Core.input.axis(Binding.move_y)).nor().scl(camSpeed));
             }else if(!player.dead() && !panning && !Core.settings.getBool("removecameralock")){
@@ -234,7 +234,7 @@ public class DesktopInput extends InputHandler{
 
             float midWidth = graphics.getWidth() / 2f;
             float midHeight = graphics.getHeight() / 2f;
-            if (settings.getBool("movecameraonedge") &&
+            if (settings.getBool("movecameraonedge") && !scene.hasDialog() &&
                     (Math.abs(input.mouseX() - midWidth) > midWidth - 10 ||
                     Math.abs(input.mouseY() - midHeight) > midHeight - 10)) {
                 panCam = true;
