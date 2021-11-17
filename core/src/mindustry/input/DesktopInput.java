@@ -653,6 +653,15 @@ public class DesktopInput extends InputHandler{
                 player.shooting = false;
             }
         }
+
+        if (input.keyTap(Binding.build_destroyed_block)) {
+            Unit unit = player.unit();
+            if (unit.canBuild()) {
+                for(Teams.BlockPlan plan : player.team().data().blocks) {
+                    unit.addBuild(new BuildPlan(plan.x, plan.y, plan.rotation, content.block(plan.block), plan.config));
+                }
+            }
+        }
     }
 
     @Override
