@@ -338,6 +338,14 @@ abstract class PlayerComp implements UnitController, Entityc, Syncc, Timerc, Dra
         }
     }
 
+    public void buildDestroyedBlocks() {
+        if (unit.canBuild()) {
+            for(Teams.BlockPlan plan : player.team().data().blocks) {
+                unit.addBuild(new BuildPlan(plan.x, plan.y, plan.rotation, content.block(plan.block), plan.config));
+            }
+        }
+    }
+
     PlayerInfo getInfo(){
         if(isLocal()){
             throw new IllegalArgumentException("Local players cannot be traced and do not have info.");
