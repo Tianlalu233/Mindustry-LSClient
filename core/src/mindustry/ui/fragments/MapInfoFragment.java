@@ -55,7 +55,7 @@ public class MapInfoFragment extends Fragment{
 
             t.add("@mapinfo").style(Styles.outlineLabel).pad(10f);
             t.row();
-            t.add(info).growY();
+            t.pane(info).growY();
             t.row();
             t.button("@back", Icon.leftOpen, this::hide).size(220f, 60f).pad(10f);
         });
