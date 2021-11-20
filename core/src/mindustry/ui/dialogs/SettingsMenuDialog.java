@@ -489,6 +489,7 @@ public class SettingsMenuDialog extends BaseDialog{
         advance.checkPref("showallteamstats", false);
         advance.checkPref("disablelightrender", false);
         advance.checkPref("ignoredisableschematic", false);
+        advance.checkPref("dropzonenotblockunit", false);
         if (!mobile) {
             advance.addCategory("camera");
             advance.sliderPref("cameraspeed", 45, 10, 100, s -> s+"");
