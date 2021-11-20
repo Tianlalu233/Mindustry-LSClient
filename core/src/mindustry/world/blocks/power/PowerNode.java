@@ -395,7 +395,7 @@ public class PowerNode extends PowerBlock{
                         }
                     });
                 }else{
-                    while(power.links.size > 0){
+                    for(int i = power.links.size; i > 0; i--){
                         configure(power.links.get(0));
                     }
                 }

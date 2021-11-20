@@ -244,8 +244,10 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     /** Configure with the current, local player. */
     public void configure(Object value){
         //save last used config
-        block.lastConfig = value;
-        Call.tileConfig(player, self(), value);
+        if (interactable(player.team())) {
+            block.lastConfig = value;
+            Call.tileConfig(player, self(), value);
+        }
     }
 
     /** Configure from a server. */
@@ -1219,7 +1221,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
 
     /** Returns whether or not a hand cursor should be shown over this block. */
     public Cursor getCursor(){
-        return block.configurable && interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;
+        return block.configurable ? SystemCursor.hand : SystemCursor.arrow;
     }
 
     /**
