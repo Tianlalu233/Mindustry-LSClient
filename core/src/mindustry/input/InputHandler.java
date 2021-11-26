@@ -968,9 +968,9 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
             return false;
         }
         boolean consumed = false, showedInventory = false;
-
+        boolean showConfig = settings.getBool("showenemyconfig") || build.interactable(player.team());
         //check if tapped block is configurable
-        if(build.block.configurable){
+        if(build.block.configurable && showConfig){
             consumed = true;
             if((!frag.config.isShown() && build.shouldShowConfigure(player)) //if the config fragment is hidden, show
             //alternatively, the current selected block can 'agree' to switch config tiles
@@ -999,7 +999,7 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
         //consume tap event if necessary
         if(build.interactable(player.team()) && build.block.consumesTap){
             consumed = true;
-        }else if(build.block.synthetic() && (!consumed || build.block.allowConfigInventory)){
+        }else if(showConfig && build.block.synthetic() && (!consumed || build.block.allowConfigInventory)){
             if(build.block.hasItems && build.items.total() > 0){
                 frag.inv.showFor(build);
                 consumed = true;

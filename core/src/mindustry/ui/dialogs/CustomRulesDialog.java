@@ -227,6 +227,7 @@ public class CustomRulesDialog extends BaseDialog{
                 number("@rules.aitier", false, f -> teams.aiTier = f, () -> teams.aiTier, () -> teams.ai, 0, 1);
 
                 check("@rules.infiniteresources", b -> teams.infiniteResources = b, () -> teams.infiniteResources);
+                check("@rules.cheat", b -> teams.cheat = b, () -> teams.cheat);
                 number("@rules.buildspeedmultiplier", f -> teams.buildSpeedMultiplier = f, () -> teams.buildSpeedMultiplier, 0.001f, 50f);
 
                 number("@rules.unitdamagemultiplier", f -> teams.unitDamageMultiplier = f, () -> teams.unitDamageMultiplier);

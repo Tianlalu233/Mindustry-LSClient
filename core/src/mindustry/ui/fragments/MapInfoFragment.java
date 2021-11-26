@@ -115,6 +115,7 @@ public class MapInfoFragment extends Fragment{
 
         Table header = new Table();
         header.add(Core.bundle.get("rules." + "infiniteresources")).pad(5).row();
+        header.add(Core.bundle.get("rules." + "cheat")).pad(5).row();
         header.add(Core.bundle.get("rules." + "unitbuildspeedmultiplier")).pad(5).row();
         header.add(Core.bundle.get("rules." + "unitdamagemultiplier")).pad(5).row();
         header.add(Core.bundle.get("rules." + "blockhealthmultiplier")).pad(5).row();
@@ -123,14 +124,12 @@ public class MapInfoFragment extends Fragment{
         header.marginRight(20);
 
         teamTable.add(header);
-        Seq<Teams.TeamData> activeTeam = currState.teams.getActive();
         Rules rules = currState.rules;
         int count = 0;
-        for (Teams.TeamData data : activeTeam) {
-            Team team = data.team;
-            if (team.id > 5) continue;
+        for (Team team: Team.baseTeams) {
             Table tt = new Table();
             tt.add(new Image(rules.teams.get(team).infiniteResources ? Icon.ok : Icon.cancel)).pad(5).row();
+            tt.add(new Image(rules.teams.get(team).cheat ? Icon.ok : Icon.cancel)).pad(5).row();
             tt.add(String.valueOf(rules.unitBuildSpeed(team))).color(team.color).pad(5).row();
             tt.add(String.valueOf(rules.unitDamage(team))).color(team.color).pad(5).row();
             tt.add(String.valueOf(rules.blockHealth(team))).color(team.color).pad(5).row();
@@ -199,9 +198,10 @@ public class MapInfoFragment extends Fragment{
     private void buildEnemiesTable(Table t, int wave) {
         t.clear();
         Table labels = new Table();
-        labels.add().size(50).pad(5).padLeft(10).padRight(10).row();
-        labels.add(Core.bundle.get("number")).pad(5).padLeft(10).padRight(10).row();
-        labels.add(Core.bundle.get("shield")).pad(5).padLeft(10).padRight(10).row();
+        labels.add().size(50).pad(5, 10, 5, 10).row();
+        labels.add(Core.bundle.get("number")).height(20).pad(5, 10, 5, 10).row();
+        labels.add(Core.bundle.get("shield")).height(20).pad(5, 10, 5, 10).row();
+        labels.add(Core.bundle.get("statuseffect")).height(30).pad(5, 10, 5, 10).row();
         t.add(labels);
         Table enemyTable = new Table();
         t.pane(Styles.horizontalPane, enemyTable).maxWidth(1000f).get().setScrollingDisabled(false, true);
@@ -209,10 +209,15 @@ public class MapInfoFragment extends Fragment{
             if (group.getSpawned(wave - 1) == 0) continue;
             Color color = group.effect == StatusEffects.boss ? Pal.health : Color.white;
             Table enemy = new Table();
-            enemy.add(new Image(group.type.uiIcon)).size(50).pad(5).padLeft(10).padRight(10).tooltip(o -> o.background(Styles.black6).margin(4f).add(group.type.localizedName).style(Styles.outlineLabel));
-            enemy.row();
-            enemy.add(String.valueOf(group.getSpawned(wave - 1) * spawner.countSpawns())).color(color).pad(5).padLeft(10).padRight(10).row();
-            enemy.add(String.valueOf(UI.formatFloat(group.getShield(wave)))).color(color).pad(5).padLeft(10).padRight(10).row();
+            enemy.add(new Image(group.type.uiIcon)).size(50).pad(5, 10, 5, 10).tooltip(o -> o.background(Styles.black6).margin(4f).add(group.type.localizedName).style(Styles.outlineLabel)).row();
+            enemy.add(String.valueOf(group.getSpawned(wave - 1) * spawner.countSpawns())).color(color).height(20).pad(5, 10, 5, 10).row();
+            enemy.add(String.valueOf(UI.formatFloat(group.getShield(wave)))).color(color).height(20).pad(5, 10, 5, 10).row();
+            if (group.effect != null && group.effect != StatusEffects.none) {
+                enemy.add(new Image(group.effect.uiIcon)).size(30).pad(5, 10, 5, 10).tooltip(o -> o.background(Styles.black6).margin(4f).add(group.effect.localizedName).style(Styles.outlineLabel)).row();
+            }
+            else {
+                enemy.add().size(30).pad(5, 10, 5, 10).row();
+            }
             enemyTable.add(enemy);
         }
     }
