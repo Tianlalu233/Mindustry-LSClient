@@ -287,6 +287,20 @@ public class Teams{
             }));
         }
 
+        public IntSeq removeBrokenBlocks() {
+            IntSeq removed = new IntSeq();
+            Iterator<BlockPlan> broken = blocks.iterator();
+            while(broken.hasNext()){
+                BlockPlan req = broken.next();
+                if(content.block(req.block).bounds(req.x, req.y, Tmp.r2).overlaps(Tmp.r1)){
+                    removed.add(Point2.pack(req.x, req.y));
+                    req.removed = true;
+                    broken.remove();
+                }
+            }
+            return removed;
+        }
+
         @Nullable
         public Seq<Unit> unitCache(UnitType type){
             if(unitsByType == null || unitsByType.length <= type.id || unitsByType[type.id] == null) return null;

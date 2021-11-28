@@ -918,16 +918,7 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
         removed.clear();
 
         //remove blocks to rebuild
-        Iterator<BlockPlan> broken = player.team().data().blocks.iterator();
-        while(broken.hasNext()){
-            BlockPlan req = broken.next();
-            Block block = content.block(req.block);
-            if(block.bounds(req.x, req.y, Tmp.r2).overlaps(Tmp.r1)){
-                removed.add(Point2.pack(req.x, req.y));
-                req.removed = true;
-                broken.remove();
-            }
-        }
+        removed.addAll(player.team().data().removeBrokenBlocks());
 
         //TODO array may be too large?
         if(removed.size > 0 && net.active()){

@@ -348,6 +348,13 @@ abstract class PlayerComp implements UnitController, Entityc, Syncc, Timerc, Dra
         }
     }
 
+    public void removeDestroyedBlocks() {
+        int[] plans = team.data().removeBrokenBlocks().toArray();
+        if(plans.length > 0 && net.active()){
+            Call.deletePlans(player, plans);
+        }
+    }
+
     PlayerInfo getInfo(){
         if(isLocal()){
             throw new IllegalArgumentException("Local players cannot be traced and do not have info.");

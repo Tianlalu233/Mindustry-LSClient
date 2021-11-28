@@ -657,6 +657,10 @@ public class DesktopInput extends InputHandler{
         if (input.keyTap(Binding.build_destroyed_block)) {
             player.buildDestroyedBlocks();
         }
+
+        if (input.keyTap(Binding.remove_destroyed_block)) {
+            player.removeDestroyedBlocks();
+        }
     }
 
     @Override
