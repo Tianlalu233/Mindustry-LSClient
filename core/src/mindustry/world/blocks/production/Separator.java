@@ -19,6 +19,8 @@ import mindustry.world.meta.*;
  * Extracts a random list of items from an input item and an input liquid.
  */
 public class Separator extends Block{
+    protected @Nullable ConsumeItems consItems;
+
     public ItemStack[] results;
     public float craftTime;
 
@@ -45,6 +47,12 @@ public class Separator extends Block{
     }
 
     @Override
+    public void init(){
+        super.init();
+        consItems = findConsumer(c -> c instanceof ConsumeItems);
+    }
+
+    @Override
     public void setBars() {
         super.setBars();
         bars.add("progress", (SeparatorBuild e) ->
@@ -67,16 +75,15 @@ public class Separator extends Block{
 
         @Override
         public boolean shouldAmbientSound(){
-            return cons.valid();
+            return efficiency > 0;
         }
 
         @Override
         public boolean shouldConsume(){
             int total = items.total();
             //very inefficient way of allowing separators to ignore input buffer storage
-            if(consumes.has(ConsumeType.item) && consumes.get(ConsumeType.item) instanceof ConsumeItems){
-                ConsumeItems c = consumes.get(ConsumeType.item);
-                for(ItemStack stack : c.items){
+            if(consItems != null){
+                for(ItemStack stack : consItems.items){
                     total -= items.get(stack.item);
                 }
             }
@@ -87,7 +94,7 @@ public class Separator extends Block{
         public void draw(){
             super.draw();
 
-            Drawf.liquid(liquidRegion, x, y, liquids.total() / liquidCapacity, liquids.current().color);
+            Drawf.liquid(liquidRegion, x, y, liquids.currentAmount() / liquidCapacity, liquids.current().color);
 
             if(Core.atlas.isFound(spinnerRegion)){
                 Draw.rect(spinnerRegion, x, y, totalProgress * spinnerSpeed);
@@ -98,7 +105,7 @@ public class Separator extends Block{
         public void updateTile(){
             totalProgress += warmup * delta();
 
-            if(consValid()){
+            if(efficiency > 0){
                 progress += getProgressIncrease(craftTime);
                 warmup = Mathf.lerpDelta(warmup, 1f, 0.02f);
             }else{
@@ -110,7 +117,7 @@ public class Separator extends Block{
                 int sum = 0;
                 for(ItemStack stack : results) sum += stack.amount;
 
-                int i = Mathf.randomSeed(seed++, 0, sum);
+                int i = Mathf.randomSeed(seed++, 0, sum - 1);
                 int count = 0;
                 Item item = null;
 
@@ -143,7 +150,7 @@ public class Separator extends Block{
 
         @Override
         public boolean canDump(Building to, Item item){
-            return !consumes.itemFilters.get(item.id);
+            return !consumesItem(item);
         }
 
         @Override

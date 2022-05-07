@@ -13,6 +13,7 @@ public enum Binding implements KeyBind{
     camera_lock(KeyCode.altLeft),
 
     boost(KeyCode.shiftLeft),
+    command_mode(KeyCode.shiftLeft),
     control(KeyCode.controlLeft),
     respawn(KeyCode.v),
     select(KeyCode.mouseLeft),
@@ -21,8 +22,6 @@ public enum Binding implements KeyBind{
 
     pickupCargo(KeyCode.leftBracket),
     dropCargo(KeyCode.rightBracket),
-
-    command(KeyCode.g),
 
     clear_building(KeyCode.q),
     pause_building(KeyCode.e),
