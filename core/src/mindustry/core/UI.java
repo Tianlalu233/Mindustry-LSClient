@@ -309,6 +309,7 @@ public class UI implements ApplicationListener, Loadable{
         Table table = new Table();
         table.touchable = Touchable.disabled;
         table.setFillParent(true);
+        table.marginTop(Core.scene.find("coreinfo").getPrefHeight() / Scl.scl() / 2);
         table.actions(Actions.fadeOut(7f, Interp.fade), Actions.remove());
         table.top().add(info).style(Styles.outlineLabel).padTop(10);
         Core.scene.add(table);
@@ -317,8 +318,9 @@ public class UI implements ApplicationListener, Loadable{
     /** Shows a fading label at the top of the screen. */
     public void showInfoToast(String info, float duration){
         Table table = new Table();
-        table.setFillParent(true);
         table.touchable = Touchable.disabled;
+        table.setFillParent(true);
+        table.marginTop(Core.scene.find("coreinfo").getPrefHeight() / Scl.scl() / 2);
         table.update(() -> {
             if(state.isMenu()) table.remove();
         });

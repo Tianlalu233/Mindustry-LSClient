@@ -346,7 +346,14 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
     public static void tileConfig(@Nullable Player player, Building build, @Nullable Object value){
         if(build == null) return;
         if(net.server() && (!Units.canInteract(player, build) ||
-            !netServer.admins.allowAction(player, ActionType.configure, build.tile, action -> action.config = value))) throw new ValidateException(player, "Player cannot configure a tile.");
+            !netServer.admins.allowAction(player, ActionType.configure, build.tile, action -> action.config = value))){
+            var packet = new TileConfigCallPacket(); //undo the config on the client
+            packet.player = player;
+            packet.build = build;
+            packet.value = build.config();
+            player.con.send(packet, true);
+            throw new ValidateException(player, "Player cannot configure a tile.");
+        }
         build.configured(player == null || player.dead() ? null : player.unit(), value);
         Core.app.post(() -> Events.fire(new ConfigEvent(build, player, value)));
     }
@@ -1267,18 +1274,23 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
         }
 
         int endRotation = -1;
+        var start = world.build(startX, startY);
+        var end = world.build(endX, endY);
         if(diagonal){
-            var start = world.build(startX, startY);
-            var end = world.build(endX, endY);
             if(block != null && start instanceof ChainedBuilding && end instanceof ChainedBuilding
                     && block.canReplace(end.block) && block.canReplace(start.block)){
                 points = Placement.upgradeLine(startX, startY, endX, endY);
-                endRotation = end.rotation;
             }else{
                 points = Placement.pathfindLine(block != null && block.conveyorPlacement, startX, startY, endX, endY);
             }
         }else{
             points = Placement.normalizeLine(startX, startY, endX, endY);
+        }
+        if(points.size > 1 && end instanceof ChainedBuilding){
+            Point2 secondToLast = points.get(points.size - 2);
+            if (!(world.build(secondToLast.x, secondToLast.y) instanceof ChainedBuilding)){
+                endRotation = end.rotation;
+            }
         }
 
         if(block != null){

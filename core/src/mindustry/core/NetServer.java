@@ -481,7 +481,7 @@ public class NetServer implements ApplicationListener{
                 }
 
                 int sign = switch(arg[0].toLowerCase()){
-                    case "y", "yes" ->  1;
+                    case "y", "yes" -> 1;
                     case "n", "no" -> -1;
                     default -> 0;
                 };
@@ -560,12 +560,44 @@ public class NetServer implements ApplicationListener{
                 Call.playerDisconnect(player.id());
             }
 
-            String message = Strings.format("&lb@&fi&lk has disconnected. &fi&lk[&lb@&fi&lk] (@)", player.name, player.uuid(), reason);
+            String message = Strings.format("&lb@&fi&lk has disconnected. [&lb@&fi&lk] (@)", player.plainName(), player.uuid(), reason);
             if(Config.showConnectMessages.bool()) info(message);
         }
 
         player.remove();
         player.con.hasDisconnected = true;
+    }
+
+    //these functions are for debugging only, and will be removed!
+
+    @Remote(targets = Loc.client, variants = Variant.one)
+    public static void requestDebugStatus(Player player){
+        int flags =
+            (player.con.hasDisconnected ? 1 : 0) |
+            (player.con.hasConnected ? 2 : 0) |
+            (player.isAdded() ? 4 : 0) |
+            (player.con.hasBegunConnecting ? 8 : 0);
+
+        Call.debugStatusClient(player.con, flags, player.con.lastReceivedClientSnapshot, player.con.snapshotsSent);
+        Call.debugStatusClientUnreliable(player.con, flags, player.con.lastReceivedClientSnapshot, player.con.snapshotsSent);
+    }
+
+    @Remote(variants = Variant.both, priority = PacketPriority.high)
+    public static void debugStatusClient(int value, int lastClientSnapshot, int snapshotsSent){
+        logClientStatus(true, value, lastClientSnapshot, snapshotsSent);
+    }
+
+    @Remote(variants = Variant.both, priority = PacketPriority.high, unreliable = true)
+    public static void debugStatusClientUnreliable(int value, int lastClientSnapshot, int snapshotsSent){
+        logClientStatus(false, value, lastClientSnapshot, snapshotsSent);
+    }
+
+    static void logClientStatus(boolean reliable, int value, int lastClientSnapshot, int snapshotsSent){
+        Log.info("@ Debug status received. disconnected = @, connected = @, added = @, begunConnecting = @ lastClientSnapshot = @, snapshotsSent = @",
+        reliable ? "[RELIABLE]" : "[UNRELIABLE]",
+        (value & 1) != 0, (value & 2) != 0, (value & 4) != 0, (value & 8) != 0,
+        lastClientSnapshot, snapshotsSent
+        );
     }
 
     @Remote(targets = Loc.client)
@@ -741,12 +773,12 @@ public class NetServer implements ApplicationListener{
     public static void adminRequest(Player player, Player other, AdminAction action){
         if(!player.admin && !player.isLocal()){
             warn("ACCESS DENIED: Player @ / @ attempted to perform admin action '@' on '@' without proper security access.",
-            player.name, player.con == null ? "null" : player.con.address, action.name(), other == null ? null : other.name);
+            player.plainName(), player.con == null ? "null" : player.con.address, action.name(), other == null ? null : other.plainName());
             return;
         }
 
         if(other == null || ((other.admin && !player.isLocal()) && other != player)){
-            warn("@ attempted to perform admin action on nonexistant or admin player.", player.name);
+            warn("@ &fi&lk[&lb@&fi&lk]&fb attempted to perform admin action on nonexistant or admin player.", player.plainName(), player.uuid());
             return;
         }
 
@@ -756,15 +788,15 @@ public class NetServer implements ApplicationListener{
             //no verification is done, so admins can hypothetically spam waves
             //not a real issue, because server owners may want to do just that
             logic.skipWave();
-            info("&lc@ has skipped the wave.", player.name);
+            info("&lc@ &fi&lk[&lb@&fi&lk]&fb has skipped the wave.", player.plainName(), player.uuid());
         }else if(action == AdminAction.ban){
             netServer.admins.banPlayerID(other.con.uuid);
             netServer.admins.banPlayerIP(other.con.address);
             other.kick(KickReason.banned);
-            info("&lc@ has banned @.", player.name, other.name);
+            info("&lc@ &fi&lk[&lb@&fi&lk]&fb has banned @ &fi&lk[&lb@&fi&lk]&fb.", player.plainName(), player.uuid(), other.plainName(), other.uuid());
         }else if(action == AdminAction.kick){
             other.kick(KickReason.kick);
-            info("&lc@ has kicked @.", player.name, other.name);
+            info("&lc@ &fi&lk[&lb@&fi&lk]&fb has kicked @ &fi&lk[&lb@&fi&lk]&fb.", player.plainName(), player.uuid(), other.plainName(), other.uuid());
         }else if(action == AdminAction.trace){
             PlayerInfo stats = netServer.admins.getInfo(other.uuid());
             TraceInfo info = new TraceInfo(other.con.address, other.uuid(), other.con.modclient, other.con.mobile, stats.timesJoined, stats.timesKicked);
@@ -773,7 +805,7 @@ public class NetServer implements ApplicationListener{
             }else{
                 NetClient.traceInfo(other, info);
             }
-            info("&lc@ has requested trace info of @.", player.name, other.name);
+            info("&lc@ &fi&lk[&lb@&fi&lk]&fb has requested trace info of @ &fi&lk[&lb@&fi&lk]&fb.", player.plainName(), player.uuid(), other.plainName(), other.uuid());
         }
     }
 
@@ -791,7 +823,7 @@ public class NetServer implements ApplicationListener{
 
         if(Config.showConnectMessages.bool()){
             Call.sendMessage("[accent]" + player.name + "[accent] has connected.");
-            String message = Strings.format("&lb@&fi&lk has connected. &fi&lk[&lb@&fi&lk]", player.name, player.uuid());
+            String message = Strings.format("&lb@&fi&lk has connected. &fi&lk[&lb@&fi&lk]", player.plainName(), player.uuid());
             info(message);
         }
 
@@ -863,7 +895,7 @@ public class NetServer implements ApplicationListener{
         short sent = 0;
         for(Building entity : Groups.build){
             if(!entity.block.sync) continue;
-            sent ++;
+            sent++;
 
             dataStream.writeInt(entity.pos());
             dataStream.writeShort(entity.block.id);
@@ -903,7 +935,7 @@ public class NetServer implements ApplicationListener{
 
         //write basic state data.
         Call.stateSnapshot(player.con, state.wavetime, state.wave, state.enemies, state.serverPaused, state.gameOver,
-            universe.seconds(), tps, GlobalConstants.rand.seed0, GlobalConstants.rand.seed1, syncStream.toByteArray());
+        universe.seconds(), tps, GlobalConstants.rand.seed0, GlobalConstants.rand.seed1, syncStream.toByteArray());
 
         syncStream.reset();
 
@@ -931,6 +963,7 @@ public class NetServer implements ApplicationListener{
             Call.entitySnapshot(player.con, (short)sent, syncStream.toByteArray());
         }
 
+        player.con.snapshotsSent++;
     }
 
     String fixName(String name){

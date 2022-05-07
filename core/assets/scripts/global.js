@@ -55,6 +55,7 @@ const extendContent = extend;
 importPackage(Packages.arc)
 importPackage(Packages.arc.audio)
 importPackage(Packages.arc.func)
+importPackage(Packages.arc.flabel)
 importPackage(Packages.arc.graphics)
 importPackage(Packages.arc.graphics.g2d)
 importPackage(Packages.arc.graphics.gl)
@@ -199,3 +200,5 @@ const ResizeEvent = Packages.mindustry.game.EventType.ResizeEvent
 const LoseEvent = Packages.mindustry.game.EventType.LoseEvent
 const WinEvent = Packages.mindustry.game.EventType.WinEvent
 const Trigger = Packages.mindustry.game.EventType.Trigger
+const PlayerConnectionConfirmed = Packages.mindustry.game.EventType.PlayerConnectionConfirmed
+const AdminRequestEvent = Packages.mindustry.game.EventType.AdminRequestEvent

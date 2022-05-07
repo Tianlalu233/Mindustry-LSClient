@@ -199,7 +199,7 @@ public class ItemTurret extends Turret{
     }
 
     public class ItemEntry extends AmmoEntry{
-        protected Item item;
+        public Item item;
 
         ItemEntry(Item item, int amount){
             this.item = item;
