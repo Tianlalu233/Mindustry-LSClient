@@ -470,7 +470,7 @@ public class Turret extends ReloadTurret{
         }
 
         public boolean charging(){
-            return queuedBullets > 0;
+            return queuedBullets > 0 && shoot.firstShotDelay > 0;
         }
 
         protected void updateReload(){
