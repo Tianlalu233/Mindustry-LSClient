@@ -13,11 +13,10 @@ import mindustry.ui.*;
 
 import static mindustry.Vars.*;
 
-public class TeamsInfoFragment extends Fragment {
+public class TeamsInfoFragment {
 
     private Seq<TeamData> teamData;
 
-    @Override
     public void build(Group parent) {
         parent.fill(table -> {
             table.center().left();

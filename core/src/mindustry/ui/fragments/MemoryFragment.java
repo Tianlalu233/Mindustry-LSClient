@@ -7,13 +7,12 @@ import mindustry.gen.*;
 import mindustry.graphics.Pal;
 import java.text.NumberFormat;
 
-public class MemoryFragment extends Fragment{
+public class MemoryFragment {
 
     public Table content = new Table().marginRight(40f).marginLeft(40f);
     private boolean visible;
     private double[] memory = null;
 
-    @Override
     public void build(Group parent) {
         content.name = "memory";
 

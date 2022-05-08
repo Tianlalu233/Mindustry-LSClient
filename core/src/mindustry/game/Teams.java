@@ -308,12 +308,12 @@ public class Teams{
 
         public IntSeq removeBrokenBlocks() {
             IntSeq removed = new IntSeq();
-            Iterator<BlockPlan> broken = blocks.iterator();
+            Iterator<BlockPlan> broken = plans.iterator();
             while(broken.hasNext()){
-                BlockPlan req = broken.next();
-                if(content.block(req.block).bounds(req.x, req.y, Tmp.r2).overlaps(Tmp.r1)){
-                    removed.add(Point2.pack(req.x, req.y));
-                    req.removed = true;
+                BlockPlan plan = broken.next();
+                if(content.block(plan.block).bounds(plan.x, plan.y, Tmp.r2).overlaps(Tmp.r1)){
+                    removed.add(Point2.pack(plan.x, plan.y));
+                    plan.removed = true;
                     broken.remove();
                 }
             }

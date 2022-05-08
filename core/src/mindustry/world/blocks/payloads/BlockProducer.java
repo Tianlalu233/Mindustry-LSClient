@@ -43,13 +43,6 @@ public abstract class BlockProducer extends PayloadBlock{
     }
 
     @Override
-    public void setBars(){
-        super.setBars();
-
-        bars.add("progress", (BlockProducerBuild entity) -> new Bar(() -> Core.bundle.format("bar.progress", Math.round(entity.progress / entity.recipe().buildCost * 100)), () -> Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildCost)));
-    }
-
-    @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
         Draw.rect(region, plan.drawx(), plan.drawy());
         Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);
@@ -60,7 +53,7 @@ public abstract class BlockProducer extends PayloadBlock{
     public void setBars(){
         super.setBars();
 
-        addBar("progress", (BlockProducerBuild entity) -> new Bar("bar.progress", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildCost)));
+        addBar("progress", (BlockProducerBuild entity) -> new Bar(() -> Core.bundle.format("bar.progress", Math.round(entity.progress / entity.recipe().buildCost * 100)), () -> Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildCost)));
     }
 
     public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{

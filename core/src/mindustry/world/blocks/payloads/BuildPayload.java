@@ -110,7 +110,7 @@ public class BuildPayload implements Payload{
         if(build.team != player.team()){
             build.drawTeam();
         }
-        if(renderer.drawStatus && build.block.consumes.any()){
+        if(renderer.drawStatus){
             build.drawStatus();
         }
         Draw.reset();

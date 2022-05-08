@@ -28,7 +28,7 @@ public class ConsumeItemFilter extends Consume{
     @Override
     public void build(Building build, Table table){
         MultiReqImage image = new MultiReqImage();
-        content.items().each(i -> filter.get(i) && i.unlockedNow(), item -> image.add(new ReqImage(new ItemImage(item.uiIcon, new ItemStack(item, 1), tile.items),
+        content.items().each(i -> filter.get(i) && i.unlockedNow(), item -> image.add(new ReqImage(new ItemImage(item.uiIcon, new ItemStack(item, 1), build.items),
             () -> build.items.has(item))));
 
         table.add(image).size(8 * 4);

@@ -118,7 +118,7 @@ public class PlayerListFragment{
             button.add().grow();
 
             button.image(Icon.admin).visible(() -> user.admin && !(!user.isLocal() && net.server())).padRight(5).get().updateVisibility();
-            button.button(Icon.eyeSmall, Styles.clearPartiali, () -> {
+            button.button(Icon.eyeSmall, Styles.clearTogglei, () -> {
                 if (control.input instanceof DesktopInput desktopInput) desktopInput.panning = true;
                 Core.camera.position.set(user);
             }).size(h);

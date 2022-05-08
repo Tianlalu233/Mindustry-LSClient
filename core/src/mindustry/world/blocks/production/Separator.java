@@ -55,7 +55,7 @@ public class Separator extends Block{
     @Override
     public void setBars() {
         super.setBars();
-        bars.add("progress", (SeparatorBuild e) ->
+        addBar("progress", (SeparatorBuild e) ->
                 new Bar(() -> Core.bundle.format("bar.progress", Math.round(e.progress * 100)),
                         () -> Pal.ammo,
                         () -> e.progress)

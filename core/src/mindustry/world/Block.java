@@ -545,7 +545,7 @@ public class Block extends UnlockableContent implements Senseable{
     /** Adds a liquid bar that dynamically displays a liquid type. */
     public <T extends Building> void addLiquidBar(Func<T, Liquid> current){
         addBar("liquid", entity -> new Bar(
-            () -> current.get((T)entity) == null || entity.liquids.get(current.get((T)entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : current.get((T)entity).localizedName,
+            () -> current.get((T)entity) == null || entity.liquids.get(current.get((T)entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : Core.bundle.format("bar.liquidinfo", current.get((T)entity).localizedName, UI.formatFloat(entity.liquids.get(current.get((T)entity))), UI.formatAmount((long)liquidCapacity)),
             () -> current.get((T)entity) == null ? Color.clear : current.get((T)entity).barColor(),
             () -> current.get((T)entity) == null ? 0f : entity.liquids.get(current.get((T)entity)) / liquidCapacity)
         );
@@ -557,21 +557,6 @@ public class Block extends UnlockableContent implements Senseable{
                 () -> Pal.health,
                 entity::healthf).blink(Color.white));
 
-        if(hasLiquids){
-            Func<Building, Liquid> current;
-            if(consumes.has(ConsumeType.liquid) && consumes.get(ConsumeType.liquid) instanceof ConsumeLiquid){
-                Liquid liquid = consumes.<ConsumeLiquid>get(ConsumeType.liquid).liquid;
-                current = entity -> liquid;
-            }else{
-                current = entity -> entity.liquids == null ? Liquids.water : entity.liquids.current();
-            }
-            bars.add("liquid", entity -> new Bar(
-                    () -> entity.liquids.get(current.get(entity)) <= 0.001f ? Core.bundle.get("bar.liquid") : Core.bundle.format("bar.liquidinfo", current.get(entity).localizedName, UI.formatFloat(entity.liquids.get(current.get(entity))), UI.formatAmount((long)liquidCapacity)),
-                    () -> current.get(entity).barColor(),
-                    () -> entity == null || entity.liquids == null ? 0f : entity.liquids.get(current.get(entity)) / liquidCapacity)
-            );
-        }
-
         if(consPower != null){
             boolean buffered = consPower.buffered;
             float capacity = consPower.capacity;
@@ -581,7 +566,7 @@ public class Block extends UnlockableContent implements Senseable{
                             Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : UI.formatAmount((int)(entity.power.status * capacity)))
                             :
                             entity.power.status > 0 ?
-                                    Core.bundle.format("bar.powerconsume", UI.formatFloat(entity.power.status * cons.usage * 60 * entity.timeScale()))
+                                    Core.bundle.format("bar.powerconsume", UI.formatFloat(entity.power.status * consPower.usage * 60 * entity.timeScale()))
                                     :
                                     Core.bundle.get("bar.power"),
                     () -> Pal.powerBar,

@@ -1239,7 +1239,7 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
             return false;
         }
         boolean consumed = false, showedInventory = false;
-        boolean showConfig = settings.getBool("showenemyconfig")
+        boolean showConfig = settings.getBool("showenemyconfig"); // TODO
         //select building for commanding
         if(build.block.commandable && commandMode){
             //TODO handled in tap.
@@ -1273,7 +1273,7 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
         //consume tap event if necessary
         if(build.interactable(player.team()) && build.block.consumesTap){
             consumed = true;
-        }else if(showConfig && build.block.synthetic() && (!consumed || build.block.allowConfigInventory)){
+        }else if(build.block.synthetic() && (!consumed || build.block.allowConfigInventory)){
             if(build.block.hasItems && build.items.total() > 0){
                 inv.showFor(build);
                 consumed = true;
@@ -1660,7 +1660,7 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
     public boolean useAIControl(Unit unit) {
         if (settings.getBool("aicontrol")) {
             if (aiControl == null || aiControl.unit() != unit) {
-                aiControl = unit.type.createController();
+                aiControl = unit.type.createController(unit);
                 aiControl.unit(unit);
             }
             aiControl.updateUnit();

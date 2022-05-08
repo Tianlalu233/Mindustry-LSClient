@@ -6,7 +6,6 @@ import arc.graphics.g2d.*;
 import arc.scene.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
-import arc.struct.*;
 import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.game.*;
@@ -17,14 +16,13 @@ import mindustry.ui.*;
 
 import static mindustry.Vars.*;
 
-public class MapInfoFragment extends Fragment{
+public class MapInfoFragment {
 
     private boolean shown;
     private Element background;
     private int wave;
     private GameState currState;
 
-    @Override
     public void build(Group parent) {
         Table info = new Table();
         currState = state;

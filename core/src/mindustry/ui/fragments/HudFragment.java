@@ -119,12 +119,6 @@ public class HudFragment{
             .touchable(Touchable.disabled)
             .style(Styles.outlineLabel)
             .name("position");
-            t.row();
-            // mouse position
-            t.label(() -> Math.round(control.input.tileX(control.input.getMouseX())) + "," + Math.round(control.input.tileY(control.input.getMouseY())))
-            .visible(() -> Core.settings.getBool("mouseposition"))
-            .touchable(Touchable.disabled)
-            .name("mouse-position");
             t.top().right();
         });
 

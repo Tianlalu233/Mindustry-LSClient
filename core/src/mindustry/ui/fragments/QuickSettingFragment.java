@@ -7,10 +7,8 @@ import mindustry.ui.Styles;
 
 import static mindustry.Vars.*;
 
-public class QuickSettingFragment extends Fragment{
+public class QuickSettingFragment {
 
-
-    @Override
     public void build(Group parent) {
         parent.fill(table -> {
             table.center().right();

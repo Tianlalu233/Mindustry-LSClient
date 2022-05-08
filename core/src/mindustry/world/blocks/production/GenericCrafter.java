@@ -87,21 +87,17 @@ public class GenericCrafter extends Block{
                 addLiquidBar(stack.liquid);
             }
         }
+
+        addBar("progress", (GenericCrafterBuild e) ->
+                new Bar(() -> Core.bundle.format("bar.progress", Math.round(e.progress * 100)),
+                        () -> Pal.ammo,
+                        () -> e.progress)
+        );
     }
 
     @Override
     public boolean rotatedOutput(int x, int y){
         return false;
-    }
-
-    @Override
-    public void setBars() {
-        super.setBars();
-        bars.add("progress", (GenericCrafterBuild e) ->
-                new Bar(() -> Core.bundle.format("bar.progress", Math.round(e.progress * 100)),
-                        () -> Pal.ammo,
-                        () -> e.progress)
-        );
     }
 
     @Override

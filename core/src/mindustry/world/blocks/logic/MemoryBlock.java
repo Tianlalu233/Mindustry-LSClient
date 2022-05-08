@@ -66,7 +66,7 @@ public class MemoryBlock extends Block{
 
         @Override
         public void buildConfiguration(Table table){
-            table.button(Icon.eyeSmall, Styles.clearTransi, () -> {
+            table.button(Icon.eyeSmall, Styles.clearTogglei, () -> {
                 ui.memory.setMemory(memory);
                 ui.memory.toggle();
             }).size(40);
