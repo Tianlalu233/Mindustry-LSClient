@@ -322,6 +322,7 @@ public class SettingsMenuDialog extends BaseDialog{
         }
 
         game.checkPref("doubletapmine", false);
+game.checkPref("commandmodehold", false);
 
         if(!ios){
             game.checkPref("modcrashdisable", true);
@@ -473,7 +474,6 @@ public class SettingsMenuDialog extends BaseDialog{
         advance.addCategory("general");
         advance.sliderPref("linetransparency", 50, 0, 100, s -> s + "%");
         advance.sliderPref("blockrenderlevel", 2, 0, 2, String::valueOf);
-        advance.checkPref("mouseposition", false);
         advance.checkPref("showiteminjb", false);
         advance.checkPref("keepshowingdropzone", false);
         advance.checkPref("showquicksetting", false);
