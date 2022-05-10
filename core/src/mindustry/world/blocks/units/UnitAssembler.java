@@ -92,7 +92,7 @@ public class UnitAssembler extends PayloadBlock{
     public void setBars(){
         super.setBars();
 
-        addBar("progress", (UnitAssemblerBuild e) -> new Bar("bar.progress", Pal.ammo, () -> e.progress));
+        addBar("progress", (UnitAssemblerBuild e) -> new Bar(() -> Core.bundle.format("bar.progress", e.progress * 100), () -> Pal.ammo, () -> e.progress));
 
         addBar("units", (UnitAssemblerBuild e) ->
             new Bar(() ->

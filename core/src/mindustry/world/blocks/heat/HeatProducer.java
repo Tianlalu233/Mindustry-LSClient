@@ -1,5 +1,6 @@
 package mindustry.world.blocks.heat;
 
+import arc.Core;
 import arc.math.*;
 import arc.util.io.*;
 import mindustry.graphics.*;
@@ -33,7 +34,7 @@ public class HeatProducer extends GenericCrafter{
     public void setBars(){
         super.setBars();
 
-        addBar("heat", (HeatProducerBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat / heatOutput));
+        addBar("heat", (HeatProducerBuild entity) -> new Bar(Core.bundle.format("bar.heatamount", entity.heat), Pal.lightOrange, () -> entity.heat / heatOutput));
     }
 
     public class HeatProducerBuild extends GenericCrafterBuild implements HeatBlock{

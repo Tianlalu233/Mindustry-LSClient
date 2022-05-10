@@ -498,7 +498,7 @@ game.checkPref("commandmodehold", false);
         advance.checkPref("disablelightrender", false);
         advance.checkPref("ignoredisableschematic", false);
         advance.checkPref("dropzonenotblockunit", false);
-        advance.checkPref("showenemyconfig", false);
+//        advance.checkPref("showenemyconfig", false); // TODO
         if (!mobile) {
             advance.addCategory("camera");
             advance.sliderPref("cameraspeed", 45, 10, 100, s -> s+"");

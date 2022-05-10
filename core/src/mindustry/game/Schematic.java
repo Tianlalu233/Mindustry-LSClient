@@ -10,6 +10,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.*;
+import mindustry.world.consumers.*;
 
 import static mindustry.Vars.*;
 
@@ -53,111 +54,162 @@ public class Schematic implements Publishable, Comparable<Schematic>{
 
     public ObjectFloatMap<Item> itemIO() {
         ObjectFloatMap<Item> items = new ObjectFloatMap<>(content.items().size << 1);
-//        tiles.each(t -> {
-//            if (t.block instanceof GenericCrafter gc) {
-//                if (gc.consumes.has(ConsumeType.item)) {
-//                    for (ItemStack stack : gc.consumes.getItem().items) {
-//                       Item item = stack.item;
-//                       items.put(item, items.get(item, 0) - stack.amount * 60f / gc.craftTime);
-//                    }
-//                }
-//                if (gc.outputItems != null) {
-//                    for (ItemStack stack : gc.outputItems) {
-//                        Item item = stack.item;
-//                        items.put(item, items.get(item, 0) + stack.amount * 60f / gc.craftTime);
-//                    }
-//                }
-//            }
-//            else if (t.block instanceof Separator s) {
-//                if (s.consumes.has(ConsumeType.item)) {
-//                    for (ItemStack stack : s.consumes.getItem().items) {
-//                        Item item = stack.item;
-//                        items.put(item, items.get(item, 0) - stack.amount * 60f / s.craftTime);
-//                    }
-//                }
-//            }
-//            else if (t.block instanceof Fracker f) {
-//                for (ItemStack stack : f.consumes.getItem().items) {
-//                    Item item = stack.item;
-//                    items.put(item, items.get(item, 0) - stack.amount * f.itemUseTime / 60f);
-//                }
-//            }
-//            else if (t.block instanceof PowerGenerator) {
-//                if (t.block instanceof ItemLiquidGenerator ilg) {
-//                    if (t.block instanceof SingleTypeGenerator stg) {
-//                        ItemStack itemStack = stg.consumes.getItem().items[0];
-//                        items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / stg.itemDuration * 60f);
-//                    }
-//                    else {
-//                        ConsumeItemFilter consumeItemFilter = ilg.consumes.get(ConsumeType.item);
-//                        for (Item item : content.items()) {
-//                            if (consumeItemFilter.filter.get(item)) {
-//                                items.put(item, items.get(item, 0) - 60f / ilg.itemDuration);
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//                else if (t.block instanceof NuclearReactor nr) {
-//                    ItemStack itemStack = nr.consumes.getItem().items[0];
-//                    items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / nr.itemDuration * 60f);
-//                }
-//                else if (t.block instanceof ImpactReactor ir) {
-//                    ItemStack itemStack = ir.consumes.getItem().items[0];
-//                    items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / ir.itemDuration * 60f);
-//                }
-//            }
-//        });
+        tiles.each(t -> {
+            if (t.block instanceof GenericCrafter gc) {
+                for (Consume consume : gc.consumers) {
+                    if (consume instanceof ConsumeItems ci) {
+                        for (ItemStack stack : ci.items) {
+                           Item item = stack.item;
+                           items.put(item, items.get(item, 0) - stack.amount * 60f / gc.craftTime);
+                        }
+                    }
+                }
+                if (gc.outputItems != null) {
+                    for (ItemStack stack : gc.outputItems) {
+                        Item item = stack.item;
+                        items.put(item, items.get(item, 0) + stack.amount * 60f / gc.craftTime);
+                    }
+                }
+            }
+            else if (t.block instanceof Separator s) {
+                for (Consume consume : s.consumers) {
+                    if (consume instanceof ConsumeItems ci) {
+                        for (ItemStack stack : ci.items) {
+                            Item item = stack.item;
+                            items.put(item, items.get(item, 0) - stack.amount * 60f / s.craftTime);
+                        }
+                    }
+                }
+                // TODO output
+            }
+            else if (t.block instanceof Fracker f) {
+                for (Consume consume : f.consumers) {
+                    if (consume instanceof ConsumeItems ci) {
+                        for (ItemStack stack : ci.items) {
+                            Item item = stack.item;
+                            items.put(item, items.get(item, 0) - stack.amount * f.itemUseTime / 60f);
+                        }
+                    }
+                }
+            }
+            else if (t.block instanceof PowerGenerator) {
+                if (t.block instanceof ConsumeGenerator cg) {
+                    for (Consume consume : cg.consumers) {
+                        if (consume instanceof ConsumeItems ci) {
+                            for (ItemStack stack : ci.items) {
+                                Item item = stack.item;
+                                items.put(item, items.get(item, 0) - stack.amount / cg.itemDuration * 60f);
+                            }
+                        }
+                        else if (consume instanceof ConsumeItemFilter cif) {
+                            for (Item item : content.items()) {
+                                if (cif.filter.get(item)) {
+                                    items.put(item, items.get(item, 0) - 60f / cg.itemDuration);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (t.block instanceof NuclearReactor nr) {
+                    for (Consume consume : nr.consumers) {
+                        if (consume instanceof ConsumeItems ci) {
+                            ItemStack itemStack = ci.items[0];
+                            items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / nr.itemDuration * 60f);
+                        }
+                    }
+                }
+                else if (t.block instanceof ImpactReactor ir) {
+                    for (Consume consume : ir.consumers) {
+                        if (consume instanceof ConsumeItems ci) {
+                            ItemStack itemStack = ci.items[0];
+                            items.put(itemStack.item, items.get(itemStack.item, 0) - itemStack.amount / ir.itemDuration * 60f);
+                        }
+                    }
+                }
+            }
+        });
         return items;
     }
 
     public ObjectFloatMap<Liquid> liquidIO() {
         ObjectFloatMap<Liquid> liquids = new ObjectFloatMap<>(content.liquids().size << 1);
-//        tiles.each(t -> {
-//            if (t.block instanceof GenericCrafter gc) {
-//                if (gc.consumes.has(ConsumeType.liquid)) {
-//                    ConsumeLiquid consumeLiquid = gc.consumes.getLiquid();
-//                    Liquid liquid = consumeLiquid.liquid;
-//                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
-//                }
-//
-//                if (gc.outputLiquid != null) {
-//                    LiquidStack stack = gc.outputLiquid;
-//                    if (gc instanceof LiquidConverter) liquids.put(stack.liquid, liquids.get(stack.liquid, 0) + stack.amount * 60f);
-//                    else liquids.put(stack.liquid, liquids.get(stack.liquid, 0) + stack.amount * 60f / gc.craftTime);
-//                }
-//            }
-//            else if (t.block instanceof Separator s) {
-//                ConsumeLiquid consumeLiquid = s.consumes.getLiquid();
-//                Liquid liquid = consumeLiquid.liquid;
-//                liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
-//            }
-//            else if (t.block instanceof SolidPump sp) {
-//                if (sp.consumes.has(ConsumeType.liquid)) {
-//                    ConsumeLiquid consumeLiquid = sp.consumes.getLiquid();
-//                    Liquid liquid = consumeLiquid.liquid;
-//                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
-//                }
-//                liquids.put(sp.result, liquids.get(sp.result, 0) + sp.pumpAmount * 60f);
-//            }
-//            else if (t.block instanceof PowerGenerator) {
-//                if (t.block instanceof ItemLiquidGenerator ilg && ilg.hasLiquids) {
-//                    ConsumeLiquid consumeLiquid = ilg.consumes.getLiquid();
-//                    Liquid liquid = consumeLiquid.liquid;
-//                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
-//                }
-//                else if (t.block instanceof NuclearReactor nr) {
-//                    ConsumeLiquid consumeLiquid = nr.consumes.getLiquid();
-//                    Liquid liquid = consumeLiquid.liquid;
-//                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
-//                }
-//                else if (t.block instanceof ImpactReactor ir) {
-//                    ConsumeLiquid consumeLiquid = ir.consumes.getLiquid();
-//                    Liquid liquid = consumeLiquid.liquid;
-//                    liquids.put(liquid, liquids.get(liquid, 0) - consumeLiquid.amount * 60f);
-//                }
-//            }
-//        });
+        tiles.each(t -> {
+            if (t.block instanceof GenericCrafter gc) {
+                for (Consume consume : gc.consumers) {
+                    if (consume instanceof ConsumeLiquid cl) { // TODO may replace with ConsumeLiquids
+                        Liquid liquid = cl.liquid;
+                        liquids.put(liquid, liquids.get(liquid, 0) - cl.amount * 60f);
+                    }
+                }
+
+                if (gc.outputLiquid != null) {
+                    for (LiquidStack stack : gc.outputLiquids) {
+                        liquids.put(stack.liquid, liquids.get(stack.liquid, 0) + stack.amount * 60f);
+                    }
+                }
+            }
+            else if (t.block instanceof Separator s) {
+                for (Consume consume : s.consumers) {
+                    if (consume instanceof ConsumeLiquid cl) {
+                        Liquid liquid = cl.liquid;
+                        liquids.put(liquid, liquids.get(liquid, 0) - cl.amount * 60f);
+                    }
+                }
+            }
+            else if (t.block instanceof Pump p) {
+                for (Consume consume : p.consumers) {
+                    if (consume instanceof ConsumeLiquid cl) {
+                        Liquid liquid = cl.liquid;
+                        liquids.put(liquid, liquids.get(liquid, 0) - cl.amount * 60f);
+                    }
+                }
+                if (p instanceof SolidPump sp) {
+                    liquids.put(sp.result, liquids.get(sp.result, 0) + sp.pumpAmount * 60f);
+                }
+            }
+            else if (t.block instanceof PowerGenerator pg) {
+                if (pg instanceof ConsumeGenerator cg) {
+                    for (Consume consume : cg.consumers) {
+                        if (consume instanceof ConsumeLiquid cl) {
+                            Liquid liquid = cl.liquid;
+                            liquids.put(liquid, liquids.get(liquid, 0) - cl.amount * 60f);
+                        }
+                        else if (consume instanceof ConsumeLiquids cls) {
+                            for (LiquidStack liquidStack : cls.liquids) {
+                                liquids.put(liquidStack.liquid, liquids.get(liquidStack.liquid, 0) - liquidStack.amount * 60f);
+                            }
+                        }
+                    }
+                }
+                else if (pg instanceof ThermalGenerator tg) {
+                    for (Consume consume : tg.consumers) {
+                        if (consume instanceof ConsumeLiquid cl) {
+                            Liquid liquid = cl.liquid;
+                            liquids.put(liquid, liquids.get(liquid, 0) - cl.amount * 60f);
+                        }
+                    }
+                    LiquidStack liquidStack = tg.outputLiquid;
+                    liquids.put(liquidStack.liquid, liquids.get(liquidStack.liquid, 0) + liquidStack.amount * 60f);
+                }
+                else if (pg instanceof NuclearReactor nr) {
+                    for (Consume consume : nr.consumers) {
+                        if (consume instanceof ConsumeLiquid cl) {
+                            Liquid liquid = cl.liquid;
+                            liquids.put(liquid, liquids.get(liquid, 0) - cl.amount * 60f);
+                        }
+                    }
+                }
+                else if (pg instanceof ImpactReactor ir) {
+                    for (Consume consume : ir.consumers) {
+                        if (consume instanceof ConsumeLiquid cl) {
+                            Liquid liquid = cl.liquid;
+                            liquids.put(liquid, liquids.get(liquid, 0) - cl.amount * 60f);
+                        }
+                    }
+                }
+            }
+        });
         return liquids;
     }
 

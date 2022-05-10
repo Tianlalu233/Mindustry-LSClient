@@ -53,7 +53,7 @@ public abstract class BlockProducer extends PayloadBlock{
     public void setBars(){
         super.setBars();
 
-        addBar("progress", (BlockProducerBuild entity) -> new Bar(() -> Core.bundle.format("bar.progress", Math.round(entity.progress / entity.recipe().buildCost * 100)), () -> Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildCost)));
+        addBar("progress", (BlockProducerBuild entity) -> new Bar(() -> Core.bundle.format("bar.progress", entity.recipe() == null ? 0f : Math.round(entity.progress / entity.recipe().buildCost * 100)), () -> Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildCost)));
     }
 
     public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{

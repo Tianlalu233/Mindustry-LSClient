@@ -47,17 +47,6 @@ public class ImpactReactor extends PowerGenerator{
     }
 
     @Override
-    public void setBars(){
-        super.setBars();
-
-        addBar("poweroutput", (GeneratorBuild entity) -> new Bar(() ->
-        Core.bundle.format("bar.poweroutput",
-        Strings.fixed(Math.max(entity.getPowerProduction() - consPower.usage, 0) * 60 * entity.timeScale(), 1)),
-        () -> Pal.powerBar,
-        () -> entity.productionEfficiency));
-    }
-
-    @Override
     public void setStats(){
         super.setStats();
 
@@ -135,7 +124,7 @@ public class ImpactReactor extends PowerGenerator{
         public void drawLight(){
             Drawf.light(x, y, (110f + Mathf.absin(5, 5f)) * warmup, Tmp.c1.set(plasma2).lerp(plasma1, Mathf.absin(7f, 0.2f)), 0.8f * warmup);
         }
-        
+
         @Override
         public double sense(LAccess sensor){
             if(sensor == LAccess.heat) return warmup;
