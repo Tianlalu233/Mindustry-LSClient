@@ -1319,7 +1319,7 @@ public class Blocks{
                 }});
             }
 
-            drawer = new DrawMulti(drawers.and(new DrawDefault()));
+            drawer = new DrawMulti(drawers.add(new DrawDefault()));
 
             craftTime = 60f * 2f;
 
@@ -2805,9 +2805,7 @@ public class Blocks{
                 }}
             );
 
-            shoot = new ShootAlternate(){{
-                spread = 3.5f;
-            }};
+            shoot = new ShootAlternate(3.5f);
 
             shootY = 3f;
             reload = 20f;
@@ -3624,9 +3622,7 @@ public class Blocks{
             range = 260f;
             inaccuracy = 3f;
             recoil = 3f;
-            shoot = new ShootAlternate(){{
-                spread = 8f;
-            }};
+            shoot = new ShootAlternate(8f);
             shake = 2f;
             size = 4;
             shootCone = 24f;
@@ -3986,7 +3982,7 @@ public class Blocks{
             shootCone = 30f;
             consumeAmmoOnce = true;
 
-            coolant = consume(new ConsumeLiquid(Liquids.water, 30f / 60f));
+            coolant = consumeCoolant(30f / 60f);
 
             drawer = new DrawTurret("reinforced-"){{
                 parts.add(new RegionPart("-side"){{

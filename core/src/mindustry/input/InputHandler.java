@@ -235,7 +235,9 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
                     ai.commandPosition(posTarget);
                 }
             }
+        }
 
+        if(unitIds.length > 0 && player == Vars.player){
             if(teamTarget != null){
                 Fx.attackCommand.at(teamTarget);
             }else{
