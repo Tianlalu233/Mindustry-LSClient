@@ -793,7 +793,7 @@ public class DesktopInput extends InputHandler{
         boolean manualShoot = Core.input.keyDown(Binding.select) && shouldShoot && !busy && (type.hasWeapons() || UnitTypes.block.equals(type)) && !boosted;
 
         float mouseX = unit.aimX(), mouseY = unit.aimY();
-        Vec2 aimPos = type.faceTarget ? Core.input.mouseWorld() : Tmp.v1.trns(unit.rotation, Core.input.mouseWorld().dst(unit)).add(unit.x, unit.y);
+        Vec2 aimPos = Core.input.mouseWorld();
 
         float lookAtAngle = Angles.mouseAngle(unit.x, unit.y);
 
