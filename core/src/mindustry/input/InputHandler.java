@@ -288,7 +288,6 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
             throw new ValidateException(player, "Player cannot transfer an item.");
         }
 
-        //deposit for every controlling unit
         var unit = player.unit();
         Item item = unit.item();
         int accepted = build.acceptStack(item, unit.stack.amount, unit);
@@ -702,6 +701,7 @@ public abstract class InputHandler implements InputProcessor, GestureListener{
             controlledType = null;
             logicCutscene = false;
             config.forceHide();
+            commandMode = commandRect = false;
         }
     }
 
