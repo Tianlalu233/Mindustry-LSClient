@@ -6,7 +6,7 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.core.UI;
+import mindustry.core.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;

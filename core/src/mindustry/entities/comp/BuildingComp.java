@@ -615,6 +615,10 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
         Fx.unitDrop.at(unit);
     }
 
+    public boolean canWithdraw(){
+        return true;
+    }
+
     public boolean canUnload(){
         return block.unloadable;
     }
@@ -1110,7 +1114,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     }
 
     public void drawCracks(){
-        if(!damaged() || block.size > BlockRenderer.maxCrackSize) return;
+        if(!block.drawCracks || !damaged() || block.size > BlockRenderer.maxCrackSize) return;
         int id = pos();
         TextureRegion region = renderer.blocks.cracks[block.size - 1][Mathf.clamp((int)((1f - healthf()) * BlockRenderer.crackRegions), 0, BlockRenderer.crackRegions-1)];
         Draw.colorl(0.2f, 0.1f + (1f - healthf())* 0.6f);
@@ -1324,7 +1328,7 @@ if(value instanceof UnitType) type = UnitType.class;
 
         Damage.dynamicExplosion(x, y, flammability, explosiveness * 3.5f, power, tilesize * block.size / 2f, state.rules.damageExplosions, block.destroyEffect);
 
-        if(!floor().solid && !floor().isLiquid){
+        if(block.createRubble && !floor().solid && !floor().isLiquid){
             Effect.rubble(x, y, block.size);
         }
     }
@@ -1344,11 +1348,6 @@ if(value instanceof UnitType) type = UnitType.class;
     public ItemModule flowItems(){
         return items;
     }
-
-    public boolean displayable(){
-        return true;
-    }
-
     @Override
     public void display(Table table){
         //display the block stuff
@@ -1684,7 +1683,7 @@ if(value instanceof UnitType) type = UnitType.class;
     public void updateConsumption(){
         //everything is valid when cheating
         if(!block.hasConsumers || cheating()){
-            potentialEfficiency = efficiency = optionalEfficiency = 1f;
+            potentialEfficiency = efficiency = optionalEfficiency = enabled ? 1f : 0f;
             return;
         }
 
@@ -1732,6 +1731,10 @@ if(value instanceof UnitType) type = UnitType.class;
                 cons.update(self());
             }
         }
+    }
+
+    public void updatePayload(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+        update();
     }
 
     public void updateTile(){

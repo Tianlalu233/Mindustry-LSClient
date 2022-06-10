@@ -111,6 +111,8 @@ public class BlockRenderer{
         });
 
         Events.on(TilePreChangeEvent.class, event -> {
+            if(blockTree == null || floorTree == null) return;
+
             if(indexBlock(event.tile)) blockTree.remove(event.tile);
             if(indexFloor(event.tile)) floorTree.remove(event.tile);
         });
@@ -439,8 +441,10 @@ public class BlockRenderer{
                     }
 
                     if(build.team != pteam){
-                        build.drawTeam();
-                        Draw.z(Layer.block);
+                        if(build.block.drawTeamOverlay){
+                            build.drawTeam();
+                            Draw.z(Layer.block);
+                        }
                     }else if(renderer.drawStatus && block.hasConsumers){
                         build.drawStatus();
                     }

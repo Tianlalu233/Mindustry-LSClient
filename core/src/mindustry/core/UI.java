@@ -40,7 +40,7 @@ public class UI implements ApplicationListener, Loadable{
     public MenuFragment menufrag;
     public HudFragment hudfrag;
     public ChatFragment chatfrag;
-    public ScriptConsoleFragment scriptfrag;
+    public ConsoleFragment consolefrag;
     public MinimapFragment minimapfrag;
     public PlayerListFragment listfrag;
     public LoadingFragment loadfrag;
@@ -174,7 +174,7 @@ public class UI implements ApplicationListener, Loadable{
         minimapfrag = new MinimapFragment();
         listfrag = new PlayerListFragment();
         loadfrag = new LoadingFragment();
-        scriptfrag = new ScriptConsoleFragment();
+        consolefrag = new ConsoleFragment();
         mapInfofrag = new MapInfoFragment();
         memory = new MemoryFragment();
 
@@ -222,7 +222,7 @@ public class UI implements ApplicationListener, Loadable{
         minimapfrag.build(hudGroup);
         mapInfofrag.build(hudGroup);
         listfrag.build(hudGroup);
-        scriptfrag.build(hudGroup);
+        consolefrag.build(hudGroup);
         memory.build(hudGroup);
         loadfrag.build(group);
         new FadeInFragment().build(group);
