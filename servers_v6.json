@@ -9,7 +9,7 @@
   },
   {
     "name": "Omega Hub",
-    "address": ["node2.crewcraft.cc:6573", "node2.crewcraft.cc:6572","node2.crewcraft.cc:6571" , "node2.crewcraft.cc:6568" ,"node2.crewcraft.cc:6567"]
+    "address": ["n1.yeet.ml", "n1.yeet.ml:6568","n1.yeet.ml:6569" , "n1.yeet.ml:6570" ,"n1.yeet.ml:6571"]
   },
   {
     "name": "RCM",
@@ -18,6 +18,10 @@
     {
     "name": "Tendhost",
     "address": ["tendhost.ddns.net", "smokeofanarchy.ru:7576"]
+  },
+  {
+    "name": "SMokeOfAnarchy",
+    "address": ["smokeofanarchy.ru:6566", "strider.smokeofanarchy.ru:6566"]
   },
   {
     "name": "Atanner Gaming",
@@ -65,7 +69,7 @@
   },
   {
     "name": "Omega",
-    "address": ["omegav.mindustry.me:6572"] 
+    "address": ["omegav.mindustry.me:6572"]
   },
   {
     "name": "Obvilion Network",
@@ -80,11 +84,11 @@
     "address": ["game.mindustry.party"]
   },
   {
-    "name": "TSR", 
+    "name": "TSR",
     "address": ["fi01.optik.host:28301", "uk01.optik.host:26164"]
   },
   {
-    "name": "Sakura", 
+    "name": "Sakura",
     "address": ["160.16.207.141", "160.16.207.141:21527", "160.16.207.141:31587", "160.16.207.141:26810"]
   },
   {
@@ -138,5 +142,13 @@
   {
     "name": "Fish",
     "address": ["170.187.144.235"]
+  },
+  {
+    "name": "AAS",
+    "address": ["fi01.optik.host:28453", "n1.yeet.ml:6577"]
+  },
+  {
+    "name": "CyanDustry",
+    "address": ["n1.yeet.ml:6576", "n3.yeet.ml:6568"]
   }
 ]
