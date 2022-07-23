@@ -399,7 +399,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     }
 
     public boolean isHealSuppressed(){
-        return Time.time <= healSuppressionTime;
+        return block.suppressable && Time.time <= healSuppressionTime;
     }
 
     public void recentlyHealed(){
@@ -1252,7 +1252,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
 if(value instanceof UnitType) type = UnitType.class;
 
         if(builder != null && builder.isPlayer()){
-            lastAccessed = builder.getPlayer().name;
+            lastAccessed = builder.getPlayer().coloredName();
         }
 
         if(block.configurations.containsKey(type)){
@@ -1764,13 +1764,13 @@ if(value instanceof UnitType) type = UnitType.class;
     @MethodPriority(100)
     @Override
     public void heal(){
-        indexer.notifyBuildHealed(self());
+        healthChanged();
     }
 
     @MethodPriority(100)
     @Override
     public void heal(float amount){
-        indexer.notifyBuildHealed(self());
+        healthChanged();
     }
 
     @Override
@@ -1781,7 +1781,7 @@ if(value instanceof UnitType) type = UnitType.class;
     @Replace
     @Override
     public void kill(){
-        Call.tileDestroyed(self());
+        Call.buildDestroyed(self());
     }
 
     @Replace
@@ -1798,11 +1798,25 @@ if(value instanceof UnitType) type = UnitType.class;
             damage = Damage.applyArmor(damage, block.armor) / dm;
         }
 
-        Call.tileDamage(self(), health - handleDamage(damage));
+        //TODO handle this better on the client.
+        if(!net.client()){
+            health -= handleDamage(damage);
+        }
+
+        healthChanged();
 
         if(health <= 0){
-            Call.tileDestroyed(self());
+            Call.buildDestroyed(self());
         }
+    }
+
+    public void healthChanged(){
+        //server-side, health updates are batched.
+        if(net.server()){
+            netServer.buildHealthUpdate(self());
+        }
+
+        indexer.notifyHealthChanged(self());
     }
 
     @Override

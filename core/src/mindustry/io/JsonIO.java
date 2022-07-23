@@ -318,64 +318,6 @@ public class JsonIO{
 
 
 
-        json.setSerializer(MapObjectives.class, new Serializer<>(){
-            @Override
-            public void write(Json json, MapObjectives exec, Class knownType){
-                json.writeArrayStart();
-                for(var obj : exec){
-                    json.writeObjectStart(obj.getClass().isAnonymousClass() ? obj.getClass().getSuperclass() : obj.getClass(), null);
-                    json.writeFields(obj);
-
-                    json.writeArrayStart("parents");
-                    for(var parent : obj.parents){
-                        json.writeValue(exec.all.indexOf(parent));
-                    }
-
-                    json.writeArrayEnd();
-
-                    json.writeValue("editorPos", Point2.pack(obj.editorX, obj.editorY));
-                    json.writeObjectEnd();
-                }
-
-                json.writeArrayEnd();
-            }
-
-            @Override
-            public MapObjectives read(Json json, JsonValue data, Class type){
-                var exec = new MapObjectives();
-                // First iteration to instantiate the objectives.
-                for(var value = data.child; value != null; value = value.next){
-                    //glenn why did you implement this in the least backwards compatible way possible
-                    //the old objectives had lowercase class tags, now they're uppercase and either way I can't deserialize them without errors
-                    if(value.has("class") && Character.isLowerCase(value.getString("class").charAt(0))){
-                        return new MapObjectives();
-                    }
-
-                    MapObjective obj = json.readValue(MapObjective.class, value);
-
-                    if(value.has("editorPos")){
-                        int pos = value.getInt("editorPos");
-                        obj.editorX = Point2.x(pos);
-                        obj.editorY = Point2.y(pos);
-                    }
-
-                    exec.all.add(obj);
-                }
-
-                // Second iteration to map the parents.
-                int i = 0;
-                for(var value = data.child; value != null; value = value.next, i++){
-                    for(var parent = value.get("parents").child; parent != null; parent = parent.next){
-                        exec.all.get(i).parents.add(exec.all.get(parent.asInt()));
-                    }
-                }
-
-                return exec;
-            }
-        });
-
-
-
         //use short names for all filter types
         for(var filter : Maps.allFilterTypes){
             var i = filter.get();

@@ -280,18 +280,6 @@ public class EventType{
         }
     }
 
-    public static class BuildingCommandEvent{
-        public final Player player;
-        public final Building building;
-        public final Vec2 position;
-
-        public BuildingCommandEvent(Player player, Building building, Vec2 position){
-            this.player = player;
-            this.building = building;
-            this.position = position;
-        }
-    }
-
     public static class GameOverEvent{
         public final Team winner;
 

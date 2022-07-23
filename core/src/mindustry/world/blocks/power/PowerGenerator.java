@@ -78,6 +78,11 @@ public class PowerGenerator extends PowerDistributor{
         }
 
         @Override
+        public float warmup(){
+            return productionEfficiency;
+        }
+
+        @Override
         public void drawLight(){
             super.drawLight();
             drawer.drawLight(this);

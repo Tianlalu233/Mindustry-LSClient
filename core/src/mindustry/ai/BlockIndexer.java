@@ -489,8 +489,6 @@ public class BlockIndexer{
 
     }
 
-    }
-
     static class TurretQuadtree extends QuadTree<Building>{
 
         public TurretQuadtree(Rect bounds){
