@@ -206,7 +206,7 @@ public class ErekirTechTree{
                                     node(slagHeater, () -> {
 
                                     });
-                                    
+
                                     node(atmosphericConcentrator, Seq.with(new OnSector(basin)), () -> {
                                         node(cyanogenSynthesizer, Seq.with(new OnSector(basin)), () -> {
 
@@ -396,27 +396,25 @@ public class ErekirTechTree{
                     nodeProduce(Items.tungsten, () -> {
                         nodeProduce(Liquids.slag, () -> {
 
-                            });
                         });
+                    });
 
-                        nodeProduce(Liquids.arkycite, () -> {
+                    nodeProduce(Liquids.arkycite, () -> {
 
-                        });
+                    });
 
-                        nodeProduce(Items.thorium, () -> {
-                            nodeProduce(Items.carbide, () -> {
-                                nodeProduce(Items.surgeAlloy, () -> {
-                                    nodeProduce(Items.phaseFabric, () -> {
+                    nodeProduce(Items.thorium, () -> {
+                        nodeProduce(Items.carbide, () -> {
+                            nodeProduce(Items.surgeAlloy, () -> {
+                                nodeProduce(Items.phaseFabric, () -> {
 
-                                    });
                                 });
-
-                                //nodeProduce(Liquids.gallium, () -> {});
                             });
+
+                            //nodeProduce(Liquids.gallium, () -> {});
                         });
                     });
                 });
             });
-        });
-    }
+        }
 }

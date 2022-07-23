@@ -534,7 +534,7 @@ public class UnitType extends UnlockableContent{
 
         if(unit.controller() instanceof LogicAI ai){
             table.row();
-            table.add(Blocks.microProcessor.emoji() + " (" + control.controller.x / tilesize + ", " + control.controller.y / tilesize + ")").growX().wrap().left();
+            table.add(Blocks.microProcessor.emoji() + " (" + ai.controller.x / tilesize + ", " + ai.controller.y / tilesize + ")").growX().wrap().left();
             if(ai.controller != null && (Core.settings.getBool("mouseposition") || Core.settings.getBool("position"))){
                 table.row();
                 table.add("[lightgray](" + ai.controller.tileX() + ", " + ai.controller.tileY() + ")").growX().wrap().left();
